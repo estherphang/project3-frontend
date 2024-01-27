@@ -97,6 +97,22 @@ li {
   background-color: rgb(140, 101, 227); /* Darker blue on hover */
 }
 
+/* Ant design 
+
+.primary button {
+  background-color: rgb(119, 101, 227);
+  color: rgb(244, 243, 238);
+}
+
+.primary button:hover {
+  background-color: rgba(119, 101, 227, 0.9) !important; 
+  color: rgb(244, 243, 238) !important;
+}
+ <Button className="button" type="text" block>
+      Primary
+    </Button>
+*/
+
 /* <----- Add any additional styles for larger screens here  -----> */
 
 @media (min-width: 768px) {
