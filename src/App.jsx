@@ -31,11 +31,11 @@ function App() {
             </>
           }
         />
-        <Route path="talent/application" element={<TalAppStatus />} />
+        <Route path="talent/applications" element={<TalAppStatus />} />
         <Route path="talent/profile" element={<TalProfile />} />
         <Route path="employer" element={<EmDashboard />} />
         <Route path="employer/profile" element={<EmProfile />} />
-        <Route path="employer/joblistings" element={<EmJobLists />} />
+        <Route path="employer/applications" element={<EmJobLists />} />
       </Route>
     )
   );
