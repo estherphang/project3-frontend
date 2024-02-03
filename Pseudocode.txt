@@ -1,0 +1,28 @@
+
+Navigation
+
+Upon sign in, then the nav bar (with the same 4 icons for both employer and talent) will appear. 
+
+├── components
+├── sign in (no nav bar)
+│   ├── Landing page/Auth0 
+│   ├─────  after sign in with Auth0, to extract name, profile image, store in database
+│   ├── User_category
+│   ├─────  create a new page for user to choose if he is a talent or employer. store in dabase
+│   ├─────  redirect to profile + show nav bar
+
+
+
+<------with nav bar------>
+
+├── employers
+│   ├── Dashboard (see active job listings, job listings with applications)
+│   ├── List of job listings (employer can add/delete on this page too)
+│   ├── Employer's profile page 
+├── talents
+│   ├── Talent Dashboard - view available job listings 
+│   ├── list of applications status 
+│   ├── Profile
+
+
+├── Chat (1 function by itself, share with both employer and talents)

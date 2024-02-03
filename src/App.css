@@ -97,6 +97,31 @@ li {
   background-color: rgb(140, 101, 227); /* Darker blue on hover */
 }
 
+.landing-container {
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  height: 100vh;
+  margin-right: 20px;
+}
+
+.landing-text-container {
+  text-align: left;
+}
+
+.landing-logo {
+  font-size: 8em;
+  color: #333;
+  writing-mode: vertical-lr; /* Vertical text */
+  transform: rotate(180deg);
+  margin-right: 20px;
+}
+
+.landing-text {
+  font-size: 1.8em;
+  color: #333;
+}
+
 /* Ant design 
 
 .primary button {
