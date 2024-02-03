@@ -28,7 +28,7 @@ h4 {
 
 h1 {
   font-size: 1.8em;
-  line-height: 1;
+  line-height: 1.15;
 }
 
 h2 {
@@ -97,29 +97,32 @@ li {
   background-color: rgb(140, 101, 227); /* Darker blue on hover */
 }
 
-.landing-container {
+.cat-container {
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
-  height: 100vh;
-  margin-right: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
 }
 
-.landing-text-container {
-  text-align: left;
+.cat-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  border: 3px solid rgb(119, 101, 227);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
 }
 
-.landing-logo {
-  font-size: 8em;
-  color: #333;
-  writing-mode: vertical-lr; /* Vertical text */
-  transform: rotate(180deg);
-  margin-right: 20px;
+.cat-title {
+  text-align: center;
+  padding-bottom: 10px;
 }
 
-.landing-text {
-  font-size: 1.8em;
-  color: #333;
+.cat-tnc {
+  font-style: italic;
+  color: rgb(138, 129, 124);
 }
 
 /* Ant design 
