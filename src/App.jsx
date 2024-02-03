@@ -14,6 +14,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import NavBar from "./NavBar.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -21,7 +22,15 @@ function App() {
       <Route>
         <Route index element={<LandingPage />} />
         <Route path="user-category" element={<UserCategory />} />
-        <Route path="talent" element={<TalDashboard />} />
+        <Route
+          path="talent"
+          element={
+            <>
+              <TalDashboard />
+              <NavBar />
+            </>
+          }
+        />
         <Route path="talent/application" element={<TalAppStatus />} />
         <Route path="talent/profile" element={<TalProfile />} />
         <Route path="employer" element={<EmDashboard />} />

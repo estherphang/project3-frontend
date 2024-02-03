@@ -1,10 +1,12 @@
 #root {
   font-family: "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: rgb (15, 15, 15);
-  max-width: 100%; /*  mobile-first design */
+  color: rgb(15, 15, 15);
+  max-width: 100%;
   margin: 0;
-  margin: 20px; /* adjusted padding for smaller screens */
+  padding: 20px; /* Adjusted padding for smaller screens */
   text-align: left;
+  overflow-y: scroll; /* Enable vertical scrolling */
+  height: 100vh; /* Ensure the content takes up the full viewport height */
 }
 
 body {
@@ -12,7 +14,6 @@ body {
   display: flex;
   flex-direction: column;
   /* stack elements vertically on smaller screens */
-
   padding: 0px 10px;
   /* padding on the left and right */
   min-height: 100vh;
@@ -66,6 +67,11 @@ p {
   margin-bottom: 1em;
 }
 
+/* wrapped content for pages with navbar */
+.container {
+  padding-bottom: 80px;
+}
+
 .contentbox {
   padding: 0em 0.5em;
   border-radius: 8px; /* Example border-radius */
@@ -105,6 +111,8 @@ li {
   height: 90vh;
 }
 
+/* <----- UserCategory Page -----> */
+
 .cat-button {
   padding: 10px 20px;
   font-size: 16px;
@@ -123,6 +131,32 @@ li {
 .cat-tnc {
   font-style: italic;
   color: rgb(138, 129, 124);
+  padding-top: 10px;
+}
+
+/* <----- NavBar -----> */
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(119, 101, 227);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px; /* adjust height a*/
+  z-index: 999; /* Ensure navbar is on top */
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  /* Remove bullet */
+  list-style-type: none;
+  text-decoration: none;
+  width: 80vw;
 }
 
 /* Ant design 
