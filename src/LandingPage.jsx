@@ -1,5 +1,4 @@
 import "./LandingPage.css";
-import { NavLink, Outlet } from "react-router-dom";
 
 export default function LandingPage() {
   return (

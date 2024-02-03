@@ -1,6 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
 //to pass prop to app.jsx for sending to employer/talents link
 
 export default function UserCategory() {
