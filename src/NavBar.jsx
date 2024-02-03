@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
 
-// import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+
+import ArticleIcon from "@mui/icons-material/Article";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import ChatIcon from "@mui/icons-material/Chat";
+
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function NavBar() {
   //tempoary linking to talent's
@@ -11,24 +21,23 @@ function NavBar() {
       <div className="navbar">
         <ul>
           <li>
-            <Link to="/talent/" className="nav-link">
-              Home
+            <Link to="/talent/" className="nav-icon">
+              <HomeOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li className="active">
-            <Link to="/" className="nav-link">
-              Chat
+            <Link to="/" className="nav-icon">
+              <ChatOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li>
-            <Link to="/talent/application" className="nav-link">
-              Application
+            <Link to="/talent/applications" className="nav-icon">
+              <ArticleOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li>
-            <Link to="/talent/profile" className="nav-link">
-              {/* <AccountCircleOutlinedIcon></AccountCircleOutlinedIcon> */}
-              Profile
+            <Link to="/talent/profile" className="nav-icon">
+              <AccountCircleOutlinedIcon className="nav-icon" />
             </Link>
           </li>
         </ul>

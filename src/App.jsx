@@ -31,11 +31,51 @@ function App() {
             </>
           }
         />
-        <Route path="talent/applications" element={<TalAppStatus />} />
-        <Route path="talent/profile" element={<TalProfile />} />
-        <Route path="employer" element={<EmDashboard />} />
-        <Route path="employer/profile" element={<EmProfile />} />
-        <Route path="employer/applications" element={<EmJobLists />} />
+        <Route
+          path="talent/applications"
+          element={
+            <>
+              <TalAppStatus />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="talent/profile"
+          element={
+            <>
+              <TalProfile />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="employer"
+          element={
+            <>
+              <EmDashboard />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="employer/profile"
+          element={
+            <>
+              <EmProfile />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="employer/applications"
+          element={
+            <>
+              <EmJobLists />
+              <NavBar />
+            </>
+          }
+        />
       </Route>
     )
   );

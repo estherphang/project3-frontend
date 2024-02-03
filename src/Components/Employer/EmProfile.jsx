@@ -1,5 +1,12 @@
 import React from "react";
 
 export default function EmProfile() {
-  return <div>Employer's profile</div>;
+  return (
+    <>
+      <div className="container">
+        <p>Edit within the container</p>
+        <p>Employer Profile</p>
+      </div>
+    </>
+  );
 }

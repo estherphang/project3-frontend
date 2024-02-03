@@ -159,6 +159,219 @@ li {
   width: 80vw;
 }
 
+.nav-icon {
+  #root {
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(15, 15, 15);
+    max-width: 100%;
+    margin: 0;
+    padding: 20px; /* Adjusted padding for smaller screens */
+    text-align: left;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    height: 100vh; /* Ensure the content takes up the full viewport height */
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* stack elements vertically on smaller screens */
+    padding: 0px 10px;
+    /* padding on the left and right */
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    line-height: 1.15;
+  }
+
+  h2 {
+    font-size: 1.6;
+    line-height: 1;
+  }
+
+  h3 {
+    font-size: 1.4em;
+    line-height: 1;
+  }
+
+  h4 {
+    font-size: 1.2em;
+    line-height: 1;
+  }
+
+  .box {
+    /* icons */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* box */
+    background-color: rgb(70, 63, 58);
+    color: rgb(244, 243, 238);
+    padding: 0.4em 0.5em;
+    border-radius: 8px; /* Example border-radius */
+    margin-bottom: 1 em;
+  }
+
+  /* Paragraph styles */
+  p {
+    font-size: 1em;
+    line-height: 1.2;
+    margin-bottom: 1em;
+  }
+
+  /* wrapped content for pages with navbar */
+  .container {
+    padding-bottom: 80px;
+  }
+
+  .contentbox {
+    padding: 0em 0.5em;
+    border-radius: 8px; /* Example border-radius */
+    margin-bottom: 1 em;
+  }
+
+  /* List item styles */
+  li {
+    font-size: 1em;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+  }
+
+  .button {
+    display: block;
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    background-color: rgb(119, 101, 227);
+    color: rgb(244, 243, 238);
+    text-decoration: none;
+    border: none; /* remove border */
+    border-radius: 8px;
+    box-sizing: border-box; /* include padding in the total width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .button:hover {
+    background-color: rgb(140, 101, 227); /* Darker blue on hover */
+  }
+
+  .cat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+  }
+
+  /* <----- UserCategory Page -----> */
+
+  .cat-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: transparent;
+    border: 3px solid rgb(119, 101, 227);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
+  }
+
+  .cat-title {
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  .cat-tnc {
+    font-style: italic;
+    color: rgb(138, 129, 124);
+    padding-top: 10px;
+  }
+
+  /* <----- NavBar -----> */
+
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(119, 101, 227);
+    display: flex;
+    justify-content: center;
+
+    height: 60px; /* adjust height a*/
+    z-index: 999; /* Ensure navbar is on top */
+  }
+
+  .navbar ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    align-items: center;
+    /* Remove bullet */
+    list-style-type: none;
+    text-decoration: none;
+    width: 80vw;
+  }
+
+  .nav-icon {
+    padding-top: 10px;
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+  }
+
+  /* Ant design 
+
+.primary button {
+  background-color: rgb(119, 101, 227);
+  color: rgb(244, 243, 238);
+}
+
+.primary button:hover {
+  background-color: rgba(119, 101, 227, 0.9) !important; 
+  color: rgb(244, 243, 238) !important;
+}
+ <Button className="button" type="text" block>
+      Primary
+    </Button>
+*/
+
+  /* <----- Add any additional styles for larger screens here  -----> */
+
+  @media (min-width: 768px) {
+    /* Media query for larger screens (tablets and above) */
+    #root {
+      padding: 2rem; /* Adjusted padding for larger screens */
+    }
+
+    h1 {
+      font-size: 3.2em; /* Original font size for larger screens */
+    }
+  }
+
+  /* <-----  Add any additional global styles or component-specific styles as needed  -----> */
+
+  /* <--- colours --- >
+
+Dark grey = rgb (70, 63, 58)
+Med grey = rgb (138, 129, 124)
+Grey = rgb (188, 184, 177)
+Light grey =rgb(244, 243, 238) 
+Indigo = rgb (119, 101,  227)
+White = rgb = ( 255, 255, 255)
+Black = rgb (15, 15, 15) */
+
+  color: rgb(255, 255, 255);
+}
+
 /* Ant design 
 
 .primary button {
