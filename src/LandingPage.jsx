@@ -9,6 +9,7 @@ const CustomButton = styled(Button)`
 `;
 
 export default function LandingPage() {
+  // import login button from Auth0
   const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
 
@@ -19,6 +20,10 @@ export default function LandingPage() {
       </CustomButton>
     );
   };
+
+  // user sign up. push data to backend.
+  // collect email (prevent duplicate) when user sign up.
+  // only push data to backend if the email is unique.
 
   return (
     <>

@@ -14,6 +14,8 @@ Sign in/sign up - use Auth0, collect user's data and push to back end.
 
 Navigation
 
+!Question: where to put sign up button?
+
 - standardise naming convention of the URL (frontend)
 
 <------with nav bar------>

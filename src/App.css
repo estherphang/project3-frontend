@@ -328,11 +328,6 @@ li {
     color: rgb(255, 255, 255);
   }
 
-  /* <Button className="button" type="text" block>
-      Primary
-    </Button>
-*/
-
   /* <----- Add any additional styles for larger screens here  -----> */
 
   @media (min-width: 768px) {
@@ -346,58 +341,13 @@ li {
     }
   }
 
-  /* <-----  Add any additional global styles or component-specific styles as needed  -----> */
-
   /* <--- colours --- >
 
-Dark grey = rgb (70, 63, 58)
-Med grey = rgb (138, 129, 124)
-Grey = rgb (188, 184, 177)
+Dark grey = rgb(70, 63, 58)
+Med grey = rgg(138, 129, 124)
+Grey = rgb 188, 184, 177)
 Light grey =rgb(244, 243, 238) 
-Indigo = rgb (119, 101,  227)
-White = rgb = ( 255, 255, 255)
-Black = rgb (15, 15, 15) */
-
-  color: rgb(255, 255, 255);
+Indigo = rgb 119, 101,  227)
+White = rgb =( 255, 255, 255)
+Black = rgb(15, 15, 15) */
 }
-
-/* Ant design 
-
-.primary button {
-  background-color: rgb(119, 101, 227);
-  color: rgb(244, 243, 238);
-}
-
-.primary button:hover {
-  background-color: rgba(119, 101, 227, 0.9) !important; 
-  color: rgb(244, 243, 238) !important;
-}
- <Button className="button" type="text" block>
-      Primary
-    </Button>
-*/
-
-/* <----- Add any additional styles for larger screens here  -----> */
-
-@media (min-width: 768px) {
-  /* Media query for larger screens (tablets and above) */
-  #root {
-    padding: 2rem; /* Adjusted padding for larger screens */
-  }
-
-  h1 {
-    font-size: 3.2em; /* Original font size for larger screens */
-  }
-}
-
-/* <-----  Add any additional global styles or component-specific styles as needed  -----> */
-
-/* <--- colours --- >
-
-Dark grey = rgb (70, 63, 58)
-Med grey = rgb (138, 129, 124)
-Grey = rgb (188, 184, 177)
-Light grey =rgb(244, 243, 238) 
-Indigo = rgb (119, 101,  227)
-White = rgb = ( 255, 255, 255)
-Black = rgb (15, 15, 15) */
