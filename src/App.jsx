@@ -1,4 +1,6 @@
 import "./App.css";
+import { createRoot } from "react-dom/client";
+import { Auth0Provider } from "@auth0/auth0-react";
 import LandingPage from "./LandingPage.jsx";
 import UserCategory from "./UserCategory.jsx";
 // import TalDashboard from "./Components/Talent/TalDashboard.jsx";
@@ -15,6 +17,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
+import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -45,6 +48,15 @@ function App() {
           element={
             <>
               <TalProfile />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="talent/profile/setting"
+          element={
+            <>
+              <TalProfileSetting />
               <NavBar />
             </>
           }
@@ -82,7 +94,16 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      {" "}
+      <Auth0Provider
+        domain={import.meta.env.VITE_SOME_AUTH0_DOMAIN}
+        clientId={import.meta.env.VITE_SOME_AUTH0_CLIENTID}
+        authorizationParams={{
+          redirect_uri: import.meta.env.VITE_SOME_AUTH0_REDIRECTURL,
+        }}
+      >
+        <RouterProvider router={router} />
+      </Auth0Provider>
       {/* <Sample /> */}
     </>
   );

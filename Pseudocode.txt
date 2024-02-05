@@ -1,7 +1,6 @@
 
-Navigation
-
-Upon sign in, then the nav bar (with the same 4 icons for both employer and talent) will appear. 
+Landing page - just sign in
+Sign in/sign up - use Auth0, collect user's data and push to back end. 
 
 ├── components
 ├── sign in (no nav bar)
@@ -11,7 +10,11 @@ Upon sign in, then the nav bar (with the same 4 icons for both employer and tale
 │   ├─────  create a new page for user to choose if he is a talent or employer. store in dabase
 │   ├─────  redirect to profile + show nav bar
 
+3. Upon sign in, then the nav bar (with the same 4 icons for both employer and talent) will appear. User should only be at either talent/employer route. It's not interchangable - throughout the journey. 
 
+Navigation
+
+- standardise naming convention of the URL (frontend)
 
 <------with nav bar------>
 
@@ -24,5 +27,14 @@ Upon sign in, then the nav bar (with the same 4 icons for both employer and tale
 │   ├── list of applications status 
 │   ├── Profile
 
-
 ├── Chat (1 function by itself, share with both employer and talents)
+
+
+Talent 
+
+New user 
+- 1st landing page profile view to create profile
+
+Existing user 
+- log in: view job listings 
+- refresh/accidentally exit: maintain at the current page
