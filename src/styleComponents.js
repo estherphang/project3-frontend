@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { css } from "styled-components";
 
 export const buttonStyle = css`
+  color: rgb(244, 243, 238);
   background-color: rgb(119, 101, 227);
 
   &:hover {
