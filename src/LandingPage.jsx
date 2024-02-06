@@ -22,9 +22,9 @@ export default function LandingPage() {
   useEffect(() => {
     //if user is authenticated, show info in console log
     if (isAuthenticated && user) {
-      console.log("email", user.email);
-      console.log("name", user.nickname);
-      console.log("image", user.picture);
+      console.log("email - ", user.email);
+      console.log("emailid - ", user.nickname);
+      console.log("image - ", user.picture);
     }
   }, [isAuthenticated, user]);
 
