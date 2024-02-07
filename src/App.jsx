@@ -100,6 +100,7 @@ function App() {
         clientId={import.meta.env.VITE_SOME_AUTH0_CLIENTID}
         authorizationParams={{
           redirect_uri: import.meta.env.VITE_SOME_AUTH0_REDIRECTURL,
+          audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
           scope:
             //to incldue openid, profile and email.
             "read:current_user update:current_user_metadata openid profile email",
