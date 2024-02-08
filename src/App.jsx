@@ -1,9 +1,7 @@
 import "./App.css";
-import { createRoot } from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import LandingPage from "./LandingPage.jsx";
 import UserCategory from "./UserCategory.jsx";
-// import TalDashboard from "./Components/Talent/TalDashboard.jsx";
 import EmDashboard from "./Components/Employer/EmDashboard.jsx";
 import TalAppStatus from "./Components/Talent/TalAppStatus.jsx";
 import TalDashboard from "./Components/Talent/TalDashboard.jsx";
@@ -21,6 +19,7 @@ import {
 } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
 import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
+import Chat from "./Components/Chat/chat.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -91,6 +90,15 @@ function App() {
             </>
           }
         />
+        <Route
+          path="chat"
+          element={
+            <>
+              <Chat />
+              <NavBar />
+            </>
+          }
+        />
 
         <Route path="employer/sign-up" element={<EmProfileCreation />} />
       </Route>
@@ -105,6 +113,7 @@ function App() {
         clientId={import.meta.env.VITE_SOME_AUTH0_CLIENTID}
         authorizationParams={{
           redirect_uri: import.meta.env.VITE_SOME_AUTH0_REDIRECTURL,
+          audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
           scope:
             //to incldue openid, profile and email.
             "read:current_user update:current_user_metadata openid profile email",
