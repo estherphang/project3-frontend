@@ -1,42 +1,79 @@
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import HomeIcon from "@mui/icons-material/Home";
-
-import ArticleIcon from "@mui/icons-material/Article";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import ChatIcon from "@mui/icons-material/Chat";
-
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { BACKEND_TALENT_URL } from "../constants";
 
 function NavBar() {
-  //tempoary linking to talent's
-  // need to think of pass props to link and porfile image.
-  //use state to see if page is active, change icon to filled if clicked and link is active.
+  //collect user role from table.
+  //pass role to navigation links
+
+  const { isAuthenticated, user } = useAuth0();
+
+  const TALENT = "talent";
+  const EMPLOYER = "employer";
+
+  const nav = useNavigate();
+
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      if (isAuthenticated && user) {
+        try {
+          // Make a request to check if the user exists in the talent table
+          const talentResponse = await axios.get(BACKEND_TALENT_URL);
+          const talentEmails = talentResponse.data.map(
+            (talent) => talent.email
+          );
+          if (talentEmails.includes(user.email)) {
+            setRole(TALENT);
+            return;
+          }
+
+          // Make a request to check if the user exists in the employer table
+          const employerResponse = await axios.get(BACKEND_EMPLOYER_URL);
+          const employerEmails = employerResponse.data.map(
+            (employer) => employer.email
+          );
+          if (employerEmails.includes(user.email)) {
+            setRole(EMPLOYER);
+            return;
+          }
+        } catch (error) {
+          console.error("Error checking user status:", error);
+        }
+      }
+    };
+
+    checkUserStatus();
+  }, [isAuthenticated, user, nav]);
+
   return (
     <div>
       <div className="navbar">
         <ul>
           <li>
-            <Link to="/talent/" className="nav-icon">
+            <Link to={`/${role}`} className="nav-icon">
               <HomeOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li className="active">
-            <Link to="/" className="nav-icon">
+            <Link to="/chat" className="nav-icon">
               <ChatOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li>
-            <Link to="/talent/applications" className="nav-icon">
+            <Link to={`/${role}/applications`} className="nav-icon">
               <ArticleOutlinedIcon className="nav-icon" />
             </Link>
           </li>
           <li>
-            <Link to="/talent/profile" className="nav-icon">
+            <Link to={`/${role}/profile`} className="nav-icon">
               <AccountCircleOutlinedIcon className="nav-icon" />
             </Link>
           </li>
