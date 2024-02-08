@@ -5,9 +5,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import { buttonStyle } from "./styleComponents";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UserCategory from "./UserCategory";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -20,11 +19,6 @@ export default function LandingPage() {
   //redirect if not log in
 
   const { isAuthenticated, user } = useAuth0();
-
-  //New Users:
-  //store data as state, pass as props to user-category page to choose category.
-  const [userStatus, setUserStatus] = useState("");
-  const [userData, setUserData] = useState("");
 
   const nav = useNavigate();
 

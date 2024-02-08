@@ -2,23 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { BACKEND_EMPLOYER_URL, BACKEND_TALENT_URL } from "../constants";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import HomeIcon from "@mui/icons-material/Home";
-
-import ArticleIcon from "@mui/icons-material/Article";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import ChatIcon from "@mui/icons-material/Chat";
-
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { BACKEND_TALENT_URL } from "../constants";
 
 function NavBar() {
-  //tempoary linking to talent's
-  // need to think of pass props to link and porfile image.
-  //use state to see if page is active, change icon to filled if clicked and link is active.
+  //collect user role from table.
+  //pass role to navigation links
 
   const { isAuthenticated, user } = useAuth0();
 
@@ -32,7 +24,6 @@ function NavBar() {
   useEffect(() => {
     const checkUserStatus = async () => {
       if (isAuthenticated && user) {
-        let role = "";
         try {
           // Make a request to check if the user exists in the talent table
           const talentResponse = await axios.get(BACKEND_TALENT_URL);
@@ -61,12 +52,6 @@ function NavBar() {
 
     checkUserStatus();
   }, [isAuthenticated, user, nav]);
-
-  const NavLinks = () => {
-    if (role === TALENT) returns;
-    {
-    }
-  };
 
   return (
     <div>

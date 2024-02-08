@@ -1,9 +1,7 @@
 import "./App.css";
-import { createRoot } from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import LandingPage from "./LandingPage.jsx";
 import UserCategory from "./UserCategory.jsx";
-// import TalDashboard from "./Components/Talent/TalDashboard.jsx";
 import EmDashboard from "./Components/Employer/EmDashboard.jsx";
 import TalAppStatus from "./Components/Talent/TalAppStatus.jsx";
 import TalDashboard from "./Components/Talent/TalDashboard.jsx";

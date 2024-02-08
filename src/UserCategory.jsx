@@ -1,4 +1,3 @@
-//to pass prop to app.jsx for sending to employer/talents link
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
