@@ -1,5 +1,14 @@
 import React from "react";
 
+import { Button } from "antd";
+import styled from "styled-components";
+import { buttonStyle } from "../../styleComponents";
+import EditIcon from "@mui/icons-material/Edit";
+
+const CustomButton = styled(Button)`
+  ${buttonStyle}
+`;
+
 export default function Sample() {
   return (
     <div>
