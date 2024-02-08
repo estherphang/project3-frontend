@@ -38,6 +38,11 @@ export default function UserCategory() {
   }, [isAuthenticated, user]);
 
   const handleSelection = async (role) => {
+    //is user is not sign in
+    if (!isAuthenticated) {
+      loginWithRedirect();
+    }
+
     console.log("got role?", role);
 
     const accessToken = await getAccessTokenSilently({

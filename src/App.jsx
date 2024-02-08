@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
 import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
+import Chat from "./Components/Chat/chat.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -84,6 +85,15 @@ function App() {
           element={
             <>
               <EmJobLists />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="chat"
+          element={
+            <>
+              <Chat />
               <NavBar />
             </>
           }

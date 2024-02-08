@@ -65,7 +65,7 @@ export default function LandingPage() {
           }
 
           // If user does not exist in either talent or employer table, redirect to user category
-          setUserData(user);
+
           nav("/user-category");
         } catch (error) {
           console.error("Error checking user status:", error);
