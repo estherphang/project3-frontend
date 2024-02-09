@@ -11,15 +11,12 @@ export default function TalProfileSetting() {
   const LogoutButton = () => {
     const { logout } = useAuth0();
 
-    return (
-      <CustomButton
-        onClick={() =>
-          logout({ logoutParams: { returnTo: window.location.origin } })
-        }
-      >
-        Log Out
-      </CustomButton>
-    );
+    const handleLogout = () => {
+      localStorage.clear();
+      logout({ logoutParams: { returnTo: window.location.origin } });
+    };
+
+    return <CustomButton onClick={handleLogout}>Log Out</CustomButton>;
   };
 
   return (

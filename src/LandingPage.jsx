@@ -7,6 +7,7 @@ import { buttonStyle } from "./styleComponents";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./Components/Context/UserContext";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -19,7 +20,13 @@ export default function LandingPage() {
   //redirect if not log in
 
   const { isAuthenticated, user } = useAuth0();
-
+  const {
+    setUserFirstName,
+    setUserLastName,
+    setUserImage,
+    setUserEmail,
+    setUserRole,
+  } = useUser();
   const nav = useNavigate();
 
   //collect info from user, show in console log
@@ -44,6 +51,11 @@ export default function LandingPage() {
             (talent) => talent.email
           );
           if (talentEmails.includes(user.email)) {
+            setUserFirstName(user.given_name || user.nickname);
+            setUserLastName(user.given_name || user.nickname);
+            setUserImage(user.picture);
+            setUserEmail(user.email);
+            setUserRole("talent");
             nav("/talent");
             return;
           }
@@ -54,6 +66,11 @@ export default function LandingPage() {
             (employer) => employer.email
           );
           if (employerEmails.includes(user.email)) {
+            setUserFirstName(user.given_name || user.nickname);
+            setUserLastName(user.given_name || user.nickname);
+            setUserImage(user.picture);
+            setUserEmail(user.email);
+            setUserRole("employer");
             nav("/employer");
             return;
           }
@@ -68,7 +85,16 @@ export default function LandingPage() {
     };
 
     checkUserStatus();
-  }, [isAuthenticated, user, nav]);
+  }, [
+    isAuthenticated,
+    user,
+    nav,
+    setUserFirstName,
+    setUserLastName,
+    setUserImage,
+    setUserEmail,
+    setUserRole,
+  ]);
 
   // import login button from Auth0
   const LoginButton = () => {

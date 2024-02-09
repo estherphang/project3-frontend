@@ -161,8 +161,6 @@ li {
 
 .nav-icon {
   #root {
-    font-family: "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: rgb(15, 15, 15);
     max-width: 100%;
     margin: 0;
     padding: 20px; /* Adjusted padding for smaller screens */

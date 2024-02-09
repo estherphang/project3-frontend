@@ -26,3 +26,10 @@ export const outlineButton = css`
     color: rgb(119, 101, 227) !important;
   }
 `;
+
+export const navImage = css`
+  width: 28px !important;
+  height: 28px !important;
+  margin-top: 10px !important;
+  border: 2px solid rgb(244, 243, 238) !important;
+`;

@@ -6,30 +6,38 @@ import { outlineButton } from "./styleComponents";
 import styled from "styled-components";
 import { BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./Components/Context/UserContext";
 
 const CustomButton = styled(Button)`
   ${outlineButton}
 `;
 
 export default function UserCategory() {
+  const { updateUserRole } = useUser();
   const { isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } =
     useAuth0();
+  const nav = useNavigate();
 
   const EMPLOYER = "employer";
   const TALENT = "talent";
 
-  const nav = useNavigate();
+  const {
+    setUserFirstName,
+    setUserLastName,
+    setUserImage,
+    setUserEmail,
+    setUserRole,
+  } = useUser();
 
-  const [selectedRole, setSelectedRole] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
 
   useEffect(() => {
     if (isAuthenticated && user) {
       setEmail(user.email);
-      //if given name and family does not exist, use email id
       setFirstName(user.given_name || user.nickname);
       setLastName(user.family_name || user.nickname);
       setPhotoURL(user.picture);
@@ -37,24 +45,26 @@ export default function UserCategory() {
   }, [isAuthenticated, user]);
 
   const handleSelection = async (role) => {
-    //is user is not sign in
     if (!isAuthenticated) {
       loginWithRedirect();
+      return;
     }
 
-    console.log("got role?", role);
+    setSelectedRole(role); // Store selected role
+    setUserFirstName(user.given_name || user.nickname);
+    setUserLastName(user.given_name || user.nickname);
+    setUserImage(user.picture);
+    setUserEmail(user.email);
+    setUserRole(role);
 
     const accessToken = await getAccessTokenSilently({
       audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
       scope: "read:current_user",
     });
 
-    console.log("Access token:", accessToken);
-
-    // post to backend
     axios
       .post(
-        `${BACKEND_URL}/${role}`, // Use the 'role' parameter directly
+        `${BACKEND_URL}/${role}`,
         {
           firstName,
           lastName,
@@ -68,25 +78,21 @@ export default function UserCategory() {
         }
       )
       .then((res) => {
-        // Clear form state
         setFirstName("");
         setLastName("");
         setEmail("");
         setPhotoURL("");
-
-        // Navigate to profile page
         nav(`/${role}/profile`);
       });
   };
 
-  //<-----console log ------>
-
+  // <-----console.log for selected role----->
   useEffect(() => {
-    console.log("selected path", selectedRole);
-    console.log("url", `${BACKEND_URL}/${selectedRole}`);
-    console.log("really got email?", email);
-    console.log("really got first name?", firstName);
-  }, [selectedRole]);
+    console.log("selected role:", selectedRole);
+    console.log("url:", `${BACKEND_URL}/${selectedRole}`);
+    console.log("email:", email);
+    console.log("first name:", firstName);
+  }, [selectedRole, email, firstName]);
 
   return (
     <>
@@ -124,8 +130,3 @@ export default function UserCategory() {
     </>
   );
 }
-
-//handleSelection - save as a role
-//go to backendUrl (talent/employer), post data to backend.
-// get access code
-//useNav, push data to employer/profile or talent/profile
