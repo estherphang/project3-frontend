@@ -1,12 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { BACKEND_TALENT_URL } from "../constants";
 import { useUser } from "./Components/Context/UserContext";
 import styled from "styled-components";
 import { navImage } from "./styleComponents";
@@ -17,53 +12,9 @@ const CustomStyleIcon = styled(Avatar)`
 `;
 
 function NavBar() {
-  //collect user role from table.
-  //pass role to navigation links
-
   const { userRole, userImage } = useUser();
   console.log("nav role", userRole);
   console.log("nav image", userImage);
-  const { isAuthenticated, user } = useAuth0();
-
-  // const TALENT = "talent";
-  // const EMPLOYER = "employer";
-
-  // const nav = useNavigate();
-
-  // const [role, setRole] = useState("");
-
-  // useEffect(() => {
-  //   const checkUserStatus = async () => {
-  //     if (isAuthenticated && user) {
-  //       try {
-  //         // Make a request to check if the user exists in the talent table
-  //         const talentResponse = await axios.get(BACKEND_TALENT_URL);
-  //         const talentEmails = talentResponse.data.map(
-  //           (talent) => talent.email
-  //         );
-  //         if (talentEmails.includes(user.email)) {
-  //           setRole(TALENT);
-  //           console.log(user.picture);
-  //           return;
-  //         }
-
-  //         // Make a request to check if the user exists in the employer table
-  //         const employerResponse = await axios.get(BACKEND_EMPLOYER_URL);
-  //         const employerEmails = employerResponse.data.map(
-  //           (employer) => employer.email
-  //         );
-  //         if (employerEmails.includes(user.email)) {
-  //           setRole(EMPLOYER);
-  //           return;
-  //         }
-  //       } catch (error) {
-  //         console.error("Error checking user status:", error);
-  //       }
-  //     }
-  //   };
-
-  //   checkUserStatus();
-  // }, [isAuthenticated, user, nav]);
 
   return (
     <div>
