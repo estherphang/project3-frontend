@@ -1,5 +1,17 @@
+import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { useUser } from "../Context/UserContext";
+import styled from "styled-components";
+import { Avatar } from "@mui/material";
+import { profileImage, editIcon } from "../../styleComponents";
+
+const CustomProfileImage = styled(Avatar)`
+  ${profileImage}
+`;
+
+const CustomIcon = styled(IconButton)`
+  ${editIcon}
+`;
 
 export default function TalProfile() {
   const { userFirstName, userLastName, userImage, userEmail } = useUser();
@@ -7,18 +19,41 @@ export default function TalProfile() {
   return (
     <>
       <div className="container">
-        <p>Edit within the container</p>
-        <EditIcon />
-        <p>Talent Profile</p>
+        <CustomProfileImage alt="profile" src={`${userImage}`} />
+
         <p>
-          Name: {userFirstName} {userLastName}
+          {userFirstName} {userLastName}
         </p>
-        <p>Photo: {userImage}</p>
-        <p>Email: {userEmail}</p>
-        <h3 className="box">Objectives</h3>
-        <h3 className="box">Work Experience</h3>
-        <h3 className="box">Skill Sets</h3>
-        <h3 className="box">Education</h3>
+        <p>Designation</p>
+        <h3 className="box">
+          Objectives{" "}
+          <CustomIcon>
+            {" "}
+            <EditIcon />
+          </CustomIcon>
+        </h3>
+
+        <h3 className="box">
+          Work Experience{" "}
+          <CustomIcon>
+            {" "}
+            <EditIcon />
+          </CustomIcon>
+        </h3>
+        <h3 className="box">
+          Skill Sets{" "}
+          <CustomIcon>
+            {" "}
+            <EditIcon />
+          </CustomIcon>
+        </h3>
+        <h3 className="box">
+          Education{" "}
+          <CustomIcon>
+            {" "}
+            <EditIcon />
+          </CustomIcon>
+        </h3>
       </div>
     </>
   );

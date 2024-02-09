@@ -271,6 +271,12 @@ li {
     height: 90vh;
   }
 
+  .btn-transparent {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
   /* <----- UserCategory Page -----> */
 
   .cat-button {
