@@ -1,5 +1,16 @@
 import React from "react";
 
+import { Button } from "antd";
+import styled from "styled-components";
+import { buttonStyle } from "../../styleComponents";
+import EditIcon from "@mui/icons-material/Edit";
+import BasicSelect from "./Components/Employer/BasicSelect";
+import BasicModal from "./Components/Employer/BasicModal";
+
+const CustomButton = styled(Button)`
+  ${buttonStyle}
+`;
+
 export default function Sample() {
   return (
     <div>
@@ -17,6 +28,10 @@ export default function Sample() {
         <p>normal paragrah </p>
         <button className="button"> butoonnnn</button>
         <p>text field</p>
+
+        <BasicSelect />
+
+        <NestedModal />
       </div>
     </div>
   );

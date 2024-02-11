@@ -8,6 +8,9 @@ import TalDashboard from "./Components/Talent/TalDashboard.jsx";
 import EmProfile from "./Components/Employer/EmProfile.jsx";
 import EmJobLists from "./Components/Employer/EmJobLists.jsx";
 import TalProfile from "./Components/Talent/TalProfile.jsx";
+
+import EmProfileCreation from "./Components/Employer/EmProfileCreation.jsx";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -16,7 +19,7 @@ import {
 } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
 import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
-import Chat from "./Components/Chat/chat.jsx";
+import Chat from "./Components/Chat/Chat.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -96,6 +99,8 @@ function App() {
             </>
           }
         />
+
+        <Route path="employer/sign-up" element={<EmProfileCreation />} />
       </Route>
     )
   );
