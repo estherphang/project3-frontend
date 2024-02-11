@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import {
   ref as storageRef,
@@ -10,9 +11,10 @@ import {
 import { Button } from "antd";
 import styled from "styled-components";
 import { buttonStyle } from "../../styleComponents";
+
 import EditIcon from "@mui/icons-material/Edit";
 
-import NestedModal from "./testModal";
+import BasicModal from "./BasicModal";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -23,74 +25,105 @@ const CustomButton = styled(Button)`
 //description
 //photo
 
-//Employers need to be able to input the following info when creating a job listing:
-//name
-//description
-//job_responsibilities
-//skill_set
-//three of the best company_benefits this job has to offer
-
 export default function EmProfileCreation() {
-  //const [inputEmName, setInputEmName] = useState("")
-  const [EmName, setEmName] = useState("");
-
-  //const [inputEmDescription, setInputEmDescription] = useState("")
-  const [EmDescription, setEmDescription] = useState("");
+  const [modalState, setModalState] = useState({
+    openEmNameModal: false,
+    openEmDescriptionModal: false,
+  });
 
   const [EmFormData, setEmFormData] = useState({
-    EmName: "",
-    EmDescription: "",
+    EmName: "I am the default EmName",
+    EmDescription: "I am the default EmDescription",
   });
+
+  useEffect(() => {
+    console.log(EmFormData);
+  }, [EmFormData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //if it's the image upload button, send stuff to firebase storage.
+    console.log("submit button pressed");
 
-    //if it's name/description stuff, just put it in State for now and figure out how to send stuff to database later
+    const storageRefInstance = storageRef(
+      storage,
+      DB_PROFILE_IMAGES_KEY + "/" + fileInputFile.name
+    );
+
+    try {
+      uploadBytes(storageRefInstance, fileInputFile).then(() => {
+        getDownloadURL(storageRefInstance).then((url) => {
+          set(profilesRef, {
+            name: profile.name,
+            age: profile.age,
+            occupation: profile.occupation,
+            hobbies: profile.hobbies,
+            smokingPreference: profile.smokingPreference,
+            petFriendly: profile.petFriendly,
+            url: url,
+            peopleLiked: [""],
+            peopleMatched: [""],
+          });
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleChange = (e) => {
-    //destructure the properties of the target component
-    const { name, value, type } = e.target;
-
-    setEmFormData((prevEmFormData) => ({
-      ...prevEmFormData,
-      [name]: [value],
-    }));
+  //if it's the image upload button, send stuff to firebase storage.
+  //if it's name/description stuff, just put it in State for now and figure out how to send stuff to database later
+  const handleModalOpen = (modalName) => {
+    setModalState((prevState) => ({ ...prevState, [modalName]: true }));
   };
 
   return (
     <div className="container">
-      <p>Create Profile</p>
-
-      <NestedModal />
+      <p>Profile Creation</p>
       {/*Firebase storage stuff for the Employer Profile Picture here.*/}
+      <CustomButton>Upload Image</CustomButton>
 
-      <CustomButton
-        onClick={() => console.log("I, a custom button, have been clicked.")}
-      >
-        Upload Image
-      </CustomButton>
+      <BasicModal
+        modaltitle="Enter Company Name:"
+        modaldescription=""
+        open={modalState.openEmNameModal}
+        setOpen={(value) =>
+          setModalState({ ...modalState, openEmNameModal: value })
+        }
+        propertyname="EmName"
+        passedInState={EmFormData}
+        setPassedInState={setEmFormData}
+      ></BasicModal>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="EmName"
-          value={EmFormData.EmName}
-          onChange={handleChange}
-        ></input>
-
-        <input
-          type="text"
-          name="EmDescription"
-          value={EmFormData.EmDescription}
-          onChange={handleChange}
-        ></input>
-
-        <CustomButton type="submit">
+      <h3 className="box">
+        Company Name
+        <CustomButton onClick={() => handleModalOpen("openEmNameModal")}>
           <EditIcon />
         </CustomButton>
-      </form>
+      </h3>
+      <h3>{EmFormData.EmName}</h3>
+
+      <h3 className="box">
+        About The Company
+        <CustomButton onClick={() => handleModalOpen("openEmDescriptionModal")}>
+          <EditIcon />
+        </CustomButton>
+      </h3>
+
+      <BasicModal
+        modaltitle="Enter Company Description:"
+        modaldescription=""
+        open={modalState.openEmDescriptionModal}
+        setOpen={(value) =>
+          setModalState({ ...modalState, openEmDescriptionModal: value })
+        }
+        propertyname="EmDescription"
+        passedInState={EmFormData}
+        setPassedInState={setEmFormData}
+      ></BasicModal>
+
+      <h3>{EmFormData.EmDescription}</h3>
+
+      <CustomButton onClick={handleSubmit}>Submit</CustomButton>
     </div>
   );
 }
