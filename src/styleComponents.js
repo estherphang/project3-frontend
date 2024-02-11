@@ -26,3 +26,22 @@ export const outlineButton = css`
     color: rgb(119, 101, 227) !important;
   }
 `;
+
+export const navImage = css`
+  width: 28px !important;
+  height: 28px !important;
+  margin-top: 10px !important;
+  border: 2px solid rgb(244, 243, 238) !important;
+`;
+
+export const profileImage = css`
+  width: 120px !important;
+  height: 120px !important;
+  margin-top: 10px !important;
+`;
+
+export const editIcon = css`
+  color: rgb(244, 243, 238) !important;
+  margin: 0px !important;
+  padding: 0px !important;
+`;
