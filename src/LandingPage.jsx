@@ -26,20 +26,21 @@ export default function LandingPage() {
     setUserImage,
     setUserEmail,
     setUserRole,
+    setUserID,
   } = useUser();
   const nav = useNavigate();
 
-  //collect info from user, show in console log
-  // useEffect(() => {
-  //   if (isAuthenticated && user) {
-  //     console.log("email - ", user.email);
-  //     console.log("image - ", user.picture);
-  //     console.log("user first name - ", user.given_name);
-  //     console.log("user surname - ", user.family_name);
-  //     console.log("emailid - ", user.nickname);
-  //     console.log("user data", user);
-  //   }
-  // }, [isAuthenticated, user]);
+  // collect info from user, show in console log
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log("email - ", user.email);
+      console.log("image - ", user.picture);
+      console.log("user first name - ", user.given_name);
+      console.log("user surname - ", user.family_name);
+      console.log("emailid - ", user.nickname);
+      console.log("user data", user);
+    }
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -47,14 +48,21 @@ export default function LandingPage() {
         try {
           // Make a request to check if the user exists in the talent table
           const talentResponse = await axios.get(BACKEND_TALENT_URL);
-          const talentEmails = talentResponse.data.map(
-            (talent) => talent.email
-          );
+          const talentData = talentResponse.data;
+          console.log("talentData", talentData);
+          console.log("talent data");
+
+          const talentEmails = talentData.map((talent) => talent.email);
           if (talentEmails.includes(user.email)) {
-            setUserFirstName(user.given_name || user.nickname);
-            setUserLastName(user.given_name || user.nickname);
-            setUserImage(user.picture);
-            setUserEmail(user.email);
+            const userData = talentData.find(
+              (talent) => talent.email === user.email
+            );
+            console.log("user data", userData);
+            setUserFirstName(userData.firstName);
+            setUserLastName(userData.lastName);
+            setUserImage(userData.photo); // Assuming photo is a URL to the image
+            setUserEmail(userData.email);
+            setUserID(userData.id);
             setUserRole("talent");
             nav("/talent");
             return;
@@ -62,14 +70,21 @@ export default function LandingPage() {
 
           // Make a request to check if the user exists in the employer table
           const employerResponse = await axios.get(BACKEND_EMPLOYER_URL);
-          const employerEmails = employerResponse.data.map(
-            (employer) => employer.email
-          );
+          const employerData = employerResponse.data;
+          console.log("employer data", employerData);
+
+          const employerEmails = employerData.map((employer) => employer.email);
+
           if (employerEmails.includes(user.email)) {
-            setUserFirstName(user.given_name || user.nickname);
-            setUserLastName(user.given_name || user.nickname);
-            setUserImage(user.picture);
-            setUserEmail(user.email);
+            const userData = employerData.find(
+              (employer) => employer.email === user.email
+            );
+            console.log("user data", userData);
+            setUserFirstName(userData.firstName);
+            setUserLastName(userData.lastName);
+            setUserImage(userData.photo);
+            setUserEmail(userData.email);
+            setUserID(userData.id);
             setUserRole("employer");
             nav("/employer");
             return;
@@ -94,6 +109,7 @@ export default function LandingPage() {
     setUserImage,
     setUserEmail,
     setUserRole,
+    setUserID,
   ]);
 
   // import login button from Auth0
