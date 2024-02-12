@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(
     localStorage.getItem("userRole") || ""
   );
+  const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
 
   const handleUserLogout = () => {
     setUserFirstName("");
@@ -24,12 +25,14 @@ export const UserProvider = ({ children }) => {
     setUserImage("");
     setUserEmail("");
     setUserRole("");
+    setUserID("");
 
     localStorage.removeItem("userFirstName");
     localStorage.removeItem("userLastName");
     localStorage.removeItem("userImage");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("userID");
   };
 
   useEffect(() => {
@@ -38,7 +41,8 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("userImage", userImage);
     localStorage.setItem("userEmail", userEmail);
     localStorage.setItem("userRole", userRole);
-  }, [userFirstName, userLastName, userImage, userEmail, userRole]);
+    localStorage.setItem("userID", userID);
+  }, [userFirstName, userLastName, userImage, userEmail, userRole, userID]);
 
   return (
     <UserContext.Provider
@@ -53,6 +57,8 @@ export const UserProvider = ({ children }) => {
         setUserEmail,
         userRole,
         setUserRole,
+        userID,
+        setUserID,
         handleUserLogout,
       }}
     >
