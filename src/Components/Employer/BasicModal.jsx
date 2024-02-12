@@ -2,6 +2,13 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
+import { Button } from "antd";
+import styled from "styled-components";
+import { buttonStyle } from "../../styleComponents";
+const CustomButton = styled(Button)`
+  ${buttonStyle}
+`;
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -59,6 +66,8 @@ export default function BasicModal({
               onChange={handlePassedInState}
             ></input>
           </form>
+
+          <CustomButton onClick={handleClose}>Close</CustomButton>
         </Box>
       </Modal>
     </div>

@@ -31,7 +31,7 @@ export default function Sample() {
 
         <BasicSelect />
 
-        <NestedModal />
+        <BasicModal />
       </div>
     </div>
   );

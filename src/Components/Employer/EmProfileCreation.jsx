@@ -1,7 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { storage } from "../../firebase";
+
 import {
   ref as storageRef,
   uploadBytes,
@@ -15,6 +17,7 @@ import { buttonStyle } from "../../styleComponents";
 import EditIcon from "@mui/icons-material/Edit";
 
 import BasicModal from "./BasicModal";
+import { maxHeight, textAlign } from "@mui/system";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -32,37 +35,32 @@ export default function EmProfileCreation() {
   });
 
   const [EmFormData, setEmFormData] = useState({
-    EmName: "I am the default EmName",
-    EmDescription: "I am the default EmDescription",
+    EmName: "Your Company Name",
+    EmDescription: "Your Company Description",
   });
 
+  const [fileInputFile, setFileInputFile] = useState({});
+  const [imgurl, setImageUrl] = useState("");
+
+  const DB_STORAGE_KEY = "comapny_image";
+
   useEffect(() => {
-    console.log(EmFormData);
-  }, [EmFormData]);
+    console.log(fileInputFile);
+  }, [fileInputFile]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit button pressed");
+    console.log("handlesubmit called");
 
     const storageRefInstance = storageRef(
       storage,
-      DB_PROFILE_IMAGES_KEY + "/" + fileInputFile.name
+      DB_STORAGE_KEY + "/" + fileInputFile.name
     );
 
     try {
       uploadBytes(storageRefInstance, fileInputFile).then(() => {
         getDownloadURL(storageRefInstance).then((url) => {
-          set(profilesRef, {
-            name: profile.name,
-            age: profile.age,
-            occupation: profile.occupation,
-            hobbies: profile.hobbies,
-            smokingPreference: profile.smokingPreference,
-            petFriendly: profile.petFriendly,
-            url: url,
-            peopleLiked: [""],
-            peopleMatched: [""],
-          });
+          setImageUrl(url);
         });
       });
     } catch (err) {
@@ -76,11 +74,27 @@ export default function EmProfileCreation() {
     setModalState((prevState) => ({ ...prevState, [modalName]: true }));
   };
 
+  const SubmitToBackend = () => {
+    //send the Emdata to the backend.
+  };
+
   return (
     <div className="container">
-      <p>Profile Creation</p>
-      {/*Firebase storage stuff for the Employer Profile Picture here.*/}
-      <CustomButton>Upload Image</CustomButton>
+      <div className="company-img-div">
+        <h1>Profile Creation</h1>
+        {/*Firebase storage stuff for the Employer Profile Picture here.*/}
+        <img src={imgurl} alt="Upload a profile image!" />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="file"
+            onChange={(e) => setFileInputFile(e.target.files[0])}
+          ></input>
+
+          <br />
+
+          <CustomButton htmlType="submit">Upload Image</CustomButton>
+        </form>
+      </div>
 
       <BasicModal
         modaltitle="Enter Company Name:"
@@ -123,7 +137,14 @@ export default function EmProfileCreation() {
 
       <h3>{EmFormData.EmDescription}</h3>
 
-      <CustomButton onClick={handleSubmit}>Submit</CustomButton>
+      <CustomButton className="center" onClick={SubmitToBackend}>
+        Submit
+      </CustomButton>
+
+      <CustomButton className="right">
+        <Link to="/employer/joblisting/create">Next</Link>
+      </CustomButton>
     </div>
   );
 }
+//setFileInputFile(e.target.files[0])
