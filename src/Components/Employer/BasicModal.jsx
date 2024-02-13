@@ -62,7 +62,7 @@ export default function BasicModal({
           <form>
             <textarea
               rows="10"
-              cols="30"
+              cols="25"
               value={passedInState[propertyname]}
               onChange={handlePassedInState}
             ></textarea>
@@ -74,6 +74,7 @@ export default function BasicModal({
     </div>
   );
 }
+
 // onClick={handleClose}
 {
   /* <input
