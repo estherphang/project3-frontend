@@ -20,6 +20,8 @@ import {
 import NavBar from "./NavBar.jsx";
 import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
 import Chat from "./Components/Chat/Chat.jsx";
+import JobListingCreation from "./Components/Employer/JobListingCreation.jsx";
+import { EmployerProvider } from "./Components/Context/EmployerContext.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -63,6 +65,7 @@ function App() {
             </>
           }
         />
+
         <Route
           path="employer"
           element={
@@ -72,6 +75,7 @@ function App() {
             </>
           }
         />
+
         <Route
           path="employer/profile"
           element={
@@ -99,8 +103,12 @@ function App() {
             </>
           }
         />
-
         <Route path="employer/sign-up" element={<EmProfileCreation />} />
+
+        <Route
+          path="employer/joblisting/create"
+          element={<JobListingCreation />}
+        />
       </Route>
     )
   );

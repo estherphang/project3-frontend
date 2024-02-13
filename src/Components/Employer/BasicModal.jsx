@@ -60,11 +60,12 @@ export default function BasicModal({
           <p id="parent-modal-description">{modaldescription}</p>
 
           <form>
-            <input
-              type="text"
+            <textarea
+              rows="10"
+              cols="30"
               value={passedInState[propertyname]}
               onChange={handlePassedInState}
-            ></input>
+            ></textarea>
           </form>
 
           <CustomButton onClick={handleClose}>Close</CustomButton>
@@ -74,3 +75,10 @@ export default function BasicModal({
   );
 }
 // onClick={handleClose}
+{
+  /* <input
+              type="text"
+              value={passedInState[propertyname]}
+              onChange={handlePassedInState}
+            ></input> */
+}
