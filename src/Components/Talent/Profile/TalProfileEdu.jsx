@@ -6,6 +6,7 @@ import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
 
@@ -134,14 +135,19 @@ export default function TalProfileEdu() {
       </div>
 
       {/* display education */}
-      <div>
+      <div className="contentbox">
         {eduData.map((edu, index) => (
           <div key={index}>
-            <p>{edu.institution}</p>
-            <p>{edu.degree}</p>
-            <p>{edu.major}</p>
-            <p>
-              {edu.graduationMonth} {edu.graduationYear}
+            <div className="whitebox">
+              <p className="wp-jobtitle2">{edu.degree}</p>
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+            </div>
+            <p className="wp-company">{edu.institution}</p>
+            <p>Major: {edu.fieldOfStudy}</p>
+            <p className="wp-duration">
+              Graduation date: {edu.graduationMonth} {edu.graduationYear}
             </p>
             <hr />
           </div>

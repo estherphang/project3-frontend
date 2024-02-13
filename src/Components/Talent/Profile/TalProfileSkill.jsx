@@ -6,6 +6,7 @@ import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
 
@@ -104,11 +105,18 @@ export default function TalProfileSkill() {
       </div>
 
       {/* Display skills */}
-      <div>
+      <div className="contentbox">
         {skillData.map((skill, index) => (
           <div key={index}>
-            <p>{skill.skill}</p>
-            <p>{skill.proficiencyLevel}</p>
+            <div className="whitebox">
+              <p className="wp-jobtitle2">{skill.skill}</p>
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+            </div>
+            <p className="wp-duration">
+              Proficiency Level: {skill.proficiencyLevel}
+            </p>
             <hr />
           </div>
         ))}
