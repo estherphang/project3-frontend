@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../Context/UserContext";
-import {
-  PopUpModal,
-  MultilineTextFields,
-  SingleLineTextField,
-} from "../../../MUIComponents";
+import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
-import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
@@ -24,8 +17,26 @@ export default function TalProfileSkill() {
   const { isAuthenticated } = useAuth0();
   const { userID } = useUser();
 
-  //new empty model to post new education
+  const [skillData, setSkillData] = useState([]);
   const [newSkillModal, setNewSkillModal] = useState(false);
+  const [newSkill, setNewSkill] = useState("");
+  const [newProficiencyLevel, setNewProficiencyLevel] = useState("");
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchSkills = async () => {
+        try {
+          const skillResponse = await axios.get(
+            `${BACKEND_TALENT_URL}/${userID}/skill`
+          );
+          setSkillData(skillResponse.data);
+        } catch (error) {
+          console.error("Error fetching skills:", error);
+        }
+      };
+      fetchSkills();
+    }
+  }, [isAuthenticated, userID]);
 
   const handleOpenNewSkill = () => {
     setNewSkillModal(true);
@@ -35,7 +46,29 @@ export default function TalProfileSkill() {
     setNewSkillModal(false);
   };
 
-  const handleSaveNewSkill = () => {};
+  const handleSaveNewSkill = async () => {
+    try {
+      await axios.post(`${BACKEND_TALENT_URL}/${userID}/skill`, {
+        skill: newSkill,
+        proficiencyLevel: newProficiencyLevel,
+      });
+
+      // After saving, refetch the skills to update the UI
+      const updatedSkillResponse = await axios.get(
+        `${BACKEND_TALENT_URL}/${userID}/skill`
+      );
+      setSkillData(updatedSkillResponse.data);
+
+      // Reset the input fields
+      setNewSkill("");
+      setNewProficiencyLevel("");
+      setNewSkillModal(false);
+
+      console.log("New skill added successfully!");
+    } catch (error) {
+      console.error("Error adding new skill:", error);
+    }
+  };
 
   return (
     <>
@@ -54,9 +87,28 @@ export default function TalProfileSkill() {
           handleSave={handleSaveNewSkill}
           title="Add Skill Set"
         >
-          <SingleLineTextField label="Skill" />
-          <SingleLineTextField label="Proficiency Level" />
+          <SingleLineTextField
+            label="Skill"
+            value={newSkill}
+            onChange={(e) => setNewSkill(e.target.value)}
+          />
+          <SingleLineTextField
+            label="Proficiency Level"
+            value={newProficiencyLevel}
+            onChange={(e) => setNewProficiencyLevel(e.target.value)}
+          />
         </PopUpModal>
+      </div>
+
+      {/* Display skills */}
+      <div>
+        {skillData.map((skill, index) => (
+          <div key={index}>
+            <p>{skill.skill}</p>
+            <p>{skill.proficiencyLevel}</p>
+            <hr />
+          </div>
+        ))}
       </div>
     </>
   );
