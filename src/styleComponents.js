@@ -1,9 +1,5 @@
 import styled from "styled-components";
 import { css } from "styled-components";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 
 export const buttonStyle = css`
   color: rgb(244, 243, 238);
