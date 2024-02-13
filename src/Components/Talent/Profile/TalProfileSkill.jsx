@@ -17,7 +17,10 @@ export default function TalProfileSkill() {
   const { isAuthenticated } = useAuth0();
   const { userID } = useUser();
 
+  //current data
   const [skillData, setSkillData] = useState([]);
+
+  //new skill set
   const [newSkillModal, setNewSkillModal] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const [newProficiencyLevel, setNewProficiencyLevel] = useState("");
