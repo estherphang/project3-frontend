@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import styled from "styled-components";
-import { buttonStyle } from "../../styleComponents";
+import { buttonStyle } from "../../../styleComponents";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
