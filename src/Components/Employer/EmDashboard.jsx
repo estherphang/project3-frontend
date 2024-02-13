@@ -1,7 +1,9 @@
 import React from "react";
+import { useUser } from "../Context/UserContext";
 
 export default function EmDashboard() {
   //get data from the employer joblisting backend. use it to populate job listing dashboard
+  const { userFirstName, userLastName, userImage, userEmail } = useUser();
   let alljoblistings = joblistings.map((joblisting) => (
     <>
       <div className="joblisting">
@@ -13,7 +15,7 @@ export default function EmDashboard() {
   return (
     <>
       <div className="container">
-        <h1>Dashboard</h1>
+        <p>Employer Dashboard {userFirstName}</p>
 
         <h3>Active Job Listings</h3>
 
