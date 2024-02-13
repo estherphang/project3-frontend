@@ -1,7 +1,6 @@
-import React from "react";
 import { useState, useEffect } from "react";
 
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { storage } from "../../firebase";
 
 import {
@@ -17,7 +16,8 @@ import { buttonStyle } from "../../styleComponents";
 import EditIcon from "@mui/icons-material/Edit";
 
 import BasicModal from "./BasicModal";
-import { maxHeight, textAlign } from "@mui/system";
+
+import { useEmployer } from "../Context/EmployerContext";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -29,24 +29,16 @@ const CustomButton = styled(Button)`
 //photo
 
 export default function EmProfileCreation() {
+  const { EmFormData, setEmFormData, imgurl, setImageUrl } = useEmployer();
+
   const [modalState, setModalState] = useState({
     openEmNameModal: false,
     openEmDescriptionModal: false,
   });
 
-  const [EmFormData, setEmFormData] = useState({
-    EmName: "Your Company Name",
-    EmDescription: "Your Company Description",
-  });
-
   const [fileInputFile, setFileInputFile] = useState({});
-  const [imgurl, setImageUrl] = useState("");
 
   const DB_STORAGE_KEY = "comapny_image";
-
-  useEffect(() => {
-    console.log(fileInputFile);
-  }, [fileInputFile]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,10 +83,17 @@ export default function EmProfileCreation() {
           ></input>
 
           <br />
-
           <CustomButton htmlType="submit">Upload Image</CustomButton>
         </form>
       </div>
+      <p>What does everyone call your company?</p>
+      {/* Code handling Company Name */}
+      <h3 className="box">
+        Company Name
+        <CustomButton onClick={() => handleModalOpen("openEmNameModal")}>
+          <EditIcon />
+        </CustomButton>
+      </h3>
 
       <BasicModal
         modaltitle="Enter Company Name:"
@@ -108,14 +107,10 @@ export default function EmProfileCreation() {
         setPassedInState={setEmFormData}
       ></BasicModal>
 
-      <h3 className="box">
-        Company Name
-        <CustomButton onClick={() => handleModalOpen("openEmNameModal")}>
-          <EditIcon />
-        </CustomButton>
-      </h3>
       <h3>{EmFormData.EmName}</h3>
 
+      {/* Code handling Company Description */}
+      <p>Tell prospective job applicants what your company is all about!</p>
       <h3 className="box">
         About The Company
         <CustomButton onClick={() => handleModalOpen("openEmDescriptionModal")}>
