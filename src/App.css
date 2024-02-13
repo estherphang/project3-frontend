@@ -60,11 +60,41 @@ h4 {
   margin-bottom: 1 em;
 }
 
+.whitebox {
+  /* icons */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* box */
+  background-color: trans;
+  border-radius: 8px; /* Example border-radius */
+}
+
 /* Paragraph styles */
 p {
   font-size: 1em;
   line-height: 1.2;
   margin-bottom: 1em;
+}
+
+.wp-jobtitle {
+  font-size: 1.1em;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.wp-jobtitle2 {
+  font-size: 1.1em;
+  font-weight: 600;
+  line-height: 0;
+}
+
+.wp-company {
+  line-height: 0;
+}
+.wp-duration {
+  color: rgb(138, 129, 124);
+  font-style: italic;
 }
 
 /* wrapped content for pages with navbar */
@@ -169,135 +199,15 @@ li {
     height: 100vh; /* Ensure the content takes up the full viewport height */
   }
 
-  body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    /* stack elements vertically on smaller screens */
-    padding: 0px 10px;
-    /* padding on the left and right */
-    min-height: 100vh;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-weight: bold;
-    margin-bottom: 0.5em;
-  }
-
-  h1 {
-    font-size: 1.8em;
-    line-height: 1.15;
-  }
-
-  h2 {
-    font-size: 1.6;
-    line-height: 1;
-  }
-
-  h3 {
-    font-size: 1.4em;
-    line-height: 1;
-  }
-
-  h4 {
-    font-size: 1.2em;
-    line-height: 1;
-  }
-
-  .box {
-    /* icons */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* box */
-    background-color: rgb(70, 63, 58);
-    color: rgb(244, 243, 238);
-    padding: 0.4em 0.5em;
-    border-radius: 8px; /* Example border-radius */
-    margin-bottom: 1 em;
-  }
-
-  /* Paragraph styles */
-  p {
-    font-size: 1em;
-    line-height: 1.2;
-    margin-bottom: 1em;
-  }
-
   /* wrapped content for pages with navbar */
   .container {
     padding-bottom: 80px;
-  }
-
-  .contentbox {
-    padding: 0em 0.5em;
-    border-radius: 8px; /* Example border-radius */
-    margin-bottom: 1 em;
-  }
-
-  /* List item styles */
-  li {
-    font-size: 1em;
-    line-height: 1.2;
-    margin-bottom: 0.5em;
-  }
-
-  .button {
-    display: block;
-    width: 100%;
-    padding: 1em;
-    text-align: center;
-    background-color: rgb(119, 101, 227);
-    color: rgb(244, 243, 238);
-    text-decoration: none;
-    border: none; /* remove border */
-    border-radius: 8px;
-    box-sizing: border-box; /* include padding in the total width */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .button:hover {
-    background-color: rgb(140, 101, 227); /* Darker blue on hover */
-  }
-
-  .cat-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 90vh;
   }
 
   .btn-transparent {
     background-color: transparent;
     margin: 0;
     padding: 0;
-  }
-
-  /* <----- UserCategory Page -----> */
-
-  .cat-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: transparent;
-    border: 3px solid rgb(119, 101, 227);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
-  }
-
-  .cat-title {
-    text-align: center;
-    padding-bottom: 10px;
-  }
-
-  .cat-tnc {
-    font-style: italic;
-    color: rgb(138, 129, 124);
-    padding-top: 10px;
   }
 
   /* <----- NavBar -----> */
@@ -327,6 +237,14 @@ li {
   }
 
   .nav-icon {
+    #root {
+      max-width: 100%;
+      margin: 0;
+      padding: 20px; /* Adjusted padding for smaller screens */
+      text-align: left;
+      overflow-y: scroll; /* Enable vertical scrolling */
+      height: 100vh; /* Ensure the content takes up the full viewport height */
+    }
     padding-top: 10px;
     font-size: 30px;
     color: rgb(255, 255, 255);

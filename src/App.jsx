@@ -7,7 +7,7 @@ import TalAppStatus from "./Components/Talent/TalAppStatus.jsx";
 import TalDashboard from "./Components/Talent/TalDashboard.jsx";
 import EmProfile from "./Components/Employer/EmProfile.jsx";
 import EmJobLists from "./Components/Employer/EmJobLists.jsx";
-import TalProfile from "./Components/Talent/TalProfile.jsx";
+import TalProfile from "./Components/Talent/Profile/TalProfile.jsx";
 
 import EmProfileCreation from "./Components/Employer/EmProfileCreation.jsx";
 
@@ -18,7 +18,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
-import TalProfileSetting from "./Components/Talent/TalProfileSetting.jsx";
+import TalProfileSetting from "./Components/Talent/Profile/TalProfileSetting.jsx";
 import Chat from "./Components/Chat/Chat.jsx";
 
 function App() {

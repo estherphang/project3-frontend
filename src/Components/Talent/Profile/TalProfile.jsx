@@ -1,31 +1,30 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-
+import TalProfileObj from "./TalProfileObj";
 import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import { useUser } from "../Context/UserContext";
+import { useUser } from "../../Context/UserContext";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
-import { profileImage, editIcon } from "../../styleComponents";
+import { profileImage, editIcon } from "../../../styleComponents";
 import axios from "axios";
-import { BACKEND_TALENT_URL } from "../../../constants";
+import { BACKEND_TALENT_URL } from "../../../../constants";
+import TalProfileWorkExp from "./TalProfileWorkExp";
+import TalProfileSkill from "./TalProfileSkill";
+import TalProfileEdu from "./TalProfileEdu";
 
 const CustomProfileImage = styled(Avatar)`
   ${profileImage}
-`;
-
-const CustomIcon = styled(IconButton)`
-  ${editIcon}
 `;
 
 export default function TalProfile() {
   const { isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } =
     useAuth0();
 
-  const { userFirstName, userLastName, userImage, userEmai, userID } =
+  const { userFirstName, userLastName, userImage, userEmail, userID } =
     useUser();
 
-  const [objectiveField, setObjectiveField] = useState("ADD DETAILS");
+  //need to pull userID for new users who passed by userCat path.
+
   const [titleField, setTitleField] = useState("ADD TITLE");
 
   //axios pull resume data
@@ -41,15 +40,7 @@ export default function TalProfile() {
           const resumeData = resumeResponse.data;
           console.log("data", resumeData);
 
-          const objective = resumeData.map((item) => item.objective);
           const title = resumeData.map((item) => item.title);
-
-          // Check if objective array is empty
-          if (objective.length === 0) {
-            setObjectiveField("ADD DETAILS");
-          } else {
-            setObjectiveField(objective);
-          }
 
           // Check if title array is empty
           if (title.length === 0) {
@@ -57,8 +48,6 @@ export default function TalProfile() {
           } else {
             setTitleField(title);
           }
-
-          console.log("objective?", objective);
           console.log("title?", title);
         } catch (error) {
           console.error("Error fetching objectives:", error);
@@ -70,6 +59,7 @@ export default function TalProfile() {
   }, [isAuthenticated, user, userID]);
 
   console.log("profile", userImage);
+
   return (
     <>
       <div className="container">
@@ -79,43 +69,10 @@ export default function TalProfile() {
           {userFirstName} {userLastName} {userID}
         </p>
         <p>{titleField}</p>
-        <h3 className="box">
-          Objectives{" "}
-          <CustomIcon>
-            {" "}
-            <EditIcon />
-          </CustomIcon>
-        </h3>
-        <p>
-          <input
-            type="text"
-            value={objectiveField}
-            onChange={(e) => setObjectiveField(e.target.value)}
-          />
-        </p>
-
-        <h3 className="box">
-          Work Experience{" "}
-          <CustomIcon>
-            {" "}
-            <EditIcon />
-          </CustomIcon>
-        </h3>
-
-        <h3 className="box">
-          Skill Sets{" "}
-          <CustomIcon>
-            {" "}
-            <EditIcon />
-          </CustomIcon>
-        </h3>
-        <h3 className="box">
-          Education{" "}
-          <CustomIcon>
-            {" "}
-            <EditIcon />
-          </CustomIcon>
-        </h3>
+        <TalProfileObj />
+        <TalProfileWorkExp />
+        <TalProfileSkill />
+        <TalProfileEdu />
       </div>
     </>
   );
