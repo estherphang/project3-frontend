@@ -107,7 +107,12 @@ function App() {
 
         <Route
           path="employer/joblisting/create"
-          element={<JobListingCreation />}
+          element={
+            <>
+              <JobListingCreation />
+              <NavBar />
+            </>
+          }
         />
       </Route>
     )
