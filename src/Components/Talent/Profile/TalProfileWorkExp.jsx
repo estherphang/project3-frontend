@@ -26,7 +26,6 @@ export default function TalProfileWorkExp() {
   const [workExpData, setWorkExpData] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null); // State to track the index of the item being edited
   const [editItem, setEditItem] = useState(null); // State to store the item being edited
-  const [startMonth, setStartMonth] = useState("");
 
   //new empty model to post new education
   const [newExpModal, setNewExpModal] = useState(false);
