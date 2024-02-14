@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {
   buttonStyle,
   colourButton,
+  editIcon,
   profileImage,
   reversedOutlineButton,
 } from "../../../styleComponents";
@@ -11,8 +12,11 @@ import { useUser } from "../../Context/UserContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../../constants";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import BenefitSelection from "../../Benefits/BenefitSelection";
+import BenefitsDes from "../../Benefits/BenefitsDes";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useNavigate } from "react-router-dom";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
@@ -24,6 +28,10 @@ const CustomButton2 = styled(Button)`
 
 const CustomProfileImage = styled(Avatar)`
   ${profileImage}
+`;
+
+const CustomIcon = styled(IconButton)`
+  ${editIcon}
 `;
 
 export default function TalProfileSetting() {
@@ -131,7 +139,7 @@ export default function TalProfileSetting() {
             `${BACKEND_TALENT_URL}/${userID}/benefits`
           );
           const benefitData = benefitResponse.data;
-          console.log("benefit data:", benefitData);
+          console.log("benefit data:", benefitData.benefits);
 
           // Set the career priorities from the backend
           // if (resumeData.careerPriorities) {
@@ -156,6 +164,11 @@ export default function TalProfileSetting() {
     fetchCareerPriorities();
   }, [isAuthenticated, user, userID]);
 
+  const nav = useNavigate();
+  const handleBenefitPage = () => {
+    nav("/benefit");
+  };
+
   return (
     <>
       <div className="container">
@@ -165,9 +178,19 @@ export default function TalProfileSetting() {
         </p>
         <p>{titleField}</p>
         <LogoutButton />
+        <h3 className="box">
+          Skill Sets
+          <CustomIcon />
+        </h3>
 
-        <h3 className="box">Career Priorities</h3>
-        <br />
+        <h3 className="box">
+          Career Priorities{" "}
+          <CustomIcon onClick={handleBenefitPage}>
+            <HelpOutlineIcon />
+          </CustomIcon>
+        </h3>
+        <p className="contentbox">Select 3 career priorities. </p>
+
         <BenefitSelection
           labelName={"First Choice:"}
           onChange={handleBenefitChange1}

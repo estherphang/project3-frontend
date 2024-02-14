@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../Context/UserContext";
@@ -111,7 +111,7 @@ export default function TalProfileSkill() {
       });
       //use array
       console.log("updated file", skillData);
-      console.log("Work experience saved successfully!");
+      console.log("Skill saved successfully!");
       setEditingIndex(null); // Reset editingIndex after saving
       setEditItem(null); // Reset editItem after saving
       setSkillModal(false);
