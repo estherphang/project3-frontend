@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import { Avatar } from "@mui/material";
+import BenefitSelection from "../../Benefits/BenefitSelection";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
@@ -82,6 +83,7 @@ export default function TalProfileSetting() {
         </p>
         <p>{titleField}</p>
         <LogoutButton />
+        <BenefitSelection labelName={"First Choice:"} />
         <h3 className="box">Career Priorities</h3>
         <h3 className="box">Preferences</h3>
       </div>
