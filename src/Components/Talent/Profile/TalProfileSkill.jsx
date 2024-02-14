@@ -21,6 +21,9 @@ export default function TalProfileSkill() {
   //current data
   const [skillModal, setSkillModal] = useState(false);
   const [skillData, setSkillData] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editItem, setEditItem] = useState(null);
+  ("");
 
   //new skill set
   const [newSkillModal, setNewSkillModal] = useState(false);
@@ -34,7 +37,10 @@ export default function TalProfileSkill() {
           const skillResponse = await axios.get(
             `${BACKEND_TALENT_URL}/${userID}/skill`
           );
-          setSkillData(skillResponse.data);
+
+          const skillData = skillResponse.data;
+          console.log(skillData);
+          setSkillData(skillData.map((item) => ({ ...item })));
         } catch (error) {
           console.error("Error fetching skills:", error);
         }
@@ -77,12 +83,41 @@ export default function TalProfileSkill() {
 
   //CURRENT SKILL SET MODAL
 
-  const handleOpenCurrentSkill = () => {
+  const handleFieldChange = (index, fieldName, value) => {
+    const updatedSkillData = [...skillData];
+    updatedSkillData[index] = {
+      ...updatedSkillData[index],
+      [fieldName]: value,
+    };
+    setSkillData(updatedSkillData);
+  };
+
+  const handleOpenCurrentSkill = (index) => {
+    setEditItem(skillData[index]);
+    setEditingIndex(index);
     setSkillModal(true);
   };
 
   const handleCloseCurrentSKill = () => {
     setSkillModal(false);
+  };
+
+  const handleSaveCurrentSkill = async () => {
+    console.log("new  data to be sent:", skillData);
+    // Save work experience data to the backend
+    try {
+      await axios.put(`${BACKEND_TALENT_URL}/${userID}/skill`, {
+        skillData,
+      });
+      //use array
+      console.log("updated file", skillData);
+      console.log("Work experience saved successfully!");
+      setEditingIndex(null); // Reset editingIndex after saving
+      setEditItem(null); // Reset editItem after saving
+      setSkillModal(false);
+    } catch (error) {
+      console.error("Error saving work experience:", error);
+    }
   };
 
   return (
@@ -121,7 +156,7 @@ export default function TalProfileSkill() {
           <div key={index}>
             <div className="whitebox">
               <p className="wp-jobtitle2">{skill.skill}</p>
-              <IconButton onClick={handleOpenCurrentSkill}>
+              <IconButton onClick={() => handleOpenCurrentSkill(index)}>
                 <EditIcon />
               </IconButton>
             </div>
@@ -135,21 +170,33 @@ export default function TalProfileSkill() {
       <PopUpModal
         open={skillModal}
         handleClose={handleCloseCurrentSKill}
-        // handleSave={}
+        handleSave={handleSaveCurrentSkill}
         title="Edit Skill Set"
       >
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Skill"
-        />
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Proficiency Level"
-        />
+        {skillData.map((item, index) => (
+          <div key={index}>
+            {editingIndex === index && (
+              <div>
+                <SingleLineTextField
+                  value={item.skill || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "skill", e.target.value)
+                  }
+                  label="Skill"
+                />
+                <SingleLineTextField
+                  value={item.proficiencyLevel || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "proficiencyLevel", e.target.value)
+                  }
+                  label="Proficiency Level"
+                />
+              </div>
+            )}
+          </div>
+        ))}
       </PopUpModal>
     </>
   );

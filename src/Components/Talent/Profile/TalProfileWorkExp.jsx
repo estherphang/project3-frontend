@@ -48,20 +48,11 @@ export default function TalProfileWorkExp() {
             `${BACKEND_TALENT_URL}/${userID}/workexperience`
           );
           const workExpData = workExpResponse.data;
-          const workStartMonth = workExpData.map((item) => item.startMonth);
 
-          // Check if objective array is empty
-          if (workStartMonth.length === 0) {
-            setStartMonth("");
-          } else {
-            setStartMonth(workStartMonth);
-          }
-          console.log("month", startMonth);
           console.log("work exp data", workExpData);
           setWorkExpData(
             workExpData.map((item) => ({
               ...item,
-              isEditing: false, // Add an 'isEditing' property to each item
             }))
           );
         } catch (error) {
@@ -92,12 +83,13 @@ export default function TalProfileWorkExp() {
   };
 
   const handleSaveWorkExp = async () => {
-    console.log("new ork experience data to be sent:", workExpData);
+    console.log("new work experience data to be sent:", workExpData);
     // Save work experience data to the backend
     try {
       await axios.put(`${BACKEND_TALENT_URL}/${userID}/workexperience`, {
         workExpData,
       });
+      //use array
       console.log("updated file", workExpData);
       console.log("Work experience saved successfully!");
       setEditingIndex(null); // Reset editingIndex after saving
