@@ -5,15 +5,26 @@ import IconButton from "@mui/material/IconButton";
 import { useUser } from "../../Context/UserContext";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
-import { profileImage, editIcon } from "../../../styleComponents";
+import {
+  profileImage,
+  editIcon,
+  outlineButton,
+  reversedOutlineButton,
+} from "../../../styleComponents";
 import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import TalProfileWorkExp from "./TalProfileWorkExp";
 import TalProfileSkill from "./TalProfileSkill";
 import TalProfileEdu from "./TalProfileEdu";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const CustomProfileImage = styled(Avatar)`
   ${profileImage}
+`;
+
+const CustomButton = styled(Button)`
+  ${reversedOutlineButton}
 `;
 
 export default function TalProfile() {
@@ -22,6 +33,8 @@ export default function TalProfile() {
 
   const { userFirstName, userLastName, userImage, userEmail, userID } =
     useUser();
+
+  const nav = useNavigate();
 
   //need to pull userID for new users who passed by userCat path.
 
@@ -60,15 +73,29 @@ export default function TalProfile() {
 
   console.log("profile", userImage);
 
+  const handleProfileSetting = () => {
+    nav("/talent/profile/setting");
+  };
+
   return (
     <>
       <div className="container">
-        <CustomProfileImage alt="profile" src={`${userImage}`} />
-
-        <p>
-          {userFirstName} {userLastName} {userID}
-        </p>
-        <p>{titleField}</p>
+        <div className="profilebox">
+          <CustomProfileImage alt="profile" src={`${userImage}`} />
+          <div>
+            <p className="profileboxtext">
+              {userFirstName} {userLastName}
+            </p>
+            <p className="profileboxtext">{titleField}</p>
+          </div>
+        </div>
+        <CustomButton
+          className="profileboxbutton"
+          onClick={handleProfileSetting}
+        >
+          Edit Profile
+        </CustomButton>
+        <div className="contentbox"></div>
         <TalProfileObj />
         <TalProfileWorkExp />
         <TalProfileSkill />
