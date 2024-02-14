@@ -45,3 +45,5 @@ export const editIcon = css`
   margin: 0px !important;
   padding: 0px !important;
 `;
+
+// MUI POP UP MODAL
