@@ -92,6 +92,7 @@ export default function TalProfileWorkExp() {
   };
 
   const handleSaveWorkExp = async () => {
+    console.log("new ork experience data to be sent:", workExpData);
     // Save work experience data to the backend
     try {
       await axios.put(`${BACKEND_TALENT_URL}/${userID}/workexperience`, {
