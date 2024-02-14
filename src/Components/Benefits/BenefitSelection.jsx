@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../../constants";
 import axios from "axios";
 
-export default function BenefitSelection({ labelName }) {
+export default function BenefitSelection({ labelName, onChange }) {
   const style = {
     outlineStyle: {
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -22,8 +22,10 @@ export default function BenefitSelection({ labelName }) {
   const [benefit, setBenefit] = useState([]);
   const [chosenOption, setChosenOption] = useState("");
 
-  const handleChange = (event) => {
-    setChosenOption(event.target.value);
+  //lift up state
+  const handleChange = (e) => {
+    setChosenOption(e.target.value);
+    onChange(e.target.value);
   };
 
   //get Benefit Data
@@ -38,7 +40,6 @@ export default function BenefitSelection({ labelName }) {
       });
   }, []);
 
-  console.log("benefit data", benefit);
   console.log("choice", chosenOption);
 
   return (

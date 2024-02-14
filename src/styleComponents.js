@@ -11,6 +11,21 @@ export const buttonStyle = css`
   }
 `;
 
+export const colourButton = css`
+  padding: 10px 20px;
+  font-size: 16px;
+  color: rgb(244, 243, 238);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgb(119, 101, 227);
+  height: auto !important;
+  width: 100%;
+
+  &:hover {
+    background-color: rgba(119, 101, 227, 0.9) !important;
+    color: rgb(244, 243, 238) !important;
+  }
+`;
+
 export const outlineButton = css`
   padding: 10px 20px;
   font-size: 16px;
