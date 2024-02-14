@@ -19,6 +19,7 @@ export default function TalProfileSkill() {
   const { userID } = useUser();
 
   //current data
+  const [skillModal, setSkillModal] = useState(false);
   const [skillData, setSkillData] = useState([]);
 
   //new skill set
@@ -74,6 +75,16 @@ export default function TalProfileSkill() {
     }
   };
 
+  //CURRENT SKILL SET MODAL
+
+  const handleOpenCurrentSkill = () => {
+    setSkillModal(true);
+  };
+
+  const handleCloseCurrentSKill = () => {
+    setSkillModal(false);
+  };
+
   return (
     <>
       <div className="">
@@ -110,17 +121,36 @@ export default function TalProfileSkill() {
           <div key={index}>
             <div className="whitebox">
               <p className="wp-jobtitle2">{skill.skill}</p>
-              <IconButton>
+              <IconButton onClick={handleOpenCurrentSkill}>
                 <EditIcon />
               </IconButton>
             </div>
-            <p className="wp-duration">
+            <p className="wp-level">
               Proficiency Level: {skill.proficiencyLevel}
             </p>
             <hr />
           </div>
         ))}
       </div>
+      <PopUpModal
+        open={skillModal}
+        handleClose={handleCloseCurrentSKill}
+        // handleSave={}
+        title="Edit Skill Set"
+      >
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Skill"
+        />
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Proficiency Level"
+        />
+      </PopUpModal>
     </>
   );
 }

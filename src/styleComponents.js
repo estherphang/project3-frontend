@@ -27,6 +27,26 @@ export const outlineButton = css`
   }
 `;
 
+export const reversedOutlineButton = css`
+  padding: 10px 20px;
+  margin-top: 20px;
+  margin-right: 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: rgb(119, 101, 227);
+  border: 3px solid rgb(119, 101, 227); /* Purple border */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
+  height: auto !important;
+  width: 100%; /* Make button width fit its content */
+
+  &:hover {
+    border: 3px solid rgb(188, 184, 177) !important; /* Grey border on hover */
+    color: rgb(188, 184, 177) !important; /* Grey text on hover */
+  }
+`;
+
 export const navImage = css`
   width: 28px !important;
   height: 28px !important;

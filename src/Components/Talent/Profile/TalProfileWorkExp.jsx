@@ -21,6 +21,7 @@ const CustomIcon = styled(IconButton)`
 export default function TalProfileWorkExp() {
   const { isAuthenticated } = useAuth0();
   const { userID } = useUser();
+
   const [workExpModal, setWorkExpModal] = useState(false);
   const [workExpData, setWorkExpData] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null); // State to track the index of the item being edited
@@ -31,13 +32,13 @@ export default function TalProfileWorkExp() {
   const [newExpModal, setNewExpModal] = useState(false);
 
   //states for newData
-  const [newPosition, setNewPosition] = useState(""); // State variable for position
-  const [newCompanyName, setNewCompanyName] = useState(""); // State variable for company name
-  const [newStartMonth, setNewStartMonth] = useState(""); // State variable for start month
-  const [newStartYear, setNewStartYear] = useState(""); // State variable for start year
-  const [newEndMonth, setNewEndMonth] = useState(""); // State variable for end month
-  const [newEndYear, setNewEndYear] = useState(""); // State variable for end year
-  const [newResponsibility, setNewResponsibility] = useState(""); // State variable for responsibility
+  const [newPosition, setNewPosition] = useState("");
+  const [newCompanyName, setNewCompanyName] = useState("");
+  const [newStartMonth, setNewStartMonth] = useState("");
+  const [newStartYear, setNewStartYear] = useState("");
+  const [newEndMonth, setNewEndMonth] = useState("");
+  const [newEndYear, setNewEndYear] = useState("");
+  const [newResponsibility, setNewResponsibility] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -145,6 +146,13 @@ export default function TalProfileWorkExp() {
 
       // Close the modal
       setNewExpModal(false);
+      setNewCompanyName("");
+      setNewPosition("");
+      setNewEndMonth("");
+      setNewEndYear("");
+      setNewResponsibility("");
+      setNewStartMonth("");
+      setNewStartYear("");
 
       // Log success message
       console.log("New work experience added successfully!");
@@ -262,7 +270,7 @@ export default function TalProfileWorkExp() {
                     handleFieldChange(index, "companyName", e.target.value)
                   }
                   required={true}
-                  label="Company Name" // Set label as desired
+                  label="Company Name"
                 />
 
                 <SingleLineTextField
@@ -271,7 +279,7 @@ export default function TalProfileWorkExp() {
                     handleFieldChange(index, "startMonth", e.target.value)
                   }
                   required={true}
-                  label="Start Month" // Set label as desired
+                  label="Start Month"
                 />
 
                 <SingleLineTextField
@@ -280,7 +288,7 @@ export default function TalProfileWorkExp() {
                     handleFieldChange(index, "startYear", e.target.value)
                   }
                   required={true}
-                  label="Start Year" // Set label as desired
+                  label="Start Year"
                 />
 
                 <SingleLineTextField
@@ -288,7 +296,7 @@ export default function TalProfileWorkExp() {
                   onChange={(e) =>
                     handleFieldChange(index, "endMonth", e.target.value)
                   }
-                  label="End Month" // Set label as desired
+                  label="End Month"
                 />
 
                 <SingleLineTextField
@@ -297,7 +305,7 @@ export default function TalProfileWorkExp() {
                   onChange={(e) =>
                     handleFieldChange(index, "endYear", e.target.value)
                   }
-                  label="End Year" // Set label as desired
+                  label="End Year"
                 />
 
                 <MultilineTextFields

@@ -19,7 +19,9 @@ export default function TalProfileEdu() {
   const { userID } = useUser();
 
   // Current education data
+  const [eduModal, setEduModal] = useState(false);
   const [eduData, setEduData] = useState([]);
+
   // State for new education modal
   const [newEduModal, setNewEduModal] = useState(false);
   // State for new education form fields
@@ -76,14 +78,22 @@ export default function TalProfileEdu() {
       setMajor("");
       setNewGraduationMonth("");
       setNewGraduationYear("");
-
-      // Close the modal
       setNewEduModal(false);
 
       console.log("New education added successfully!");
     } catch (error) {
       console.error("Error adding new education:", error);
     }
+  };
+
+  //CURRENT  MODAL
+
+  const handleOpenCurrentEdu = () => {
+    setEduModal(true);
+  };
+
+  const handleCloseCurrentEdu = () => {
+    setEduModal(false);
   };
 
   return (
@@ -140,7 +150,7 @@ export default function TalProfileEdu() {
           <div key={index}>
             <div className="whitebox">
               <p className="wp-jobtitle2">{edu.degree}</p>
-              <IconButton>
+              <IconButton onClick={handleOpenCurrentEdu}>
                 <EditIcon />
               </IconButton>
             </div>
@@ -153,6 +163,43 @@ export default function TalProfileEdu() {
           </div>
         ))}
       </div>
+      <PopUpModal
+        open={eduModal}
+        handleClose={handleCloseCurrentEdu}
+        // handleSave={}
+        title="Edit Education"
+      >
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Institution"
+        />
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Degree"
+        />
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Major"
+        />{" "}
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Graduation Month"
+        />{" "}
+        <SingleLineTextField
+          // value={item.endYear || ""}
+          required={true}
+          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
+          label="Graduation Year"
+        />
+      </PopUpModal>
     </>
   );
 }

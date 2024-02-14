@@ -67,7 +67,25 @@ h4 {
   align-items: center;
   /* box */
   background-color: trans;
-  border-radius: 8px; /* Example border-radius */
+}
+
+.profilebox {
+  /* icons */
+  display: flex;
+  align-items: center;
+  /* box */
+  background-color: trans;
+}
+
+.profileboxtext {
+  margin-left: 15px !important;
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
+.profileboxtext {
+  margin-bottom: 0px;
+  margin-top: 5px;
 }
 
 /* Paragraph styles */
@@ -95,6 +113,10 @@ p {
 .wp-duration {
   color: rgb(138, 129, 124);
   font-style: italic;
+}
+.wp-level {
+  line-height: 1;
+  /* font-style: italic; */
 }
 
 /* wrapped content for pages with navbar */
