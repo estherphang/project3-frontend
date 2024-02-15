@@ -156,6 +156,10 @@ export default function TalProfileSetting() {
 
     // Send request to backend with selected benefits
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       const submitBenefit = await axios.post(
         `${BACKEND_TALENT_URL}/${userID}/benefits`,
         {
@@ -165,8 +169,14 @@ export default function TalProfileSetting() {
             selectedBenefit2,
             selectedBenefit3,
           ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
+
       console.log("Response from backend:", submitBenefit.data);
     } catch (error) {
       console.error("Error submitting form:", error);

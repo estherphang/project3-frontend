@@ -14,7 +14,7 @@ const CustomIcon = styled(IconButton)`
 `;
 
 const TalProfileObj = () => {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const { userID } = useUser();
   const [objectiveField, setObjectiveField] = useState(
     "ADD DETAILS INTO THE FIELDS"
