@@ -1,49 +1,89 @@
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_TALENT_URL } from "../../../constants";
+import axios from "axios";
+import { useUser } from "../Context/UserContext";
+
 export default function TalDashboard() {
+  const { isAuthenticated } = useAuth0();
+  const { userID } = useUser();
+  const [selectedBenefits, setSelectedBenefits] = useState([]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchBenefits = async () => {
+        try {
+          const benefitResponse = await axios.get(
+            `${BACKEND_TALENT_URL}/${userID}/benefits`
+          );
+          const benefitData = benefitResponse.data;
+          const benefits = benefitData.benefits.map((benefit) => benefit.id);
+          console.log("benefits", benefits);
+          setSelectedBenefits(benefits);
+        } catch (error) {
+          console.error("Error fetching benefits:", error);
+        }
+      };
+      fetchBenefits();
+    }
+  }, [isAuthenticated, userID]);
+
+  const [jobListings, setJobListings] = useState([]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchJobListings = async () => {
+        try {
+          const jobListingsResponse = await axios.get(
+            `${BACKEND_TALENT_URL}/joblistings`
+          );
+          const jobListingsData = jobListingsResponse.data;
+          console.log("job listings", jobListingsData);
+
+          // retrieve all the ids
+          const allBenefits = jobListingsData.reduce((acc, job) => {
+            return acc.concat(job.benefits.map((benefit) => benefit.id));
+          }, []);
+
+          // filter job listings that can be found in user's career priorities
+          const filteredJobListings = jobListingsData.filter((job) => {
+            return selectedBenefits.some((selectedBenefit) =>
+              allBenefits.includes(selectedBenefit)
+            );
+          });
+
+          setJobListings(filteredJobListings);
+        } catch (error) {
+          console.error("Error fetching job listings:", error);
+        }
+      };
+      fetchJobListings();
+    }
+  }, [isAuthenticated, selectedBenefits]);
+
+  console.log("filterd jobs", jobListings);
+
+  //display next application without affecting URL. add index +1.
+
   return (
     <div className="container">
-      <p>
-        Talent home/dashboard. See and swipe job listings The purpose of lorem
-        ipsum is to create a natural looking block of text (sentence, paragraph,
-        page, etc.) that doesn't distract from the layout. A practice not
-        without controversy, laying out pages with meaningless filler text can
-        be very useful when the focus is meant to be on design, not content. The
-        passage experienced a surge in popularity during the 1960s when Letraset
-        used it on their dry-transfer sheets, and again during the 90s as
-        desktop publishers bundled the text with their software. Today it's seen
-        all around the web; on templates, websites, and stock designs. Use our
-        generator to get your own, or read on for the authoritative history of
-        lorem ipsum.Talent home/dashboard. See and swipe job listings The
-        purpose of lorem ipsum is to create a natural looking block of text
-        (sentence, paragraph, page, etc.) that doesn't distract from the layout.
-        A practice not without controversy, laying out pages with meaningless
-        filler text can be very useful when the focus is meant to be on design,
-        not content. The passage experienced a surge in popularity during the
-        1960s when Letraset used it on their dry-transfer sheets, and again
-        during the 90s as desktop publishers bundled the text with their
-        software. Today it's seen all around the web; on templates, websites,
-        and stock designs. Use our generator to get your own, or read on for the
-        authoritative history of lorem ipsum.Talent home/dashboard. See and
-        swipe job listings The purpose of lorem ipsum is to create a natural
-        looking block of text (sentence, paragraph, page, etc.) that doesn't
-        distract from the layout. A practice not without controversy, laying out
-        pages with meaningless filler text can be very useful when the focus is
-        meant to be on design, not content. The passage experienced a surge in
-        popularity during the 1960s when Letraset used it on their dry-transfer
-        sheets, and again during the 90s as desktop publishers bundled the text
-        with their software. Today it's seen all around the web; on templates,
-        websites, and stock designs. Use our generator to get your own, or read
-        on for the authoritative history of lorem ipsum.Talent home/dashboard.
-        See and swipe job listings The purpose of lorem ipsum is to create a
-        natural looking block of text (sentence, paragraph, page, etc.) that
-        doesn't distract from the layout. A practice not without controversy,
-        laying out pages with meaningless filler text can be very useful when
-        the focus is meant to be on design, not content. The passage experienced
-        a surge in popularity during the 1960s when Letraset used it on their
-        dry-transfer sheets, and again during the 90s as desktop publishers
-        bundled the text with their software. Today it's seen all around the
-        web; on templates, websites, and stock designs. Use our generator to get
-        your own, or read on for the authoritative history of lorem ipsum.s
-      </p>
+      {jobListings.map((job) => (
+        <div key={job.id}>
+          <h3>{job.jobTitle}</h3>
+          <p>{job.description}</p>
+          <h4>Company Benefits:</h4>
+          <ul>
+            {job.benefits.map((benefit) => (
+              <li key={benefit.id}>{benefit.category}</li>
+            ))}
+          </ul>
+          <ul>
+            <h4>Employer Information:</h4>
+            <p>Company Name: {job.employer.companyName}</p>
+            <p>Description: {job.employer.description}</p>
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
