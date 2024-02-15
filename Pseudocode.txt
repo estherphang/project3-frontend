@@ -68,3 +68,18 @@ add seeders to job listings
 -- code somewhere under handleSubmit, to set application status to pending.
 
 above completed: 17 Feb
+
+TalDashboard 
+
+- after user applied for the job. remove (not delete) the job listing 
+that the user has applied. 
+- show only the remaining job that the user can apply
+--- maybe same as the way i filter by benefits?
+
+TalAppStatus
+
+- to show Joblistings that user applied
+- show these data:
+-- job title
+-- company
+-- status

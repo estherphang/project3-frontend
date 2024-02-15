@@ -16,7 +16,8 @@ const CustomIcon = styled(IconButton)`
 `;
 
 export default function TalProfileEdu() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+
   const { userID } = useUser();
 
   // Current education data
@@ -64,6 +65,10 @@ export default function TalProfileEdu() {
 
   const handleSaveNewEdu = async () => {
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       const newEdu = {
         institution: newInstitution,
         degree: newDegree,
@@ -71,7 +76,11 @@ export default function TalProfileEdu() {
         graduationMonth: newGraduationMonth,
         graduationYear: newGraduationYear,
       };
-      await axios.post(`${BACKEND_TALENT_URL}/${userID}/education`, newEdu);
+      await axios.post(`${BACKEND_TALENT_URL}/${userID}/education`, newEdu, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       // After saving, refetch the education data to update the UI
       const updatedEduResponse = await axios.get(
@@ -117,7 +126,20 @@ export default function TalProfileEdu() {
   const handleSaveCurrentEdu = async () => {
     console.log("new  data to be sent:", eduData);
     try {
-      await axios.put(`${BACKEND_TALENT_URL}/${userID}/education`, { eduData });
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
+      await axios.put(
+        `${BACKEND_TALENT_URL}/${userID}/education`,
+        { eduData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
       console.log("updated", eduData);
       console.log("Edu saved successfully!");
       setEditingIndex(null);
@@ -130,10 +152,19 @@ export default function TalProfileEdu() {
 
   const handleDelete = async (talentId, educationID) => {
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       // Make a DELETE request to your backend endpoint
       console.log("edu.id", educationID);
       const response = await axios.delete(
-        `${BACKEND_TALENT_URL}/${talentId}/education/${educationID}`
+        `${BACKEND_TALENT_URL}/${talentId}/education/${educationID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       // Fetch the updated skill data from the backend
