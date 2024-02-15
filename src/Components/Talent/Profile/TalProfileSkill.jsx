@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CustomIcon = styled(IconButton)`
   ${editIcon}
@@ -39,7 +40,7 @@ export default function TalProfileSkill() {
           );
 
           const skillData = skillResponse.data;
-          console.log(skillData);
+          console.log("skilldata", skillData);
           setSkillData(skillData.map((item) => ({ ...item })));
         } catch (error) {
           console.error("Error fetching skills:", error);
@@ -120,6 +121,28 @@ export default function TalProfileSkill() {
     }
   };
 
+  const handleDelete = async (talentId, skillId) => {
+    try {
+      // Make a DELETE request to your backend endpoint
+      console.log("skill.id", skillId);
+      const response = await axios.delete(
+        `${BACKEND_TALENT_URL}/${talentId}/skill/${skillId}`
+      );
+
+      // Fetch the updated skill data from the backend
+      const updatedSkillResponse = await axios.get(
+        `${BACKEND_TALENT_URL}/${talentId}/skill`
+      );
+
+      // Update the state with the new skill data
+      setSkillData(updatedSkillResponse.data);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error deleting skill set:", error);
+    }
+  };
+
   return (
     <>
       <div className="">
@@ -154,11 +177,24 @@ export default function TalProfileSkill() {
       <div className="contentbox">
         {skillData.map((skill, index) => (
           <div key={index}>
-            <div className="whitebox">
-              <p className="wp-jobtitle2">{skill.skill}</p>
-              <IconButton onClick={() => handleOpenCurrentSkill(index)}>
-                <EditIcon />
-              </IconButton>
+            <div className="textbar-container">
+              <div className="title">
+                <p className="wp-jobtitle2">{skill.skill}</p>
+              </div>
+              <div className="icons">
+                <IconButton
+                  className="icon"
+                  onClick={() => handleOpenCurrentSkill(index)}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  className="icon"
+                  onClick={() => handleDelete(userID, skill.id)}
+                >
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </div>
             </div>
             <p className="wp-level">
               Proficiency Level: {skill.proficiencyLevel}

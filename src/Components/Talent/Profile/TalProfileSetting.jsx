@@ -58,6 +58,7 @@ export default function TalProfileSetting() {
   const [selectedBenefit1, setSelectedBenefit1] = useState([]);
   const [selectedBenefit2, setSelectedBenefit2] = useState([]);
   const [selectedBenefit3, setSelectedBenefit3] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   //axios pull resume data
   //if field is empty, show "Add Details"
@@ -90,6 +91,33 @@ export default function TalProfileSetting() {
     }
   }, [isAuthenticated, user, userID]);
 
+  useEffect(() => {
+    const fetchCareerPriorities = async () => {
+      try {
+        if (isAuthenticated && user) {
+          const benefitResponse = await axios.get(
+            `${BACKEND_TALENT_URL}/${userID}/benefits`
+          );
+          const benefitData = benefitResponse.data;
+          console.log("benefit data:", benefitData.benefits);
+
+          //map out the data from benefitData.benefit, put in useState - beneit 1, 2, 3
+
+          const id = benefitData.benefits.map((benefit) => benefit.id);
+          console.log("anythign", id);
+          setSelectedBenefit1(id[0] || "");
+          setSelectedBenefit2(id[1] || "");
+          setSelectedBenefit3(id[2] || "");
+          console.log(selectedBenefit1);
+        }
+      } catch (error) {
+        console.error("Error fetching career priorities:", error);
+      }
+    };
+
+    fetchCareerPriorities();
+  }, [isAuthenticated, user, userID]);
+
   const handleBenefitChange1 = (value) => {
     setSelectedBenefit1(value);
   };
@@ -110,6 +138,22 @@ export default function TalProfileSetting() {
     console.log(selectedBenefit1);
     console.log(selectedBenefit2);
     console.log(selectedBenefit3);
+
+    if (!selectedBenefit1 || !selectedBenefit2 || !selectedBenefit3) {
+      setErrorMessage("Please select all three career priorities.");
+    }
+
+    // Check if all three selected benefits have distinct IDs
+    if (
+      selectedBenefit1 === selectedBenefit2 ||
+      selectedBenefit1 === selectedBenefit3 ||
+      selectedBenefit2 === selectedBenefit3
+    ) {
+      setErrorMessage(
+        "Please ensure all three career priorities are distinct."
+      );
+    }
+
     // Send request to backend with selected benefits
     try {
       const submitBenefit = await axios.post(
@@ -131,39 +175,6 @@ export default function TalProfileSetting() {
 
   //fetch priorities is not completed
 
-  useEffect(() => {
-    const fetchCareerPriorities = async () => {
-      try {
-        if (isAuthenticated && user) {
-          const benefitResponse = await axios.get(
-            `${BACKEND_TALENT_URL}/${userID}/benefits`
-          );
-          const benefitData = benefitResponse.data;
-          console.log("benefit data:", benefitData.benefits);
-
-          // Set the career priorities from the backend
-          // if (resumeData.careerPriorities) {
-          //   setSelectedBenefit1(resumeData.careerPriorities.firstChoice);
-          //   setSelectedBenefit2(resumeData.careerPriorities.secondChoice);
-          //   setSelectedBenefit3(resumeData.careerPriorities.thirdChoice);
-          // }
-
-          // Set the title field
-          // const title = benefitData.map((item) => item.title);
-          // if (title.length === 0) {
-          //   setTitleField("ADD TITLE");
-          // } else {
-          //   setTitleField(title);
-          // }
-        }
-      } catch (error) {
-        console.error("Error fetching career priorities:", error);
-      }
-    };
-
-    fetchCareerPriorities();
-  }, [isAuthenticated, user, userID]);
-
   const nav = useNavigate();
   const handleBenefitPage = () => {
     nav("/benefit");
@@ -178,10 +189,6 @@ export default function TalProfileSetting() {
         </p>
         <p>{titleField}</p>
         <LogoutButton />
-        <h3 className="box">
-          Skill Sets
-          <CustomIcon />
-        </h3>
 
         <h3 className="box">
           Career Priorities{" "}
@@ -194,19 +201,23 @@ export default function TalProfileSetting() {
         <BenefitSelection
           labelName={"First Choice:"}
           onChange={handleBenefitChange1}
+          value={selectedBenefit1}
         />
         <br />
         <BenefitSelection
           labelName={"Second Choice:"}
           onChange={handleBenefitChange2}
+          value={selectedBenefit2}
         />
         <br />
         <BenefitSelection
           labelName={"Third Choice:"}
           onChange={handleBenefitChange3}
+          value={selectedBenefit3}
         />
         <br />
-        <h3 className="box">Preferences</h3>
+        <p>{errorMessage}</p>
+
         <br />
         <CustomButton2 onClick={handleSubmit}>Save Profile</CustomButton2>
       </div>
