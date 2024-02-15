@@ -46,7 +46,7 @@ Existing user
 - the router is connected to employer's database, backend router to be with employer side. 
 - create "get" request for job listings 
 - pull job listings from employer page.
-- add seeders to job listings 
+add seeders to job listings 
 - to map "benefits" to user's career priorities 
 ---- maybe use map/hashmap to pull "beneits id" 
 ---- then include/associate to job listings 
@@ -60,9 +60,11 @@ Existing user
 ---- company benefits
 ---- application start data and end date 
 - create floating buttons 
---- "x" to move on to the next
+--- "x" to move on to the next - works as if it's saying go to next page 
 --- "like" to applied
 - a user apply a job. 
 -- send request to application table (under secondary table in backend)
 -- if user is a "talent", application status - immediate set to pending.
 -- code somewhere under handleSubmit, to set application status to pending.
+
+completed: 17 Feb
