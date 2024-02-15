@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_TALENT_URL } from "../../../constants";
 import axios from "axios";
 import { useUser } from "../Context/UserContext";
+import Fab from "@mui/material/Fab";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 export default function TalDashboard() {
   const { isAuthenticated } = useAuth0();
   const { userID } = useUser();
   const [selectedBenefits, setSelectedBenefits] = useState([]);
+  const [currentJobIndex, setCurrentJobIndex] = useState(0);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -64,26 +68,144 @@ export default function TalDashboard() {
   console.log("filterd jobs", jobListings);
 
   //display next application without affecting URL. add index +1.
+  const handleNextJob = () => {
+    //remainder 0 = return to index 0
+    setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobListings.length);
+  };
+
+  //user to apply for job, push details to application table
+  //set application status to pending
+  //reset the job listing array be filtering the applied index?
+
+  const handleApplyJob = async () => {
+    try {
+      const jobToApply = jobListings[currentJobIndex];
+      const requestBody = {
+        talentID: userID,
+        jobID: jobToApply.id,
+        status: "Pending",
+      };
+
+      const response = await fetch(`${BACKEND_TALENT_URL}/jobapplications`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to apply for the job.");
+      }
+
+      // After applying, remove the applied job from the job listings
+      const updatedJobListings = jobListings.filter(
+        (job, index) => index !== currentJobIndex
+      );
+      setJobListings(updatedJobListings);
+      // Move to the next job listing
+      handleNextJob();
+    } catch (error) {
+      console.error("Error applying for the job:", error);
+    }
+  };
 
   return (
     <div className="container">
-      {jobListings.map((job) => (
-        <div key={job.id}>
-          <h3>{job.jobTitle}</h3>
-          <p>{job.description}</p>
-          <h4>Company Benefits:</h4>
-          <ul>
-            {job.benefits.map((benefit) => (
-              <li key={benefit.id}>{benefit.category}</li>
-            ))}
-          </ul>
-          <ul>
-            <h4>Employer Information:</h4>
-            <p>Company Name: {job.employer.companyName}</p>
-            <p>Description: {job.employer.description}</p>
-          </ul>
+      {jobListings.length > 0 ? (
+        <div key={jobListings[currentJobIndex].id}>
+          <h3 className="box">Job Title</h3>
+          <div className="contentbox">
+            <p>{jobListings[currentJobIndex].jobTitle}</p>
+          </div>
+          <h3 className="box">Description</h3>
+          <div className="contentbox">
+            <p>{jobListings[currentJobIndex].description}</p>
+          </div>
+          <h3 className="box">Job Responsibility</h3>
+          <div className="contentbox">
+            <p>{jobListings[currentJobIndex].jobResponsibility}</p>
+          </div>
+          <h3 className="box">Skill Set Required</h3>
+          <div className="contentbox">
+            <p>{jobListings[currentJobIndex].skillSet}</p>
+          </div>
+          <h3 className="box">Application Period</h3>
+          <div className="contentbox">
+            <p>
+              {jobListings[currentJobIndex].applicationStartDate} to{" "}
+              {jobListings[currentJobIndex].applicationEndDate}
+            </p>
+          </div>
+          <h3 className="box">Company Benefits</h3>
+          <div className="contentbox">
+            <ul>
+              {jobListings[currentJobIndex].benefits.map((benefit) => (
+                <li key={benefit.id}>{benefit.category}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="box">About the Employer</h3>
+            <div className="contentbox">
+              <p>
+                Company Name:{" "}
+                {jobListings[currentJobIndex].employer.companyName}
+              </p>
+              <p>
+                Description: {jobListings[currentJobIndex].employer.description}
+              </p>
+            </div>
+          </div>
+          <div>
+            <Fab
+              color="primary"
+              aria-label="add"
+              onClick={handleNextJob}
+              sx={{
+                position: "fixed",
+                bottom: "80px", // Adjust as needed
+                left: "calc(50% - 75px)", // Center horizontally
+                transform: "translateX(-50%)", // Center horizontally
+                zIndex: "999", // Ensures it stays on top of other content
+                backgroundColor: "rgba(119, 101, 227,0.8)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "rgb(138, 129, 124)",
+                },
+                "&:hover svg": {
+                  color: "black",
+                },
+              }}
+            >
+              <ClearRoundedIcon />
+            </Fab>
+            <Fab
+              aria-label="like"
+              onClick={handleApplyJob}
+              sx={{
+                position: "fixed",
+                bottom: "80px", // Adjust as needed
+                left: "calc(50% + 25px)", // Center horizontally
+                transform: "translateX(-50%)", // Center horizontally
+                zIndex: "999", // Ensures it stays on top of other content
+                backgroundColor: "rgba(119, 101, 227,0.8)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "rgb(138, 129, 124)",
+                },
+                "&:hover svg": {
+                  color: "black",
+                },
+              }}
+            >
+              <FavoriteIcon />
+            </Fab>
+          </div>
         </div>
-      ))}
+      ) : (
+        <p>There is no job at the moment.</p>
+      )}
     </div>
   );
 }

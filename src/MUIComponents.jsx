@@ -7,6 +7,9 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
+import Fab from "@mui/material/Fab";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const PopUpModal = ({ open, handleClose, title, children, handleSave }) => {
   const style = {
@@ -33,7 +36,7 @@ const PopUpModal = ({ open, handleClose, title, children, handleSave }) => {
   };
 
   const closeButtonStyle = {
-    bgcolor: "rgb(138, 129, 124)", // Grey with 50% transparency
+    bgcolor: "rgb(138, 129, 124)",
     color: "white",
     "&:hover": {
       bgcolor: "rgba(138, 129, 124, 0.8)", // Reduce transparency by 10% on hover
