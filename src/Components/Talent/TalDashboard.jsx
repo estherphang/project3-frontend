@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_TALENT_URL } from "../../../constants";
 import axios from "axios";
@@ -12,7 +12,6 @@ export default function TalDashboard() {
   const { userID } = useUser();
   const [selectedBenefits, setSelectedBenefits] = useState([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0);
-  const [jobListingId, setJobListingId] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -69,7 +68,6 @@ export default function TalDashboard() {
           });
 
           setJobListings(filteredJobListings);
-          setJobListingId(jobListings);
         } catch (error) {
           console.error("Error fetching job listings:", error);
         }

@@ -67,4 +67,4 @@ add seeders to job listings
 -- if user is a "talent", application status - immediate set to pending.
 -- code somewhere under handleSubmit, to set application status to pending.
 
-completed: 17 Feb
+above completed: 17 Feb
