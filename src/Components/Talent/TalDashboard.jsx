@@ -111,7 +111,7 @@ export default function TalDashboard() {
   };
 
   return (
-    <div className="container">
+    <div className="dashboard-container">
       {jobListings.length > 0 ? (
         <div key={jobListings[currentJobIndex].id}>
           <h3 className="box">Job Title</h3>
