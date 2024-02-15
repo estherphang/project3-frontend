@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import styled from "styled-components";
 import {
-  buttonStyle,
   colourButton,
   editIcon,
   profileImage,
@@ -14,7 +13,6 @@ import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import { Avatar, IconButton } from "@mui/material";
 import BenefitSelection from "../../Benefits/BenefitSelection";
-import BenefitsDes from "../../Benefits/BenefitsDes";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useNavigate } from "react-router-dom";
 
@@ -35,11 +33,9 @@ const CustomIcon = styled(IconButton)`
 `;
 
 export default function TalProfileSetting() {
-  const { isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } =
-    useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
 
-  const { userFirstName, userLastName, userImage, userEmail, userID } =
-    useUser();
+  const { userFirstName, userLastName, userImage, userID } = useUser();
 
   const LogoutButton = () => {
     const { logout } = useAuth0();
@@ -143,7 +139,7 @@ export default function TalProfileSetting() {
       setErrorMessage("Please select all three career priorities.");
     }
 
-    // Check if all three selected benefits have distinct IDs
+    // check if all three selected benefits have the same IDs
     if (
       selectedBenefit1 === selectedBenefit2 ||
       selectedBenefit1 === selectedBenefit3 ||
@@ -154,7 +150,7 @@ export default function TalProfileSetting() {
       );
     }
 
-    // Send request to backend with selected benefits
+    //send request to backend with selected benefits
     try {
       const accessToken = await getAccessTokenSilently({
         audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
@@ -182,8 +178,6 @@ export default function TalProfileSetting() {
       console.error("Error submitting form:", error);
     }
   };
-
-  //fetch priorities is not completed
 
   const nav = useNavigate();
   const handleBenefitPage = () => {
