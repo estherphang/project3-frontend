@@ -174,7 +174,7 @@ export default function TalProfileWorkExp() {
 
       console.log(response.data);
     } catch (error) {
-      console.error("Error deleting skill set:", error);
+      console.error("Error deleting work:", error);
     }
   };
 

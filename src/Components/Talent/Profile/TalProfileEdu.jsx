@@ -128,6 +128,28 @@ export default function TalProfileEdu() {
     }
   };
 
+  const handleDelete = async (talentId, educationID) => {
+    try {
+      // Make a DELETE request to your backend endpoint
+      console.log("edu.id", educationID);
+      const response = await axios.delete(
+        `${BACKEND_TALENT_URL}/${talentId}/education/${educationID}`
+      );
+
+      // Fetch the updated skill data from the backend
+      const updatedEduRes = await axios.get(
+        `${BACKEND_TALENT_URL}/${talentId}/education`
+      );
+
+      // Update the state with the new skill data
+      setEduData(updatedEduRes.data);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error deleting edu:", error);
+    }
+  };
+
   return (
     <>
       <div className="">
