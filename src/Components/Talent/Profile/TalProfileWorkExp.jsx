@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CustomIcon = styled(IconButton)`
   ${editIcon}
@@ -154,6 +155,29 @@ export default function TalProfileWorkExp() {
     }
   };
 
+  // delete work exp
+
+  const handleDelete = async (talentId, workExpID) => {
+    try {
+      // Make a DELETE request to your backend endpoint
+      console.log("work.id", workExpID);
+      const response = await axios.delete(
+        `${BACKEND_TALENT_URL}/${talentId}/workexperience/${workExpID}`
+      );
+      // Fetch the updated skill data from the backend
+      const updatedWorkExpResponse = await axios.get(
+        `${BACKEND_TALENT_URL}/${talentId}/workexperience`
+      );
+
+      // Update the state with the new skill data
+      setWorkExpData(updatedWorkExpResponse.data);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error deleting skill set:", error);
+    }
+  };
+
   return (
     <>
       <div className="">
@@ -217,11 +241,21 @@ export default function TalProfileWorkExp() {
           {/* Display fields */}
           {workExpData.map((item, index) => (
             <div key={index}>
-              <div className="whitebox">
-                <p className="wp-jobtitle2">{item.position}</p>
-                <IconButton onClick={() => handleOpenWorkExpModal(index)}>
-                  <EditIcon />
-                </IconButton>
+              <div className="textbar-container">
+                <div className="title">
+                  <p className="wp-jobtitle2">{item.position}</p>
+                </div>
+                <div className="icons">
+                  <IconButton onClick={() => handleOpenWorkExpModal(index)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    className="icon"
+                    onClick={() => handleDelete(userID, item.id)}
+                  >
+                    <DeleteOutlineIcon />
+                  </IconButton>
+                </div>
               </div>
               <p className="wp-company">{item.companyName}</p>
               <p className="wp-duration">

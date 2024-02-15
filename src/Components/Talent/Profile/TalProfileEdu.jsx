@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CustomIcon = styled(IconButton)`
   ${editIcon}
@@ -179,11 +180,21 @@ export default function TalProfileEdu() {
       <div className="contentbox">
         {eduData.map((edu, index) => (
           <div key={index}>
-            <div className="whitebox">
-              <p className="wp-jobtitle2">{edu.degree}</p>
-              <IconButton onClick={() => handleOpenCurrentEdu(index)}>
-                <EditIcon />
-              </IconButton>
+            <div className="textbar-container">
+              <div className="title">
+                <p className="wp-jobtitle2">{edu.degree}</p>
+              </div>
+              <div className="icons">
+                <IconButton onClick={() => handleOpenCurrentEdu(index)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  className="icon"
+                  onClick={() => handleDelete(userID, edu.id)}
+                >
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </div>
             </div>
             <p className="wp-company">{edu.institution}</p>
             <p>Major: {edu.fieldOfStudy}</p>
