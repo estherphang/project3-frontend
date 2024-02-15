@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CustomIcon = styled(IconButton)`
   ${editIcon}
@@ -26,7 +27,6 @@ export default function TalProfileWorkExp() {
   const [workExpData, setWorkExpData] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null); // State to track the index of the item being edited
   const [editItem, setEditItem] = useState(null); // State to store the item being edited
-  const [startMonth, setStartMonth] = useState("");
 
   //new empty model to post new education
   const [newExpModal, setNewExpModal] = useState(false);
@@ -48,20 +48,11 @@ export default function TalProfileWorkExp() {
             `${BACKEND_TALENT_URL}/${userID}/workexperience`
           );
           const workExpData = workExpResponse.data;
-          const workStartMonth = workExpData.map((item) => item.startMonth);
 
-          // Check if objective array is empty
-          if (workStartMonth.length === 0) {
-            setStartMonth("");
-          } else {
-            setStartMonth(workStartMonth);
-          }
-          console.log("month", startMonth);
           console.log("work exp data", workExpData);
           setWorkExpData(
             workExpData.map((item) => ({
               ...item,
-              isEditing: false, // Add an 'isEditing' property to each item
             }))
           );
         } catch (error) {
@@ -92,12 +83,13 @@ export default function TalProfileWorkExp() {
   };
 
   const handleSaveWorkExp = async () => {
-    console.log("new ork experience data to be sent:", workExpData);
+    console.log("new work experience data to be sent:", workExpData);
     // Save work experience data to the backend
     try {
       await axios.put(`${BACKEND_TALENT_URL}/${userID}/workexperience`, {
         workExpData,
       });
+      //use array
       console.log("updated file", workExpData);
       console.log("Work experience saved successfully!");
       setEditingIndex(null); // Reset editingIndex after saving
@@ -160,6 +152,29 @@ export default function TalProfileWorkExp() {
     } catch (error) {
       // Log error if any
       console.error("Error adding new work experience:", error);
+    }
+  };
+
+  // delete work exp
+
+  const handleDelete = async (talentId, workExpID) => {
+    try {
+      // Make a DELETE request to your backend endpoint
+      console.log("work.id", workExpID);
+      const response = await axios.delete(
+        `${BACKEND_TALENT_URL}/${talentId}/workexperience/${workExpID}`
+      );
+      // Fetch the updated skill data from the backend
+      const updatedWorkExpResponse = await axios.get(
+        `${BACKEND_TALENT_URL}/${talentId}/workexperience`
+      );
+
+      // Update the state with the new skill data
+      setWorkExpData(updatedWorkExpResponse.data);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error deleting work:", error);
     }
   };
 
@@ -226,11 +241,21 @@ export default function TalProfileWorkExp() {
           {/* Display fields */}
           {workExpData.map((item, index) => (
             <div key={index}>
-              <div className="whitebox">
-                <p className="wp-jobtitle2">{item.position}</p>
-                <IconButton onClick={() => handleOpenWorkExpModal(index)}>
-                  <EditIcon />
-                </IconButton>
+              <div className="textbar-container">
+                <div className="title">
+                  <p className="wp-jobtitle2">{item.position}</p>
+                </div>
+                <div className="icons">
+                  <IconButton onClick={() => handleOpenWorkExpModal(index)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    className="icon"
+                    onClick={() => handleDelete(userID, item.id)}
+                  >
+                    <DeleteOutlineIcon />
+                  </IconButton>
+                </div>
               </div>
               <p className="wp-company">{item.companyName}</p>
               <p className="wp-duration">

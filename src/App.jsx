@@ -22,6 +22,7 @@ import TalProfileSetting from "./Components/Talent/Profile/TalProfileSetting.jsx
 import Chat from "./Components/Chat/Chat.jsx";
 import JobListingCreation from "./Components/Employer/JobListingCreation.jsx";
 import { EmployerProvider } from "./Components/Context/EmployerContext.jsx";
+import BenefitsDes from "./Components/Benefits/BenefitsDes.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -110,6 +111,15 @@ function App() {
           element={
             <>
               <JobListingCreation />
+              <NavBar />
+            </>
+          }
+        />
+        <Route
+          path="benefit"
+          element={
+            <>
+              <BenefitsDes />
               <NavBar />
             </>
           }

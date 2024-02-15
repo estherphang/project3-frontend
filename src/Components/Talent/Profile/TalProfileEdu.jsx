@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const CustomIcon = styled(IconButton)`
   ${editIcon}
@@ -21,6 +22,9 @@ export default function TalProfileEdu() {
   // Current education data
   const [eduModal, setEduModal] = useState(false);
   const [eduData, setEduData] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editItem, setEditItem] = useState(null);
+  ("");
 
   // State for new education modal
   const [newEduModal, setNewEduModal] = useState(false);
@@ -38,7 +42,10 @@ export default function TalProfileEdu() {
           const eduResponse = await axios.get(
             `${BACKEND_TALENT_URL}/${userID}/education`
           );
-          setEduData(eduResponse.data);
+
+          const eduData = eduResponse.data;
+          console.log(eduData);
+          setEduData(eduData.map((item) => ({ ...item })));
         } catch (error) {
           console.error("Error fetching education:", error);
         }
@@ -88,12 +95,59 @@ export default function TalProfileEdu() {
 
   //CURRENT  MODAL
 
-  const handleOpenCurrentEdu = () => {
+  const handleFieldChange = (index, fieldName, value) => {
+    const updatedEduData = [...eduData];
+    updatedEduData[index] = {
+      ...updatedEduData[index],
+      [fieldName]: value,
+    };
+    setEduData(updatedEduData);
+  };
+
+  const handleOpenCurrentEdu = (index) => {
+    setEditItem(eduData[index]);
+    setEditingIndex(index);
     setEduModal(true);
   };
 
   const handleCloseCurrentEdu = () => {
     setEduModal(false);
+  };
+
+  const handleSaveCurrentEdu = async () => {
+    console.log("new  data to be sent:", eduData);
+    try {
+      await axios.put(`${BACKEND_TALENT_URL}/${userID}/education`, { eduData });
+      console.log("updated", eduData);
+      console.log("Edu saved successfully!");
+      setEditingIndex(null);
+      setEditItem(null);
+      setEduModal(false);
+    } catch (error) {
+      console.error("Error updating education:", error);
+    }
+  };
+
+  const handleDelete = async (talentId, educationID) => {
+    try {
+      // Make a DELETE request to your backend endpoint
+      console.log("edu.id", educationID);
+      const response = await axios.delete(
+        `${BACKEND_TALENT_URL}/${talentId}/education/${educationID}`
+      );
+
+      // Fetch the updated skill data from the backend
+      const updatedEduRes = await axios.get(
+        `${BACKEND_TALENT_URL}/${talentId}/education`
+      );
+
+      // Update the state with the new skill data
+      setEduData(updatedEduRes.data);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error deleting edu:", error);
+    }
   };
 
   return (
@@ -144,15 +198,25 @@ export default function TalProfileEdu() {
         </PopUpModal>
       </div>
 
-      {/* display education */}
+      {/* Display education */}
       <div className="contentbox">
         {eduData.map((edu, index) => (
           <div key={index}>
-            <div className="whitebox">
-              <p className="wp-jobtitle2">{edu.degree}</p>
-              <IconButton onClick={handleOpenCurrentEdu}>
-                <EditIcon />
-              </IconButton>
+            <div className="textbar-container">
+              <div className="title">
+                <p className="wp-jobtitle2">{edu.degree}</p>
+              </div>
+              <div className="icons">
+                <IconButton onClick={() => handleOpenCurrentEdu(index)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  className="icon"
+                  onClick={() => handleDelete(userID, edu.id)}
+                >
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </div>
             </div>
             <p className="wp-company">{edu.institution}</p>
             <p>Major: {edu.fieldOfStudy}</p>
@@ -163,42 +227,61 @@ export default function TalProfileEdu() {
           </div>
         ))}
       </div>
+
       <PopUpModal
         open={eduModal}
         handleClose={handleCloseCurrentEdu}
-        // handleSave={}
+        handleSave={handleSaveCurrentEdu}
         title="Edit Education"
       >
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Institution"
-        />
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Degree"
-        />
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Major"
-        />{" "}
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Graduation Month"
-        />{" "}
-        <SingleLineTextField
-          // value={item.endYear || ""}
-          required={true}
-          // onChange={(e) => handleFieldChange(index, "endYear", e.target.value)}
-          label="Graduation Year"
-        />
+        {eduData.map((item, index) => (
+          <div key={index}>
+            {editingIndex === index && (
+              <div>
+                <SingleLineTextField
+                  value={item.institution || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "institution", e.target.value)
+                  }
+                  label="Institution"
+                />
+                <SingleLineTextField
+                  value={item.degree || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "degree", e.target.value)
+                  }
+                  label="Degree"
+                />
+                <SingleLineTextField
+                  value={item.fieldOfStudy || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "fieldOfStudy", e.target.value)
+                  }
+                  label="Major"
+                />
+                <SingleLineTextField
+                  value={item.graduationMonth || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "graduationMonth", e.target.value)
+                  }
+                  label="Graduation Month"
+                />
+                <SingleLineTextField
+                  value={item.graduationYear || ""}
+                  required={true}
+                  onChange={(e) =>
+                    handleFieldChange(index, "graduationYear", e.target.value)
+                  }
+                  label="Graduation Year"
+                />
+              </div>
+            )}
+          </div>
+        ))}
       </PopUpModal>
     </>
   );

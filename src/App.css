@@ -107,6 +107,16 @@ p {
   line-height: 0;
 }
 
+.textbar-container {
+  display: flex;
+  justify-content: space-between;
+  /align-items: center;
+}
+
+.icon {
+  order: 2;
+}
+
 .wp-company {
   line-height: 0;
 }
