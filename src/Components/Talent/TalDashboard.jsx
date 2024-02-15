@@ -8,10 +8,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 export default function TalDashboard() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { userID } = useUser();
   const [selectedBenefits, setSelectedBenefits] = useState([]);
   const [currentJobIndex, setCurrentJobIndex] = useState(0);
+  const [jobListingId, setJobListingId] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,7 +23,7 @@ export default function TalDashboard() {
           );
           const benefitData = benefitResponse.data;
           const benefits = benefitData.benefits.map((benefit) => benefit.id);
-          console.log("benefits", benefits);
+          // console.log("benefits", benefits);
           setSelectedBenefits(benefits);
         } catch (error) {
           console.error("Error fetching benefits:", error);
@@ -38,11 +39,22 @@ export default function TalDashboard() {
     if (isAuthenticated) {
       const fetchJobListings = async () => {
         try {
+          const accessToken = await getAccessTokenSilently({
+            audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+            scope: "read:current_user",
+          });
+
           const jobListingsResponse = await axios.get(
-            `${BACKEND_TALENT_URL}/joblistings`
+            `${BACKEND_TALENT_URL}/${userID}/joblistings`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
           );
+
           const jobListingsData = jobListingsResponse.data;
-          console.log("job listings", jobListingsData);
+          // console.log("job listings", jobListingsData);
 
           // retrieve all the ids
           const allBenefits = jobListingsData.reduce((acc, job) => {
@@ -57,6 +69,7 @@ export default function TalDashboard() {
           });
 
           setJobListings(filteredJobListings);
+          setJobListingId(jobListings);
         } catch (error) {
           console.error("Error fetching job listings:", error);
         }
@@ -65,7 +78,7 @@ export default function TalDashboard() {
     }
   }, [isAuthenticated, selectedBenefits]);
 
-  console.log("filterd jobs", jobListings);
+  // console.log("filterd jobs", jobListings);
 
   //display next application without affecting URL. add index +1.
   const handleNextJob = () => {
@@ -79,31 +92,27 @@ export default function TalDashboard() {
 
   const handleApplyJob = async () => {
     try {
-      const jobToApply = jobListings[currentJobIndex];
-      const requestBody = {
-        talentID: userID,
-        jobID: jobToApply.id,
-        status: "Pending",
-      };
-
-      const response = await fetch(`${BACKEND_TALENT_URL}/jobapplications`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to apply for the job.");
-      }
+      const currentJobId = jobListings[currentJobIndex].id;
+      console.log("current job id?", currentJobId);
 
-      // After applying, remove the applied job from the job listings
-      const updatedJobListings = jobListings.filter(
-        (job, index) => index !== currentJobIndex
+      await axios.post(
+        `${BACKEND_TALENT_URL}/${userID}/applications`,
+        {
+          talendID: userID,
+          jobListingId: currentJobId,
+          applicationStatus: "Pending",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
-      setJobListings(updatedJobListings);
-      // Move to the next job listing
       handleNextJob();
     } catch (error) {
       console.error("Error applying for the job:", error);
@@ -165,7 +174,7 @@ export default function TalDashboard() {
               sx={{
                 position: "fixed",
                 bottom: "80px", // Adjust as needed
-                left: "calc(50% - 75px)", // Center horizontally
+                left: "calc(50% - 55px)", // Center horizontally
                 transform: "translateX(-50%)", // Center horizontally
                 zIndex: "999", // Ensures it stays on top of other content
                 backgroundColor: "rgba(119, 101, 227,0.8)",
@@ -186,7 +195,7 @@ export default function TalDashboard() {
               sx={{
                 position: "fixed",
                 bottom: "80px", // Adjust as needed
-                left: "calc(50% + 25px)", // Center horizontally
+                left: "calc(50% + 55px)", // Center horizontally
                 transform: "translateX(-50%)", // Center horizontally
                 zIndex: "999", // Ensures it stays on top of other content
                 backgroundColor: "rgba(119, 101, 227,0.8)",
