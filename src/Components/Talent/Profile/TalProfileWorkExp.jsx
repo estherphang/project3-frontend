@@ -86,9 +86,21 @@ export default function TalProfileWorkExp() {
     console.log("new work experience data to be sent:", workExpData);
     // Save work experience data to the backend
     try {
-      await axios.put(`${BACKEND_TALENT_URL}/${userID}/workexperience`, {
-        workExpData,
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
       });
+      await axios.put(
+        `${BACKEND_TALENT_URL}/${userID}/workexperience`,
+        {
+          workExpData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       //use array
       console.log("updated file", workExpData);
       console.log("Work experience saved successfully!");
@@ -110,6 +122,10 @@ export default function TalProfileWorkExp() {
 
   const handleSaveNewWork = async () => {
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       // Collect data from input fields in the modal
       const newData = {
         position: newPosition,
@@ -124,7 +140,12 @@ export default function TalProfileWorkExp() {
       // Make a POST request to save the new work experience data
       const newWorkData = await axios.post(
         `${BACKEND_TALENT_URL}/${userID}/workexperience`,
-        newData
+        newData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       console.log("any new work", newWorkData);
@@ -159,10 +180,19 @@ export default function TalProfileWorkExp() {
 
   const handleDelete = async (talentId, workExpID) => {
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       // Make a DELETE request to your backend endpoint
       console.log("work.id", workExpID);
       const response = await axios.delete(
-        `${BACKEND_TALENT_URL}/${talentId}/workexperience/${workExpID}`
+        `${BACKEND_TALENT_URL}/${talentId}/workexperience/${workExpID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
       // Fetch the updated skill data from the backend
       const updatedWorkExpResponse = await axios.get(

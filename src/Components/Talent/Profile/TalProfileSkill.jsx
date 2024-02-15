@@ -16,7 +16,7 @@ const CustomIcon = styled(IconButton)`
 `;
 
 export default function TalProfileSkill() {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { userID } = useUser();
 
   //current data
