@@ -95,7 +95,7 @@ export default function TalProfileSetting() {
             `${BACKEND_TALENT_URL}/${userID}/benefits`
           );
           const benefitData = benefitResponse.data;
-          console.log("benefit data:", benefitData.benefits);
+          console.log("benefit data:", benefitData);
 
           //map out the data from benefitData.benefit, put in useState - beneit 1, 2, 3
 
