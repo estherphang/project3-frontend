@@ -60,10 +60,22 @@ export default function TalProfileSkill() {
 
   const handleSaveNewSkill = async () => {
     try {
-      await axios.post(`${BACKEND_TALENT_URL}/${userID}/skill`, {
-        skill: newSkill,
-        proficiencyLevel: newProficiencyLevel,
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
       });
+      await axios.post(
+        `${BACKEND_TALENT_URL}/${userID}/skill`,
+        {
+          skill: newSkill,
+          proficiencyLevel: newProficiencyLevel,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       // After saving, refetch the skills to update the UI
       const updatedSkillResponse = await axios.get(
@@ -107,9 +119,21 @@ export default function TalProfileSkill() {
     console.log("new  data to be sent:", skillData);
     // Save work experience data to the backend
     try {
-      await axios.put(`${BACKEND_TALENT_URL}/${userID}/skill`, {
-        skillData,
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
       });
+      await axios.put(
+        `${BACKEND_TALENT_URL}/${userID}/skill`,
+        {
+          skillData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       //use array
       console.log("updated file", skillData);
       console.log("Skill saved successfully!");
@@ -123,10 +147,19 @@ export default function TalProfileSkill() {
 
   const handleDelete = async (talentId, skillId) => {
     try {
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
       // Make a DELETE request to your backend endpoint
       console.log("skill.id", skillId);
       const response = await axios.delete(
-        `${BACKEND_TALENT_URL}/${talentId}/skill/${skillId}`
+        `${BACKEND_TALENT_URL}/${talentId}/skill/${skillId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       // Fetch the updated skill data from the backend
