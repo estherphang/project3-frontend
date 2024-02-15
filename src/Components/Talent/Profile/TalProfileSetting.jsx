@@ -104,7 +104,6 @@ export default function TalProfileSetting() {
           setSelectedBenefit1(id[0] || "");
           setSelectedBenefit2(id[1] || "");
           setSelectedBenefit3(id[2] || "");
-          console.log(selectedBenefit1);
         }
       } catch (error) {
         console.error("Error fetching career priorities:", error);

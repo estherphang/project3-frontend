@@ -20,7 +20,7 @@ const CustomIcon = styled(IconButton)`
 `;
 
 export default function TalProfileWorkExp() {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { userID } = useUser();
 
   const [workExpModal, setWorkExpModal] = useState(false);

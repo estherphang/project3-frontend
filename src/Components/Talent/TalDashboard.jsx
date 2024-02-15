@@ -74,7 +74,7 @@ export default function TalDashboard() {
       };
       fetchJobListings();
     }
-  }, [isAuthenticated, selectedBenefits]);
+  }, [isAuthenticated, selectedBenefits, getAccessTokenSilently, userID]);
 
   // console.log("filterd jobs", jobListings);
 
