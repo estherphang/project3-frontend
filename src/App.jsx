@@ -104,10 +104,10 @@ function App() {
             </>
           }
         />
-        <Route path="employer/sign-up" element={<EmProfileCreation />} />
+        <Route path="employer/input-details" element={<EmProfileCreation />} />
 
         <Route
-          path="employer/joblisting/create"
+          path="employer/:employerId/job"
           element={
             <>
               <JobListingCreation />

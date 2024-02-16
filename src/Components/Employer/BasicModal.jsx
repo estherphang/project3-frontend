@@ -9,18 +9,22 @@ const CustomButton = styled(Button)`
   ${buttonStyle}
 `;
 
+import { MultilineTextFields, SingleLineTextField } from "../../MUIComponents";
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "75vw",
+  width: 400,
   bgcolor: "background.paper",
-  borderRadius: 3,
+  border: "2px solid #000",
   boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
+  p: 4,
+  fontFamily: "Helvetica, Arial, sans-serif",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 };
 
 export default function BasicModal({
@@ -31,6 +35,7 @@ export default function BasicModal({
   passedInState,
   setPassedInState,
   propertyname,
+  multiline,
 }) {
   React.useEffect(() => {}, []);
 
@@ -59,27 +64,15 @@ export default function BasicModal({
           <h2 id="parent-modal-title">{modaltitle}</h2>
           <p id="parent-modal-description">{modaldescription}</p>
 
-          <form>
-            <textarea
-              rows="10"
-              cols="25"
-              value={passedInState[propertyname]}
-              onChange={handlePassedInState}
-            ></textarea>
-          </form>
+          {multiline ? (
+            <MultilineTextFields onChange={handlePassedInState} />
+          ) : (
+            <SingleLineTextField onChange={handlePassedInState} />
+          )}
 
           <CustomButton onClick={handleClose}>Close</CustomButton>
         </Box>
       </Modal>
     </div>
   );
-}
-
-// onClick={handleClose}
-{
-  /* <input
-              type="text"
-              value={passedInState[propertyname]}
-              onChange={handlePassedInState}
-            ></input> */
 }

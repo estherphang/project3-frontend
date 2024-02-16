@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 const EmployerContext = createContext();
 export const EmployerProvider = ({ children }) => {
   const [EmFormData, setEmFormData] = useState({
-    EmName: "Your Company Name",
-    EmDescription: "Your Company Description",
+    companyName: "Default Company Name",
+    description: "Default Company Description",
   });
 
   const [imgurl, setImageUrl] = useState("");

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../../constants";
 import axios from "axios";
 
-export default function BenefitSelection({ labelName, onChange, value }) {
+export default function BenefitSelection({ labelName, name, onChange, value }) {
   const style = {
     outlineStyle: {
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -25,7 +25,8 @@ export default function BenefitSelection({ labelName, onChange, value }) {
   //lift up state
   const handleChange = (e) => {
     setChosenOption(e.target.value);
-    onChange(e.target.value);
+    console.log("lkjlk");
+    onChange(e);
   };
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function BenefitSelection({ labelName, onChange, value }) {
       });
   }, []);
 
-  console.log("choice", chosenOption);
+  //console.log("choice", chosenOption);
 
   return (
     <Box sx={style.outlineStyle}>
@@ -56,6 +57,7 @@ export default function BenefitSelection({ labelName, onChange, value }) {
           id="demo-simple-select"
           value={chosenOption}
           label="Career Data"
+          name={name}
           onChange={handleChange}
         >
           {benefit.map((item) => (

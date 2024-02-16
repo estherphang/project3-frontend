@@ -14,10 +14,13 @@ import styled from "styled-components";
 import { buttonStyle } from "../../styleComponents";
 
 import EditIcon from "@mui/icons-material/Edit";
-
 import BasicModal from "./BasicModal";
 
 import { useEmployer } from "../Context/EmployerContext";
+import { useUser } from "../Context/UserContext";
+
+import { BACKEND_EMPLOYER_URL } from "../../../constants";
+import axios from "axios";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -30,20 +33,22 @@ const CustomButton = styled(Button)`
 
 export default function EmProfileCreation() {
   const { EmFormData, setEmFormData, imgurl, setImageUrl } = useEmployer();
+  const { userFirstName, userLastName, userEmail, userID } = useUser();
+
+  const [submitted_image, setSubmittedImage] = useState(false);
 
   const [modalState, setModalState] = useState({
-    openEmNameModal: false,
-    openEmDescriptionModal: false,
+    opencompanyNameModal: false,
+    opendescriptionModal: false,
   });
 
   const [fileInputFile, setFileInputFile] = useState({});
-
-  const DB_STORAGE_KEY = "comapny_image";
+  const DB_STORAGE_KEY = "company_image";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handlesubmit called");
 
+    setSubmittedImage(true);
     const storageRefInstance = storageRef(
       storage,
       DB_STORAGE_KEY + "/" + fileInputFile.name
@@ -60,14 +65,32 @@ export default function EmProfileCreation() {
     }
   };
 
-  //if it's the image upload button, send stuff to firebase storage.
-  //if it's name/description stuff, just put it in State for now and figure out how to send stuff to database later
   const handleModalOpen = (modalName) => {
     setModalState((prevState) => ({ ...prevState, [modalName]: true }));
   };
 
-  const SubmitToBackend = () => {
+  const SubmitToBackend = (e) => {
     //send the Emdata to the backend.
+    e.preventDefault();
+    //on Submit, make a post request to the backend.
+    const sendEmployerData = async () => {
+      try {
+        //make a http POST request to the backend.
+        let response = await axios.post(`${BACKEND_EMPLOYER_URL}`, {
+          ...EmFormData,
+          firstName: userFirstName,
+          lastName: userLastName,
+          email: userEmail,
+          photo: imgurl,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    sendEmployerData();
+
+    alert("Submitted employer data!");
   };
 
   return (
@@ -75,7 +98,15 @@ export default function EmProfileCreation() {
       <div className="company-img-div">
         <h1>Profile Creation</h1>
         {/*Firebase storage stuff for the Employer Profile Picture here.*/}
-        <img src={imgurl} alt="Upload a profile image!" />
+        {submitted_image ? (
+          <img className="fixedSizeImage" src={imgurl} />
+        ) : (
+          <img
+            className="fixedSizeImage"
+            src="../../public/defaultprofileimg.jpg"
+          />
+        )}
+
         <form onSubmit={handleSubmit}>
           <input
             type="file"
@@ -86,60 +117,57 @@ export default function EmProfileCreation() {
           <CustomButton htmlType="submit">Upload Image</CustomButton>
         </form>
       </div>
-      <p>What does everyone call your company?</p>
       {/* Code handling Company Name */}
       <h3 className="box">
         Company Name
-        <CustomButton onClick={() => handleModalOpen("openEmNameModal")}>
+        <CustomButton onClick={() => handleModalOpen("opencompanyNameModal")}>
           <EditIcon />
         </CustomButton>
       </h3>
 
       <BasicModal
-        modaltitle="Enter Company Name:"
-        modaldescription=""
-        open={modalState.openEmNameModal}
+        modaltitle="Company Name:"
+        modaldescription="What does everyone call your company?"
+        open={modalState.opencompanyNameModal}
         setOpen={(value) =>
-          setModalState({ ...modalState, openEmNameModal: value })
+          setModalState({ ...modalState, opencompanyNameModal: value })
         }
-        propertyname="EmName"
+        propertyname="companyName"
         passedInState={EmFormData}
         setPassedInState={setEmFormData}
+        multiline={false}
       ></BasicModal>
-
-      <h3>{EmFormData.EmName}</h3>
-
+      <h3>{EmFormData.companyName}</h3>
       {/* Code handling Company Description */}
-      <p>Tell prospective job applicants what your company is all about!</p>
       <h3 className="box">
         About The Company
-        <CustomButton onClick={() => handleModalOpen("openEmDescriptionModal")}>
+        <CustomButton onClick={() => handleModalOpen("opendescriptionModal")}>
           <EditIcon />
         </CustomButton>
       </h3>
 
       <BasicModal
-        modaltitle="Enter Company Description:"
-        modaldescription=""
-        open={modalState.openEmDescriptionModal}
+        modaltitle="Company Description:"
+        modaldescription="Tell prospective job applicants what your company is all about!"
+        open={modalState.opendescriptionModal}
         setOpen={(value) =>
-          setModalState({ ...modalState, openEmDescriptionModal: value })
+          setModalState({ ...modalState, opendescriptionModal: value })
         }
-        propertyname="EmDescription"
+        propertyname="description"
         passedInState={EmFormData}
         setPassedInState={setEmFormData}
+        multiline={true}
       ></BasicModal>
 
-      <h3>{EmFormData.EmDescription}</h3>
-
+      <p style={{ wordWrap: "break-word" }} className="contentbox">
+        {EmFormData.description}
+      </p>
       <CustomButton className="center" onClick={SubmitToBackend}>
         Submit
       </CustomButton>
-
       <CustomButton className="right">
-        <Link to="/employer/joblisting/create">Next</Link>
+        <Link to={`/employer/${userID}/job`}>Next</Link>
       </CustomButton>
     </div>
   );
 }
-//setFileInputFile(e.target.files[0])
