@@ -61,12 +61,24 @@ h4 {
 }
 
 .whitebox {
-  /* icons */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* box */
-  background-color: trans;
+}
+
+.whitebox2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px;
+  padding-top: 15px;
+}
+
+.whitebox3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px;
 }
 
 .profilebox {

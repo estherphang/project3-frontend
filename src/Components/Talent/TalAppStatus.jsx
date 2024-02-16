@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../Context/UserContext";
 import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../constants";
-import Box from "@mui/material/Box";
 import { Block } from "../../MUIComponents";
 
 export default function TalAppStatus() {

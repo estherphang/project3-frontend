@@ -15,6 +15,8 @@ import { Avatar, IconButton } from "@mui/material";
 import BenefitSelection from "../../Benefits/BenefitSelection";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
@@ -33,9 +35,19 @@ const CustomIcon = styled(IconButton)`
 `;
 
 export default function TalProfileSetting() {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, loginWithRedirect, user } =
+    useAuth0();
 
-  const { userFirstName, userLastName, userImage, userID } = useUser();
+  const {
+    userFirstName,
+    userLastName,
+    userImage,
+    userID,
+    updatedUser,
+    setUserFirstName,
+    setUserLastName,
+    setUserImage,
+  } = useUser();
 
   const LogoutButton = () => {
     const { logout } = useAuth0();
@@ -55,6 +67,11 @@ export default function TalProfileSetting() {
   const [selectedBenefit2, setSelectedBenefit2] = useState([]);
   const [selectedBenefit3, setSelectedBenefit3] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  //modals
+
+  const [titleModal, setTitleModal] = useState(false);
+  const [nameModal, setNameModal] = useState(false);
 
   //axios pull resume data
   //if field is empty, show "Add Details"
@@ -183,14 +200,106 @@ export default function TalProfileSetting() {
     nav("/benefit");
   };
 
+  const handleOpenTitleModal = () => {
+    setTitleModal(true);
+  };
+
+  const handleCloseTitleModal = () => {
+    setTitleModal(false);
+  };
+
+  const handleSaveTitle = async () => {
+    try {
+      // Check if resume data exists for the user
+      const resumeResponse = await axios.get(
+        `${BACKEND_TALENT_URL}/${userID}/resume`
+      );
+
+      if (resumeResponse.data.userID === null) {
+        // userID not found, create new resume data
+        await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
+          userID: userID,
+          title: titleField,
+        });
+      } else {
+        // If resume data exists, update the objective
+        await axios.put(`${BACKEND_TALENT_URL}/${userID}/resume`, {
+          title: titleField,
+        });
+      }
+
+      // Log success message
+      console.log("title saved successfully!");
+    } catch (error) {
+      // Log error if any
+      console.error("Error saving title:", error);
+    }
+
+    // Close the modal
+    setTitleModal(false);
+  };
+
+  const handleOpenNameModal = () => {
+    setNameModal(true);
+  };
+
+  const handleCloseNameModal = () => {
+    setNameModal(false);
+  };
+
+  const handleSaveName = async () => {
+    try {
+      if (!isAuthenticated) {
+        loginWithRedirect();
+        return;
+      }
+
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
+      console.log(`${BACKEND_TALENT_URL}/${userID}`);
+      console.log(userFirstName);
+      const response = await axios.put(
+        `${BACKEND_TALENT_URL}/${userID}`,
+        {
+          // Assuming userFirstName is defined elsewhere in the scope
+          userFirstName: userFirstName,
+          userLastName: userLastName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      // Handle response if needed
+
+      console.log("Response from server:", response.data);
+    } catch (error) {
+      // Handle errors
+      console.error("Error saving user data:", error.message);
+    }
+    handleCloseNameModal();
+  };
+
   return (
     <>
       <div className="container">
         <CustomProfileImage alt="profile" src={`${userImage}`} />
-        <p>
+        <h4 className="whitebox2">
           {userFirstName} {userLastName}
-        </p>
-        <p>{titleField}</p>
+          <IconButton className="icon" onClick={handleOpenNameModal}>
+            <EditIcon />
+          </IconButton>
+        </h4>
+        <h4 className="whitebox3">
+          {titleField}
+          <IconButton className="icon" onClick={handleOpenTitleModal}>
+            <EditIcon />
+          </IconButton>
+        </h4>
         <LogoutButton />
 
         <h3 className="box">
@@ -223,6 +332,39 @@ export default function TalProfileSetting() {
 
         <br />
         <CustomButton2 onClick={handleSubmit}>Save Profile</CustomButton2>
+
+        {/* Name */}
+        <PopUpModal
+          open={nameModal}
+          handleClose={handleCloseNameModal}
+          handleSave={handleSaveName}
+          title="Title"
+        >
+          <SingleLineTextField
+            label="First Name"
+            value={userFirstName}
+            onChange={(e) => setUserFirstName(e.target.value)}
+          />
+          <SingleLineTextField
+            label="Last Name"
+            value={userLastName}
+            onChange={(e) => setUserLastName(e.target.value)}
+          />
+        </PopUpModal>
+
+        {/* Job Title */}
+        <PopUpModal
+          open={titleModal}
+          handleClose={handleCloseTitleModal}
+          handleSave={handleSaveTitle}
+          title="Title"
+        >
+          <SingleLineTextField
+            label="Title"
+            value={titleField}
+            onChange={(e) => setTitleField(e.target.value)}
+          />
+        </PopUpModal>
       </div>
     </>
   );
