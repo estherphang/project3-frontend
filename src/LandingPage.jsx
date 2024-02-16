@@ -75,6 +75,8 @@ export default function LandingPage() {
 
           const employerEmails = employerData.map((employer) => employer.email);
 
+          //when people log in,
+          //the userdata.id will be mapped to the employerdata
           if (employerEmails.includes(user.email)) {
             const userData = employerData.find(
               (employer) => employer.email === user.email
@@ -86,7 +88,13 @@ export default function LandingPage() {
             setUserEmail(userData.email);
             setUserID(userData.id);
             setUserRole("employer");
-            nav("/employer");
+            //rn ive set it up so that it ALWAYS goes to the /employer/input-details page, instead of only going there when it's their first time logging in and picking the employer option
+            if (userData.companyName) {
+              nav("/employer");
+            } else {
+              nav("/employer/input-details");
+            }
+
             return;
           }
 

@@ -337,3 +337,8 @@ Black = rgb(15, 15, 15) */
   display: flex;
   align-items: flex-end;
 }
+
+.fixedSizeImage {
+  width: 200px;
+  height: 200px;
+}
