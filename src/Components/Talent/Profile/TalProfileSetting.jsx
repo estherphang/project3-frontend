@@ -6,6 +6,7 @@ import {
   editIcon,
   profileImage,
   reversedOutlineButton,
+  reversedOutlineButton2,
 } from "../../../styleComponents";
 import { useUser } from "../../Context/UserContext";
 import { useEffect, useState } from "react";
@@ -17,6 +18,17 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload } from "antd";
+
+//firebase for image upload
+import { storage } from "../../../firebase";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import UploadButton from "../../../AntDesignCom";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
@@ -24,6 +36,10 @@ const CustomButton = styled(Button)`
 
 const CustomButton2 = styled(Button)`
   ${colourButton}
+`;
+
+const CustomButton3 = styled(Button)`
+  ${reversedOutlineButton2}
 `;
 
 const CustomProfileImage = styled(Avatar)`
@@ -284,10 +300,85 @@ export default function TalProfileSetting() {
     handleCloseNameModal();
   };
 
+  const handleUploadImage = async (image) => {
+    try {
+      // Create a reference to the storage location where you want to store the file
+      const storageRefInstance = storageRef(
+        storage,
+        `talentimages/${image.file.name}`
+      );
+
+      // Upload the file to the specified storage location
+      await uploadBytes(storageRefInstance, image.file.originFileObj);
+
+      // Get the download URL of the uploaded file
+      const downloadURL = await getDownloadURL(storageRefInstance);
+
+      // Handle the downloaded URL as needed, for example, setting it to state
+      setUserImage(downloadURL);
+
+      console.log("File uploaded successfully. Download URL:", downloadURL);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
+  // Send download URL to your backend API
+  // You can use fetch or axios to send the URL to your backend
+  // Replace '/api/upload' with your actual backend endpoint
+  // await fetch("/api/upload", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ imageUrl: downloadURL }),
+  // });
+
+  //       // Send download URL to your backend API
+  //       // You can use fetch or axios to send the URL to your backend
+  //       // Replace '/api/upload' with your actual backend endpoint
+  //       await fetch("/api/upload", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ imageUrl: downloadURL }),
+  //       });
+  //     } catch (error) {
+  //       console.error("Error uploading file:", error);
+  //     }
+  //   } else if (image.file.status === "error") {
+  //     console.error("File upload failed:", image.file.error);
+  //   }
+  // };
+
   return (
     <>
       <div className="container">
-        <CustomProfileImage alt="profile" src={`${userImage}`} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* Display old image */}
+          <CustomProfileImage alt="profile" src={`${userImage}`} />
+
+          {/* Upload new image */}
+
+          <Upload
+            listType="picture"
+            status="removed"
+            showUploadList={false}
+            onChange={handleUploadImage}
+            accept=".png,.jpeg,.svg"
+          >
+            <CustomButton3>
+              <PlusOutlined /> Upload Image
+            </CustomButton3>{" "}
+          </Upload>
+        </div>
         <h4 className="whitebox2">
           {userFirstName} {userLastName}
           <IconButton className="icon" onClick={handleOpenNameModal}>
