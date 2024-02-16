@@ -38,4 +38,48 @@ New user
 
 Existing user 
 - log in: view job listings 
-- refresh/accidentally exit: maintain at the current page
+- be able to add, edit and delete data.
+- sync benefits, always show benefits to them when log in
+
+<--------------Job Listings-------------->
+
+- the router is connected to employer's database, backend router to be with employer side. 
+- create "get" request for job listings 
+- pull job listings from employer page.
+add seeders to job listings 
+- to map "benefits" to user's career priorities 
+---- maybe use map/hashmap to pull "beneits id" 
+---- then include/associate to job listings 
+- show job's listing data to users
+-- pull out the following data 
+---- employer name 
+---- job title 
+---- job description 
+---- job_responsibility
+---- skill set
+---- company benefits
+---- application start data and end date 
+- create floating buttons 
+--- "x" to move on to the next - works as if it's saying go to next page 
+--- "like" to applied
+- a user apply a job. 
+-- send request to application table (under secondary table in backend)
+-- if user is a "talent", application status - immediate set to pending.
+-- code somewhere under handleSubmit, to set application status to pending.
+
+above completed: 17 Feb
+
+TalDashboard 
+
+- after user applied for the job. remove (not delete) the job listing 
+that the user has applied. 
+- show only the remaining job that the user can apply
+--- maybe same as the way i filter by benefits?
+
+TalAppStatus
+
+- to show Joblistings that user applied
+- show these data:
+-- job title
+-- company
+-- status

@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../../constants";
@@ -5,13 +6,19 @@ import { Button } from "antd";
 import { reversedOutlineButton } from "../../styleComponents";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../Context/UserContext";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
 `;
 
 export default function BenefitsDes() {
+  const { userRole } = useUser();
+  console.log(userRole);
+
   const [benefit, setBenefit] = useState([]);
+
+  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
 
   useEffect(() => {
     axios
@@ -26,6 +33,10 @@ export default function BenefitsDes() {
 
   const nav = useNavigate();
   const handleProfileSetting = () => {
+    if (!isAuthenticated) {
+      loginWithRedirect();
+      return;
+    }
     nav("/talent/profile/setting");
   };
 
@@ -49,7 +60,9 @@ export default function BenefitsDes() {
           className="profileboxbutton"
           onClick={handleProfileSetting}
         >
-          Return Back to Edit Profile
+          {userRole === "talent"
+            ? "Return Back to Edit Profile"
+            : "Return To Create Jobs"}
         </CustomButton>
       </div>
     </div>

@@ -1,16 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import TalProfileObj from "./TalProfileObj";
-import IconButton from "@mui/material/IconButton";
 import { useUser } from "../../Context/UserContext";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
-import {
-  profileImage,
-  editIcon,
-  outlineButton,
-  reversedOutlineButton,
-} from "../../../styleComponents";
+import { profileImage, reversedOutlineButton } from "../../../styleComponents";
 import axios from "axios";
 import { BACKEND_TALENT_URL } from "../../../../constants";
 import TalProfileWorkExp from "./TalProfileWorkExp";
@@ -28,11 +22,9 @@ const CustomButton = styled(Button)`
 `;
 
 export default function TalProfile() {
-  const { isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } =
-    useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
-  const { userFirstName, userLastName, userImage, userEmail, userID } =
-    useUser();
+  const { userFirstName, userLastName, userImage, userID } = useUser();
 
   const nav = useNavigate();
 

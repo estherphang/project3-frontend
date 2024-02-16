@@ -1,10 +1,8 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 
@@ -33,18 +31,18 @@ const PopUpModal = ({ open, handleClose, title, children, handleSave }) => {
   };
 
   const closeButtonStyle = {
-    bgcolor: "rgb(138, 129, 124)", // Grey with 50% transparency
+    bgcolor: "rgb(138, 129, 124)",
     color: "white",
     "&:hover": {
-      bgcolor: "rgba(138, 129, 124, 0.8)", // Reduce transparency by 10% on hover
+      bgcolor: "rgba(138, 129, 124, 0.8)", // grey
     },
   };
 
   const saveButtonStyle = {
-    bgcolor: "rgb(119, 101, 227)", // Purple with 50% transparency
+    bgcolor: "rgb(119, 101, 227)", // purple
     color: "white",
     "&:hover": {
-      bgcolor: "rgba(119, 101, 227,0.9)", // Reduce transparency by 10% on hover
+      bgcolor: "rgba(119, 101, 227,0.9)", // purple
     },
   };
 
@@ -96,15 +94,15 @@ const MultilineTextFields = (props) => {
 
   const style = {
     textField: {
-      width: "100%", // Set width to 100%
-      marginBottom: "1rem", // Add some bottom margin for spacing
+      width: "100%",
+      marginBottom: "1rem",
     },
     outlineStyle: {
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "rgb(119, 101, 227)", // Change outline color to purple when focused
+        borderColor: "rgb(119, 101, 227)", // purple
       },
       "& .MuiInputLabel-root.Mui-focused": {
-        color: "rgb(119, 101, 227)", // Change label color to purple when focused
+        color: "rgb(119, 101, 227)", // purple
       },
     },
   };
@@ -118,10 +116,10 @@ const MultilineTextFields = (props) => {
           placeholder={label}
           multiline
           maxRows={4}
-          value={value} // Use defaultValue to set initial value
-          onChange={onChange} // Pass onChange handler directly
+          value={value}
+          onChange={onChange} // onChange on frontend
           required={required}
-          sx={style.textField} // Apply custom style to TextField
+          sx={style.textField} // custom style to textField
         />
       </div>
     </Box>
@@ -133,15 +131,15 @@ const MultilineTextFields = (props) => {
 const SingleLineTextField = ({ value, onChange, label, required }) => {
   const style = {
     textField: {
-      width: "100%", // Set width to 100%
-      marginBottom: "1rem", // Add some bottom margin for spacing
+      width: "100%",
+      marginBottom: "1rem",
     },
     outlineStyle: {
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "rgb(119, 101, 227)", // Change outline color to purple when focused
+        borderColor: "rgb(119, 101, 227)", // purple
       },
       "& .MuiInputLabel-root.Mui-focused": {
-        color: "rgb(119, 101, 227)", // Change label color to purple when focused
+        color: "rgb(119, 101, 227)", // purple
       },
     },
   };
@@ -164,4 +162,28 @@ const SingleLineTextField = ({ value, onChange, label, required }) => {
   );
 };
 
-export { PopUpModal, MultilineTextFields, SingleLineTextField };
+const Block = ({ text }) => {
+  return (
+    <div style={{ width: "100%" }}>
+      <Box
+        component="span"
+        sx={{
+          display: "block",
+          padding: 1,
+          paddingLeft: 3,
+          paddingRight: 3,
+          marginBottom: 2,
+          border: "2px solid",
+          borderColor: "rgb(119, 101, 227)", //purple
+          borderRadius: 2,
+        }}
+      >
+        {text}
+      </Box>
+    </div>
+  );
+};
+
+export default Block;
+
+export { PopUpModal, MultilineTextFields, SingleLineTextField, Block };
