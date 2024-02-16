@@ -44,7 +44,7 @@ export default function TalDashboard() {
           });
 
           const jobListingsResponse = await axios.get(
-            `${BACKEND_TALENT_URL}/${userID}/joblistings`,
+            `${BACKEND_TALENT_URL}/${userID}/alljoblistings`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -53,7 +53,7 @@ export default function TalDashboard() {
           );
 
           const jobListingsData = jobListingsResponse.data;
-          // console.log("job listings", jobListingsData);
+          console.log("job listings", jobListingsData);
 
           // retrieve all the ids
           const allBenefits = jobListingsData.reduce((acc, job) => {
