@@ -211,7 +211,13 @@ export default function TalDashboard() {
           </div>
         </div>
       ) : (
-        <p>There is no job at the moment.</p>
+        <div>
+          <p>There are no jobs at the moment.</p>
+          <p>
+            Please ensure that you have selected 3 career priorities in your
+            profile settings.
+          </p>
+        </div>
       )}
     </div>
   );

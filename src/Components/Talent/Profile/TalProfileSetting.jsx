@@ -28,7 +28,6 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
-import UploadButton from "../../../AntDesignCom";
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}
@@ -79,10 +78,13 @@ export default function TalProfileSetting() {
   //need to pull userID for new users who passed by userCat path.
 
   const [titleField, setTitleField] = useState("ADD TITLE");
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [selectedBenefit1, setSelectedBenefit1] = useState([]);
   const [selectedBenefit2, setSelectedBenefit2] = useState([]);
   const [selectedBenefit3, setSelectedBenefit3] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(false);
+  const [isLastNameEmpty, setIsLastNameEmpty] = useState(false);
 
   //modals
 
@@ -105,8 +107,8 @@ export default function TalProfileSetting() {
           const title = resumeData.map((item) => item.title);
 
           // Check if title array is empty
-          if (title.length === 0) {
-            setTitleField("ADD TITLE");
+          if (title.some((title) => title === null)) {
+            setTitleField("Add Job Title");
           } else {
             setTitleField(title);
           }
@@ -226,7 +228,13 @@ export default function TalProfileSetting() {
 
   const handleSaveTitle = async () => {
     try {
-      // Check if resume data exists for the user
+      if (!titleField.trim()) {
+        setIsTitleEmpty(true);
+        console.error("Title is empty");
+        return;
+      }
+
+      // check if resume data exists for the user
       const resumeResponse = await axios.get(
         `${BACKEND_TALENT_URL}/${userID}/resume`
       );
@@ -243,11 +251,8 @@ export default function TalProfileSetting() {
           title: titleField,
         });
       }
-
-      // Log success message
       console.log("title saved successfully!");
     } catch (error) {
-      // Log error if any
       console.error("Error saving title:", error);
     }
 
@@ -270,6 +275,17 @@ export default function TalProfileSetting() {
         return;
       }
 
+      //first or last name field is empty
+      if (!userFirstName.trim()) {
+        setIsFirstNameEmpty(true);
+        return;
+      }
+
+      if (!userLastName.trim()) {
+        setIsLastNameEmpty(true);
+        return;
+      }
+
       const accessToken = await getAccessTokenSilently({
         audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
         scope: "read:current_user",
@@ -279,7 +295,6 @@ export default function TalProfileSetting() {
       const response = await axios.put(
         `${BACKEND_TALENT_URL}/${userID}`,
         {
-          // Assuming userFirstName is defined elsewhere in the scope
           userFirstName: userFirstName,
           userLastName: userLastName,
         },
@@ -289,12 +304,8 @@ export default function TalProfileSetting() {
           },
         }
       );
-
-      // Handle response if needed
-
       console.log("Response from server:", response.data);
     } catch (error) {
-      // Handle errors
       console.error("Error saving user data:", error.message);
     }
     handleCloseNameModal();
@@ -302,55 +313,50 @@ export default function TalProfileSetting() {
 
   const handleUploadImage = async (image) => {
     try {
-      // Create a reference to the storage location where you want to store the file
+      // create folder
       const storageRefInstance = storageRef(
         storage,
         `talentimages/${image.file.name}`
       );
 
-      // Upload the file to the specified storage location
+      // Upload the file
       await uploadBytes(storageRefInstance, image.file.originFileObj);
 
       // Get the download URL of the uploaded file
       const downloadURL = await getDownloadURL(storageRefInstance);
 
-      // Handle the downloaded URL as needed, for example, setting it to state
-      setUserImage(downloadURL);
-
       console.log("File uploaded successfully. Download URL:", downloadURL);
+
+      if (!isAuthenticated) {
+        loginWithRedirect();
+        return;
+      }
+
+      const accessToken = await getAccessTokenSilently({
+        audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
+        scope: "read:current_user",
+      });
+
+      // push to backend
+      const response = await axios.put(
+        `${BACKEND_TALENT_URL}/${userID}/profileimage`,
+        {
+          talentProfileImage: downloadURL,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      // Update the user image state
+      setUserImage(downloadURL);
+      console.log("Response from server:", response);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
-
-  // Send download URL to your backend API
-  // You can use fetch or axios to send the URL to your backend
-  // Replace '/api/upload' with your actual backend endpoint
-  // await fetch("/api/upload", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({ imageUrl: downloadURL }),
-  // });
-
-  //       // Send download URL to your backend API
-  //       // You can use fetch or axios to send the URL to your backend
-  //       // Replace '/api/upload' with your actual backend endpoint
-  //       await fetch("/api/upload", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ imageUrl: downloadURL }),
-  //       });
-  //     } catch (error) {
-  //       console.error("Error uploading file:", error);
-  //     }
-  //   } else if (image.file.status === "error") {
-  //     console.error("File upload failed:", image.file.error);
-  //   }
-  // };
 
   return (
     <>
@@ -436,11 +442,13 @@ export default function TalProfileSetting() {
             value={userFirstName}
             onChange={(e) => setUserFirstName(e.target.value)}
           />
+          {isFirstNameEmpty && <p>Please key in your first name.</p>}
           <SingleLineTextField
             label="Last Name"
             value={userLastName}
             onChange={(e) => setUserLastName(e.target.value)}
           />
+          {isLastNameEmpty && <p>Please key in your last name.</p>}
         </PopUpModal>
 
         {/* Job Title */}
@@ -455,6 +463,7 @@ export default function TalProfileSetting() {
             value={titleField}
             onChange={(e) => setTitleField(e.target.value)}
           />
+          {isTitleEmpty && <p>Please include your current job title.</p>}
         </PopUpModal>
       </div>
     </>

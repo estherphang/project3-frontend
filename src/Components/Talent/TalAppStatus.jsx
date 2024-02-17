@@ -33,20 +33,31 @@ export default function TalAppStatus() {
     <>
       <div className="container">
         <h3 className="box">Application Status</h3>
-        {applications.map((application) => (
-          <Block
-            key={application.id} // Don't forget to add a unique key when using map
-            text={
-              <div>
-                <p className="wp-jobtitle">{application.jobListing.jobTitle}</p>
-                <p className="wp-company">
-                  Organisation: {application.jobListing.employer.companyName}
-                  <p className="wp-duration">{application.applicationStatus}</p>
-                </p>
-              </div>
-            }
-          />
-        ))}
+        <div>
+          {applications.length > 0 ? (
+            applications.map((application) => (
+              <Block
+                key={application.id}
+                text={
+                  <div>
+                    <p className="wp-jobtitle">
+                      {application.jobListing.jobTitle}
+                    </p>
+                    <p className="wp-company">
+                      Organisation:{" "}
+                      {application.jobListing.employer.companyName}
+                      <p className="wp-duration">
+                        {application.applicationStatus}
+                      </p>
+                    </p>
+                  </div>
+                }
+              />
+            ))
+          ) : (
+            <p>There are no active applications at the moment.</p>
+          )}
+        </div>
       </div>
     </>
   );

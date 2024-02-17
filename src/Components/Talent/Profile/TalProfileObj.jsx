@@ -64,8 +64,8 @@ const TalProfileObj = () => {
       const resumeResponse = await axios.get(
         `${BACKEND_TALENT_URL}/${userID}/resume`
       );
-
-      if (resumeResponse.data.userID === null) {
+      console.log(resumeResponse.data.userID);
+      if (resumeResponse.data.userID === undefined) {
         // userID not found, create new resume data
         await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
           userID: userID,
