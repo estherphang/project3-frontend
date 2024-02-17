@@ -5,6 +5,19 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
+import { Fragment } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+
+import { Button as antdButton } from "antd";
+import styled from "styled-components";
+import { buttonStyle } from "./styleComponents";
+
+import { Link } from "react-router-dom";
+const CustomButton = styled(antdButton)`
+  ${buttonStyle}
+`;
 
 const PopUpModal = ({ open, handleClose, title, children, handleSave }) => {
   const style = {
@@ -184,6 +197,111 @@ const Block = ({ text }) => {
   );
 };
 
+const OutlinedCard = ({
+  jobTitle,
+  applicationStartDate,
+  applicationEndDate,
+  description,
+  joblistingID,
+  employerID,
+}) => {
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+    >
+      •
+    </Box>
+  );
+
+  const card = (
+    <Fragment>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {jobTitle}
+        </Typography>
+
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {applicationStartDate} - {applicationEndDate}
+        </Typography>
+
+        <Typography variant="body2">{description}</Typography>
+      </CardContent>
+      <CardActions>
+        <CustomButton className="right">
+          {/*Link to a specific employer's joblisting*/}
+          <Link to={`/employer/${employerID}/job/${joblistingID}`}>Next</Link>
+        </CustomButton>
+      </CardActions>
+    </Fragment>
+  );
+  return (
+    <Box sx={{ minWidth: 275 }}>
+      <Card variant="outlined">{card}</Card>
+    </Box>
+  );
+};
+
+const OutlinedCard2 = ({
+  jobTitle,
+  applicationStartDate,
+  applicationEndDate,
+  description,
+  joblistingID,
+  employerID,
+  skillSet,
+  jobResponsibility,
+}) => {
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+    >
+      •
+    </Box>
+  );
+
+  const card = (
+    <Fragment>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {jobTitle}
+        </Typography>
+
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {applicationStartDate} - {applicationEndDate}
+        </Typography>
+
+        <Typography variant="body2">Description : {description}</Typography>
+
+        <Typography variant="body2">Skillset : {skillSet}</Typography>
+
+        <Typography variant="body2">
+          Job Responsibilities : {jobResponsibility}
+        </Typography>
+      </CardContent>
+    </Fragment>
+  );
+  return (
+    <Box sx={{ minWidth: 275 }}>
+      <Card variant="outlined">{card}</Card>
+    </Box>
+  );
+};
+
 export default Block;
 
-export { PopUpModal, MultilineTextFields, SingleLineTextField, Block };
+export {
+  PopUpModal,
+  MultilineTextFields,
+  SingleLineTextField,
+  Block,
+  OutlinedCard,
+  OutlinedCard2,
+};
+
+/*
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          adjective
+        </Typography>
+*/

@@ -30,11 +30,14 @@ function NavBar() {
               <ChatOutlinedIcon className="nav-icon" />
             </Link>
           </li>
-          <li>
-            <Link to={`/${userRole}/applications`} className="nav-icon">
-              <ArticleOutlinedIcon className="nav-icon" />
-            </Link>
-          </li>
+          {userRole === "employer" ? null : (
+            <li>
+              <Link to={`/${userRole}/applications`} className="nav-icon">
+                <ArticleOutlinedIcon className="nav-icon" />
+              </Link>
+            </li>
+          )}
+
           <li>
             <Link to={`/${userRole}/profile`} className="nav-icon">
               <CustomStyleIcon alt="profile" src={`${userImage}`} />

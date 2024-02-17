@@ -6,10 +6,10 @@ import EmDashboard from "./Components/Employer/EmDashboard.jsx";
 import TalAppStatus from "./Components/Talent/TalAppStatus.jsx";
 import TalDashboard from "./Components/Talent/TalDashboard.jsx";
 import EmProfile from "./Components/Employer/EmProfile.jsx";
-import EmJobLists from "./Components/Employer/EmJobLists.jsx";
 import TalProfile from "./Components/Talent/Profile/TalProfile.jsx";
 
 import EmProfileCreation from "./Components/Employer/EmProfileCreation.jsx";
+import EmJobListingApplications from "./Components/Employer/EmJobListingApplications.jsx";
 
 import {
   createBrowserRouter,
@@ -21,7 +21,6 @@ import NavBar from "./NavBar.jsx";
 import TalProfileSetting from "./Components/Talent/Profile/TalProfileSetting.jsx";
 import Chat from "./Components/Chat/Chat.jsx";
 import JobListingCreation from "./Components/Employer/JobListingCreation.jsx";
-import { EmployerProvider } from "./Components/Context/EmployerContext.jsx";
 import BenefitsDes from "./Components/Benefits/BenefitsDes.jsx";
 
 function App() {
@@ -87,15 +86,6 @@ function App() {
           }
         />
         <Route
-          path="employer/applications"
-          element={
-            <>
-              <EmJobLists />
-              <NavBar />
-            </>
-          }
-        />
-        <Route
           path="chat"
           element={
             <>
@@ -124,6 +114,16 @@ function App() {
             </>
           }
         />
+
+        <Route
+          path="/employer/:employerId/job/:jobListingId"
+          element={
+            <>
+              <EmJobListingApplications />
+              <NavBar />
+            </>
+          }
+        ></Route>
       </Route>
     )
   );
@@ -150,3 +150,16 @@ function App() {
 }
 
 export default App;
+
+//changed employer applications page. employers have to pick a specific job listing from their dashboard (home icon) and then they're directed to a page where they can reject or accept applications from specific job listings
+/*
+        <Route
+          path="employer/applications"
+          element={
+            <>
+              <EmJobListingApplications />
+              <NavBar />
+            </>
+          }
+        />
+*/
