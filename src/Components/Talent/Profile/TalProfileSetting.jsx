@@ -378,7 +378,7 @@ export default function TalProfileSetting() {
           <Upload
             listType="picture"
             status="removed"
-            showUploadList={false}
+            showUploadList={false} //remove messages
             onChange={handleUploadImage}
             accept=".png,.jpeg,.svg"
           >
@@ -411,21 +411,21 @@ export default function TalProfileSetting() {
 
         <BenefitSelection
           labelName={"First Choice:"}
-          name="careerpriority"
+          name="benefit1"
           onChange={handleBenefitChange1}
           value={selectedBenefit1}
         />
         <br />
         <BenefitSelection
           labelName={"Second Choice:"}
-          name="careerpriority"
+          name="benefit2"
           onChange={handleBenefitChange2}
           value={selectedBenefit2}
         />
         <br />
         <BenefitSelection
           labelName={"Third Choice:"}
-          name="careerpriority"
+          name="benefit3"
           onChange={handleBenefitChange3}
           value={selectedBenefit3}
         />

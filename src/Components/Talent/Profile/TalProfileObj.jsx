@@ -67,6 +67,8 @@ const TalProfileObj = () => {
       console.log(resumeResponse.data.userID);
       if (resumeResponse.data.userID === null) {
         // userID not found, create new resume data
+        // if (resumeResponse.data.userID === null) new users data cannot be post
+        // if (resumeResponse.data.userID === undefined) can post new users data, but everyone post
         await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
           userID: userID,
           objective: objectiveField,

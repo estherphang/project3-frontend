@@ -137,7 +137,6 @@ export default function TalProfileWorkExp() {
         responsibility: newResponsibility,
       };
 
-      // Make a POST request to save the new work experience data
       const newWorkData = await axios.post(
         `${BACKEND_TALENT_URL}/${userID}/workexperience`,
         newData,
@@ -168,10 +167,8 @@ export default function TalProfileWorkExp() {
       setNewStartMonth("");
       setNewStartYear("");
 
-      // Log success message
       console.log("New work experience added successfully!");
     } catch (error) {
-      // Log error if any
       console.error("Error adding new work experience:", error);
     }
   };
