@@ -82,7 +82,7 @@ export default function TalProfileEdu() {
         },
       });
 
-      // After saving, refetch the education data to update the UI
+      // fetch data
       const updatedEduResponse = await axios.get(
         `${BACKEND_TALENT_URL}/${userID}/education`
       );
@@ -156,7 +156,6 @@ export default function TalProfileEdu() {
         audience: import.meta.env.VITE_SOME_AUTH0_AUDIENCE,
         scope: "read:current_user",
       });
-      // Make a DELETE request to your backend endpoint
       console.log("edu.id", educationID);
       const response = await axios.delete(
         `${BACKEND_TALENT_URL}/${talentId}/education/${educationID}`,
@@ -167,12 +166,12 @@ export default function TalProfileEdu() {
         }
       );
 
-      // Fetch the updated skill data from the backend
+      //fetch
       const updatedEduRes = await axios.get(
         `${BACKEND_TALENT_URL}/${talentId}/education`
       );
 
-      // Update the state with the new skill data
+      // update state
       setEduData(updatedEduRes.data);
 
       console.log(response.data);

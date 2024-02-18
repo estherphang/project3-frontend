@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
+import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -20,12 +21,33 @@ const CustomButton = styled(antdButton)`
 `;
 
 const PopUpModal = ({ open, handleClose, title, children, handleSave }) => {
+  //media is not working, cos this is not css
+  //create own state and set width. this is not 100% responsive
+  const [modalWidth, setModalWidth] = useState(400);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 600) {
+        setModalWidth(300);
+      } else {
+        setModalWidth(400);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: modalWidth,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,

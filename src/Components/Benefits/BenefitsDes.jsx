@@ -47,15 +47,12 @@ export default function BenefitsDes() {
           {" "}
           Here's the list of benefits and their meaning.
         </p>
-        <ul>
-          {benefit.map((item) => (
-            <li key={item.id}>
-              {item.category}
-              <br />
-              {item.description}
-            </li>
-          ))}
-        </ul>
+        {benefit.map((item) => (
+          <div key={item.id}>
+            <h3 className="box">{item.category}</h3>
+            <p className="contentbox">{item.description}</p>
+          </div>
+        ))}
         <CustomButton
           className="profileboxbutton"
           onClick={handleProfileSetting}

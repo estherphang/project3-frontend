@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import { outlineButton } from "./styleComponents";
 import styled from "styled-components";
-import { BACKEND_URL } from "../constants";
+import { BACKEND_TALENT_URL, BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./Components/Context/UserContext";
 
@@ -27,6 +27,7 @@ export default function UserCategory() {
     setUserImage,
     setUserEmail,
     setUserRole,
+    setUserID,
   } = useUser();
 
   const [firstName, setFirstName] = useState("");
@@ -77,12 +78,30 @@ export default function UserCategory() {
           },
         }
       )
-      .then((res) => {
+      .then(async (res) => {
         setFirstName("");
         setLastName("");
         setEmail("");
         setPhotoURL("");
         nav(`/${role}/profile`);
+
+        const userResponse = await axios.get(`${BACKEND_URL}/${role}`);
+        const allUserData = userResponse.data;
+        console.log("allUserData", allUserData);
+
+        const userEmails = allUserData.map((person) => person.email);
+        if (userEmails.includes(user.email)) {
+          const userData = allUserData.find(
+            (person) => person.email === user.email
+          );
+          console.log("user data id", userData.id);
+          setUserID(userData.id);
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors if necessary
       });
   };
 

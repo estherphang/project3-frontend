@@ -25,8 +25,7 @@ export default function BenefitSelection({ labelName, name, onChange, value }) {
   //lift up state
   const handleChange = (e) => {
     setChosenOption(e.target.value);
-    console.log("lkjlk");
-    onChange(e);
+    onChange(e.target.value);
   };
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function BenefitSelection({ labelName, name, onChange, value }) {
       });
   }, []);
 
-  //console.log("choice", chosenOption);
+  console.log("choice", chosenOption);
 
   return (
     <Box sx={style.outlineStyle}>
