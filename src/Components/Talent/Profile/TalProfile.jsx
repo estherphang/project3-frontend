@@ -49,7 +49,7 @@ export default function TalProfile() {
 
           // Check if title array is empty
           if (title.length === 0) {
-            setTitleField("ADD TITLE");
+            setTitleField("Add Job Title");
           } else {
             setTitleField(title);
           }

@@ -107,7 +107,7 @@ export default function TalProfileSetting() {
           const title = resumeData.map((item) => item.title);
 
           // Check if title array is empty
-          if (title.some((title) => title === null)) {
+          if (title.length === 0) {
             setTitleField("Add Job Title");
           } else {
             setTitleField(title);

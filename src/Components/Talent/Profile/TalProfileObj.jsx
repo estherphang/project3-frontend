@@ -63,11 +63,13 @@ const TalProfileObj = () => {
       const resumeResponse = await axios.get(
         `${BACKEND_TALENT_URL}/${userID}/resume`
       );
-
+      console.log("USER ID", resumeResponse.data.userID);
       if (resumeResponse.data.userID === null) {
+        // if (resumeResponse.data.userID === null) new users data cannot be post
+        // if (resumeResponse.data.userID === undefined) can post new users data, but everyone post will be duplicated.
         // userID not found, create new resume data
         await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
-          userID: userID,
+          talentId: userID,
           objective: objectiveField,
         });
       } else {
