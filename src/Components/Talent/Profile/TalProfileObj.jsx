@@ -60,12 +60,11 @@ const TalProfileObj = () => {
 
   const handleSaveObjective = async () => {
     try {
-      // Check if resume data exists for the user
       const resumeResponse = await axios.get(
         `${BACKEND_TALENT_URL}/${userID}/resume`
       );
-      console.log(resumeResponse.data.userID);
-      if (resumeResponse.data.userID === undefined) {
+
+      if (resumeResponse.data.userID === null) {
         // userID not found, create new resume data
         await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
           userID: userID,
