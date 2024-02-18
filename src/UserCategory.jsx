@@ -85,15 +85,14 @@ export default function UserCategory() {
         setPhotoURL("");
         nav(`/${role}/profile`);
 
-        const talentResponse = await axios.get(BACKEND_TALENT_URL);
-        const talentData = talentResponse.data;
-        console.log("talentData", talentData);
-        console.log("talent data");
+        const userResponse = await axios.get(`${BACKEND_URL}/${role}`);
+        const allUserData = userResponse.data;
+        console.log("allUserData", allUserData);
 
-        const talentEmails = talentData.map((talent) => talent.email);
-        if (talentEmails.includes(user.email)) {
-          const userData = talentData.find(
-            (talent) => talent.email === user.email
+        const userEmails = allUserData.map((person) => person.email);
+        if (userEmails.includes(user.email)) {
+          const userData = allUserData.find(
+            (person) => person.email === user.email
           );
           console.log("user data id", userData.id);
           setUserID(userData.id);
