@@ -46,9 +46,10 @@ export default function TalProfile() {
           console.log("data", resumeData);
 
           const title = resumeData.map((item) => item.title);
+          console.log("title", title);
 
           // Check if title array is empty
-          if (title.length === 0) {
+          if (resumeData.length === 0) {
             setTitleField("ADD TITLE");
           } else {
             setTitleField(title);

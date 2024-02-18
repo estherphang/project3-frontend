@@ -107,8 +107,8 @@ export default function TalProfileSetting() {
           const title = resumeData.map((item) => item.title);
 
           // Check if title array is empty
-          if (title.some((title) => title === null)) {
-            setTitleField("Add Job Title");
+          if (title.length === 0) {
+            setTitleField("ADD TITLE");
           } else {
             setTitleField(title);
           }
@@ -169,20 +169,22 @@ export default function TalProfileSetting() {
     console.log(selectedBenefit2);
     console.log(selectedBenefit3);
 
-    if (!selectedBenefit1 || !selectedBenefit2 || !selectedBenefit3) {
-      setErrorMessage("Please select all three career priorities.");
-    }
+    let errorMessage = null;
 
-    // check if all three selected benefits have the same IDs
-    if (
+    if (!selectedBenefit1 || !selectedBenefit2 || !selectedBenefit3) {
+      errorMessage = "Please select all three career priorities.";
+
+      //else if check if they overlaps
+    } else if (
       selectedBenefit1 === selectedBenefit2 ||
       selectedBenefit1 === selectedBenefit3 ||
       selectedBenefit2 === selectedBenefit3
     ) {
-      setErrorMessage(
-        "Please ensure all three career priorities are distinct."
-      );
+      errorMessage = "Please ensure all three career priorities are distinct.";
     }
+
+    // Set the error message state
+    setErrorMessage(errorMessage);
 
     //send request to backend with selected benefits
     try {
@@ -239,7 +241,7 @@ export default function TalProfileSetting() {
         `${BACKEND_TALENT_URL}/${userID}/resume`
       );
 
-      if (resumeResponse.data.userID === null) {
+      if (resumeResponse.data.userID === undefined) {
         // userID not found, create new resume data
         await axios.post(`${BACKEND_TALENT_URL}/${userID}/resume`, {
           userID: userID,
@@ -409,18 +411,21 @@ export default function TalProfileSetting() {
 
         <BenefitSelection
           labelName={"First Choice:"}
+          name="careerpriority"
           onChange={handleBenefitChange1}
           value={selectedBenefit1}
         />
         <br />
         <BenefitSelection
           labelName={"Second Choice:"}
+          name="careerpriority"
           onChange={handleBenefitChange2}
           value={selectedBenefit2}
         />
         <br />
         <BenefitSelection
           labelName={"Third Choice:"}
+          name="careerpriority"
           onChange={handleBenefitChange3}
           value={selectedBenefit3}
         />
