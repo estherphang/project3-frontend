@@ -7,8 +7,7 @@ import axios from "axios";
 //route is /employer
 export default function EmDashboard() {
   //get data from the employer joblisting backend. use it to populate job listing dashboard
-  const { userFirstName, userLastName, userImage, userEmail, userID } =
-    useUser();
+  const { userFirstName, userID } = useUser();
 
   const [joblistings, setJobListings] = useState([]);
 
@@ -43,7 +42,7 @@ export default function EmDashboard() {
   return (
     <>
       <div className="container">
-        <p>Employer Dashboard {userFirstName}</p>
+        <h1 className="centered">Employer Dashboard {userFirstName}</h1>
 
         <h3 className="box">Active Job Listings</h3>
         {/*if the active job listings is empty, show the text:*/}
