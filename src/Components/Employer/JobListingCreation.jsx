@@ -12,6 +12,7 @@ import BasicModal from "./BasicModal";
 import EditIcon from "@mui/icons-material/Edit";
 
 import { useEmployer } from "../Context/EmployerContext";
+import { Link } from "react-router-dom";
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -77,12 +78,12 @@ export default function JobListingCreation() {
     setModalState((prevState) => ({ ...prevState, [modalName]: true }));
   };
 
-  const handleBenefit = (e) => {
+  const handleBenefit = (value, name) => {
     //this is only triggered once a benefit has been selected.
-    console.log("i am the name passed into handleBenefit", e);
+    console.log("i am the name passed into handleBenefit", value);
     setJobListingInfo((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -267,26 +268,34 @@ export default function JobListingCreation() {
       <BenefitSelection
         labelName={"Benefit 1"}
         name="benefit1"
-        onChange={handleBenefit}
+        onChange={(value) => {
+          handleBenefit(value, "benefit1");
+        }}
         value={joblistinginfo.benefit1}
       />
       <br></br>
       <BenefitSelection
         labelName={"Benefit 2"}
         name="benefit2"
-        onChange={handleBenefit}
+        onChange={(value) => {
+          handleBenefit(value, "benefit2");
+        }}
         value={joblistinginfo.benefit2}
       />
       <br></br>
       <BenefitSelection
         labelName={"Benefit 3"}
         name="benefit3"
-        onChange={handleBenefit}
+        onChange={(value) => {
+          handleBenefit(value, "benefit3");
+        }}
         value={joblistinginfo.benefit3}
       />
       <CustomButton onClick={handleSubmit}>Submit</CustomButton>
       <br></br>
-      <CustomButton>Next</CustomButton>
+      <CustomButton>
+        <Link to="/employer/">Next</Link>
+      </CustomButton>
     </div>
   );
 }

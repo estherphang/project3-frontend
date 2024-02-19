@@ -30,27 +30,19 @@ export default function EmJobListingApplications() {
   const [jobapplications, setJobApplications] = useState([]);
 
   const [jobListing, setJobListing] = useState([]);
-
   const params = useParams();
   const jobListingId = params.jobListingId;
 
-  useEffect(() => {
-    axios
-      .get(`${BACKEND_EMPLOYER_URL}/${userID}/job/${jobListingId}`)
-      .then((response) => {
-        const joblistingdata = response.data.jobListing;
-        const joblistingappdata = response.data.applications;
-
-        console.log(response.data);
-        setJobApplications(joblistingappdata);
-        setJobListing(joblistingdata);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  const [allApplicantResumes, setAllApplicantResumes] = useState([]);
+  const [currentApplicantResume, setCurrentApplicantResumes] = useState([]);
+  const [AllApplicantSkillSets, setAllApplicantSkillSets] = useState([]);
+  const [AllApplicantWorkExp, setAllApplicantWorkExp] = useState([]);
+  const [AllApplicantEducations, setAllApplicantEducations] = useState([]);
+  const [AllApplicantBenefits, setAllApplicantBenefits] = useState([]);
 
   useEffect(() => {
+    //get the specific job listing data.
+    //also get all applications associated with that job listing.
     axios
       .get(`${BACKEND_EMPLOYER_URL}/${userID}/job/${jobListingId}`)
       .then((response) => {
@@ -80,6 +72,7 @@ export default function EmJobListingApplications() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    alert("Application accepted!");
   };
 
   const handleDenyApplication = (applicationId, talentId) => {
@@ -96,6 +89,137 @@ export default function EmJobListingApplications() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    alert("Application denied!");
+  };
+
+  //it would be nice to get a single application at a time
+  //but i can only get talentids through getting all applications so idk
+
+  //get the ids of all the talents that have made an application in order. put that into a state.
+  //using the ids of all the talents, get the resumes of all talents and put that into a state
+  //do this for talent's skillset, benefits, work experiences and talent education
+
+  useEffect(() => {
+    console.log("i am jobapplications", jobapplications);
+  }, [jobapplications]);
+
+  useEffect(() => {
+    const talentids = jobapplications.map(
+      (jobapplication) => jobapplication.talentId
+    );
+    console.log("talentids", talentids);
+    getAllTalentResumes(talentids);
+    getAllTalentSkillSets(talentids);
+    getAllTalentWorkExp(talentids);
+    getAllTalentEducations(talentids);
+    getAllTalentBenefits(talentids);
+  }, [jobapplications]);
+
+  const getAllTalentResumes = (talentids) => {
+    console.log("getAllTalentResumes is being called");
+    //map takes in a talentid and returns a promise.
+    const talentResumePromises = talentids.map((talentid) => {
+      return axios
+        .get(`${BACKEND_TALENT_URL}/${talentid}/resume`)
+        .then((response) => {
+          console.log(
+            "i am the response.data from the getAllTalent function",
+            response.data
+          );
+
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    });
+    //talentResumePromises is just a bunch of promises. need to wait for them to resolve.
+    Promise.all(talentResumePromises).then((values) =>
+      setAllApplicantResumes(values)
+    );
+
+    console.log("talentresumes", talentResumePromises);
+  };
+
+  const getAllTalentSkillSets = (talentids) => {
+    console.log("getAllTalentSkillSets is being called");
+    //map takes in a talentid and returns a promise.
+    const talentSkillSetPromises = talentids.map((talentid) => {
+      return axios
+        .get(`${BACKEND_TALENT_URL}/${talentid}/skill`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    });
+    //talentResumePromises is just a bunch of promises. need to wait for them to resolve.
+    Promise.all(talentSkillSetPromises).then((values) =>
+      setAllApplicantSkillSets(values)
+    );
+  };
+
+  const getAllTalentWorkExp = (talentids) => {
+    console.log("getAllTalentWorkExp is being called");
+    //map takes in a talentid and returns a promise.
+    const talentWorkExpPromises = talentids.map((talentid) => {
+      return axios
+        .get(`${BACKEND_TALENT_URL}/${talentid}/workexperience`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    });
+    //talentResumePromises is just a bunch of promises. need to wait for them to resolve.
+    Promise.all(talentWorkExpPromises).then((values) =>
+      setAllApplicantWorkExp(values)
+    );
+  };
+
+  const getAllTalentEducations = (talentids) => {
+    console.log("getAllTalentResumes is being called");
+    //map takes in a talentid and returns a promise.
+    const talentEducationsPromises = talentids.map((talentid) => {
+      return axios
+        .get(`${BACKEND_TALENT_URL}/${talentid}/education`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    });
+    //talentResumePromises is just a bunch of promises. need to wait for them to resolve.
+    Promise.all(talentEducationsPromises).then((values) =>
+      setAllApplicantEducations(values)
+    );
+  };
+
+  const getAllTalentBenefits = (talentids) => {
+    console.log("getAllTalentBenefits is being called");
+    //map takes in a talentid and returns a promise.
+    const talentBenefitsPromises = talentids.map((talentid) => {
+      return axios
+        .get(`${BACKEND_TALENT_URL}/${talentid}/benefits`)
+        .then((response) => {
+          console.log(
+            "i am the response.data from the getAllBenefits function",
+            response.data
+          );
+
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    });
+
+    Promise.all(talentBenefitsPromises).then((values) =>
+      setAllApplicantBenefits(values)
+    );
   };
 
   let alljoblistingApplication = jobapplications.map((jobapplication) => (
@@ -120,8 +244,10 @@ export default function EmJobListingApplications() {
     </>
   ));
 
+  //As of right now, it's hard coded to only display the first application to the job listing.
+  //Potential improvements: have it change
   return (
-    <>
+    <div className="container">
       <h3 className="box">Job Listing no. {jobListingId}</h3>
       <OutlinedCard2
         jobTitle={jobListing.jobTitle}
@@ -131,15 +257,72 @@ export default function EmJobListingApplications() {
         skillSet={jobListing.skillSet}
         jobResponsibility={jobListing.jobResponsibility}
       />
-      <h3 className="box">Applications</h3>
-      <div className="container">{JSON.stringify(jobapplications)}</div>
-      {/*show a single application.*/}
-      {alljoblistingApplication}
-
-      {/* <Fab
+      {/*Make this a talent id:*/}
+      <h3 className="box">Applicant no.1</h3>
+      {/*Display talent's resume here.*/}
+      <h5 className="box">They consider themselves to be a:</h5>
+      {allApplicantResumes &&
+        allApplicantResumes[0] &&
+        allApplicantResumes[0][0]?.title}
+      <h5 className="box">Their objective:</h5>
+      {allApplicantResumes &&
+        allApplicantResumes[0] &&
+        allApplicantResumes[0][0].objective}
+      <h5 className="box">They are proficient in:</h5>
+      {AllApplicantSkillSets &&
+        AllApplicantSkillSets[0] &&
+        AllApplicantSkillSets[0][0].skill}{" "}
+      at an&nbsp;
+      {AllApplicantSkillSets &&
+        AllApplicantSkillSets[0] &&
+        AllApplicantSkillSets[0][0].proficiencyLevel}
+      &nbsp;level.
+      <h5 className="box">They have the following work experiences:</h5>
+      {AllApplicantWorkExp &&
+        AllApplicantWorkExp[0] &&
+        AllApplicantWorkExp[0][0].position}
+      , having worked there from&nbsp;
+      {AllApplicantWorkExp &&
+        AllApplicantWorkExp[0] &&
+        AllApplicantWorkExp[0][0].startMonth}
+      &nbsp;
+      {AllApplicantWorkExp &&
+        AllApplicantWorkExp[0] &&
+        AllApplicantWorkExp[0][0].startYear}
+      &nbsp;to&nbsp;
+      {AllApplicantWorkExp &&
+        AllApplicantWorkExp[0] &&
+        AllApplicantWorkExp[0][0].endMonth}
+      &nbsp;
+      {AllApplicantWorkExp &&
+        AllApplicantWorkExp[0] &&
+        AllApplicantWorkExp[0][0].endYear}
+      <h5 className="box">They studied at:</h5>
+      {AllApplicantEducations &&
+        AllApplicantEducations[0] &&
+        AllApplicantEducations[0][0].institution}
+      , obtaining a&nbsp;
+      {AllApplicantEducations &&
+        AllApplicantEducations[0] &&
+        AllApplicantEducations[0][0].degree}
+      .<h5 className="box">They prioritize the following:</h5>
+      {AllApplicantBenefits &&
+        AllApplicantBenefits[0]?.benefits[0]?.description}
+      <br></br>
+      {AllApplicantBenefits &&
+        AllApplicantBenefits[0]?.benefits[1]?.description}
+      <br></br>
+      {AllApplicantBenefits &&
+        AllApplicantBenefits[0]?.benefits[2]?.description}
+      <Fab
         color="primary"
         aria-label="add"
-        onClick={console.log("a")}
+        onClick={() =>
+          handleDenyApplication(
+            jobapplications[0].id,
+            jobapplications[0].talentId
+          )
+        }
         sx={{
           position: "fixed",
           bottom: "80px", // Adjust as needed
@@ -160,7 +343,12 @@ export default function EmJobListingApplications() {
       </Fab>
       <Fab
         aria-label="like"
-        onClick={console.log("like")}
+        onClick={() =>
+          handleAcceptApplication(
+            jobapplications[0].id,
+            jobapplications[0].talentId
+          )
+        }
         sx={{
           position: "fixed",
           bottom: "80px", // Adjust as needed
@@ -178,7 +366,7 @@ export default function EmJobListingApplications() {
         }}
       >
         <FavoriteIcon />
-      </Fab> */}
-    </>
+      </Fab>
+    </div>
   );
 }
