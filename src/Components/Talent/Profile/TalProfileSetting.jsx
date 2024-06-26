@@ -11,7 +11,6 @@ import {
 import { useUser } from "../../Context/UserContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BACKEND_TALENT_URL } from "../../../../constants";
 import { Avatar, IconButton } from "@mui/material";
 import BenefitSelection from "../../Benefits/BenefitSelection";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -28,6 +27,8 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}

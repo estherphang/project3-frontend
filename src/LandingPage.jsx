@@ -1,6 +1,5 @@
 import "./LandingPage.css";
 import axios from "axios";
-import { BACKEND_EMPLOYER_URL, BACKEND_TALENT_URL } from "../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import { buttonStyle } from "./styleComponents";
@@ -8,6 +7,9 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./Components/Context/UserContext";
+
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
+const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 
 const CustomButton = styled(Button)`
   ${buttonStyle}

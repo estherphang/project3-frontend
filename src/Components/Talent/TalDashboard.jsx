@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { BACKEND_TALENT_URL } from "../../../constants";
 import axios from "axios";
 import { useUser } from "../Context/UserContext";
 import Fab from "@mui/material/Fab";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+
+const BACKEND_TALENT_URL = import.meta.env.BACKEND_TALENT_URL;
 
 export default function TalDashboard() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();

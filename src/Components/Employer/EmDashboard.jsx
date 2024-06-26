@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../Context/UserContext";
-import { BACKEND_EMPLOYER_URL } from "../../../constants";
 import { OutlinedCard } from "../../MUIComponents";
+
+const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
 
 import axios from "axios";
 //route is /employer

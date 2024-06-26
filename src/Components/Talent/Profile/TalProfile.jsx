@@ -6,13 +6,13 @@ import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { profileImage, reversedOutlineButton } from "../../../styleComponents";
 import axios from "axios";
-import { BACKEND_TALENT_URL } from "../../../../constants";
 import TalProfileWorkExp from "./TalProfileWorkExp";
 import TalProfileSkill from "./TalProfileSkill";
 import TalProfileEdu from "./TalProfileEdu";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 const CustomProfileImage = styled(Avatar)`
   ${profileImage}
 `;

@@ -2,7 +2,6 @@ import axios from "axios";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { BACKEND_EMPLOYER_URL, BACKEND_TALENT_URL } from "../../../constants";
 import { useUser } from "../Context/UserContext";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -18,6 +17,10 @@ import { buttonStyle } from "../../styleComponents";
 const CustomButton = styled(Button)`
   ${buttonStyle}
 `;
+
+const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
+const BACKEND_TALENT_URL = import.meta.env.BACKEND_TALENT_URL;
+
 //this is where they can accept or deny applications for specific job listings.
 //"/:employerId/job/:jobListingId"
 

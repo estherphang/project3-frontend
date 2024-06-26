@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../../../constants";
 import { Button } from "antd";
 import { reversedOutlineButton } from "../../styleComponents";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Context/UserContext";
+
+const BACKEND_URL = import.meta.env.BACKEND_URL;
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}

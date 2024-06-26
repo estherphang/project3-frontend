@@ -13,8 +13,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </UserProvider>
   </React.StrictMode>
 );
-
-{
-  /*Don't know how to use useContext to provide Employer related states only to all Employer related components 
-  :( -Dana*/
-}
