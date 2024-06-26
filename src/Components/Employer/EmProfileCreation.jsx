@@ -19,9 +19,9 @@ import BasicModal from "./BasicModal";
 import { useEmployer } from "../Context/EmployerContext";
 import { useUser } from "../Context/UserContext";
 
-import { BACKEND_EMPLOYER_URL } from "../../../constants";
 import axios from "axios";
 
+const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
 const CustomButton = styled(Button)`
   ${buttonStyle}
 `;

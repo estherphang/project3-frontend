@@ -3,12 +3,12 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../Context/UserContext";
 import { PopUpModal, MultilineTextFields } from "../../../MUIComponents";
-import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import styled from "styled-components";
 import { editIcon } from "../../../styleComponents";
 
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 const CustomIcon = styled(IconButton)`
   ${editIcon}
 `;

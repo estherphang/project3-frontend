@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BACKEND_EMPLOYER_URL, BACKEND_URL } from "../../../constants";
 import { Button } from "antd";
 import styled from "styled-components";
 import { buttonStyle } from "../../styleComponents";
@@ -13,6 +12,9 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { useEmployer } from "../Context/EmployerContext";
 import { Link } from "react-router-dom";
+
+const BACKEND_URL = import.meta.env.BACKEND_URL;
+const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
 
 const CustomButton = styled(Button)`
   ${buttonStyle}

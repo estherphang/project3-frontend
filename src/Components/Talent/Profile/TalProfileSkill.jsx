@@ -3,7 +3,6 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../Context/UserContext";
 import { PopUpModal, SingleLineTextField } from "../../../MUIComponents";
-import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,6 +13,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const CustomIcon = styled(IconButton)`
   ${editIcon}
 `;
+
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 
 export default function TalProfileSkill() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();

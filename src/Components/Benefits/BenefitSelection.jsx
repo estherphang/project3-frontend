@@ -4,8 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../../../constants";
+
 import axios from "axios";
+
+const BACKEND_URL = import.meta.env.BACKEND_URL;
 
 export default function BenefitSelection({ labelName, name, onChange, value }) {
   const style = {

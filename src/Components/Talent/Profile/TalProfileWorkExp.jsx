@@ -7,7 +7,6 @@ import {
   MultilineTextFields,
   SingleLineTextField,
 } from "../../../MUIComponents";
-import { BACKEND_TALENT_URL } from "../../../../constants";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,6 +17,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const CustomIcon = styled(IconButton)`
   ${editIcon}
 `;
+
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 
 export default function TalProfileWorkExp() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();

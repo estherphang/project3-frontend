@@ -4,9 +4,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "antd";
 import { outlineButton } from "./styleComponents";
 import styled from "styled-components";
-import { BACKEND_TALENT_URL, BACKEND_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./Components/Context/UserContext";
+
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
+const BACKEND_URL = import.meta.env.VITE_SOME_BACKEND_URL;
 
 const CustomButton = styled(Button)`
   ${outlineButton}

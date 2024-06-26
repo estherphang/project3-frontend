@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../Context/UserContext";
 import axios from "axios";
-import { BACKEND_TALENT_URL } from "../../../constants";
 import { Block } from "../../MUIComponents";
+
+const BACKEND_TALENT_URL = import.meta.env.BACKEND_TALENT_URL;
 
 export default function TalAppStatus() {
   const { isAuthenticated } = useAuth0();
