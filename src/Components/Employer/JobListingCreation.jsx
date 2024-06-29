@@ -10,11 +10,10 @@ import { useUser } from "../Context/UserContext";
 import BasicModal from "./BasicModal";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { useEmployer } from "../Context/EmployerContext";
 import { Link } from "react-router-dom";
 
-const BACKEND_URL = import.meta.env.BACKEND_URL;
-const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
+const BACKEND_URL = import.meta.env.VITE_SOME_BACKEND_URL;
+const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 
 const CustomButton = styled(Button)`
   ${buttonStyle}
@@ -29,12 +28,18 @@ const CustomButton = styled(Button)`
 
 export default function JobListingCreation() {
   //User related states from the useContext
-  const { userID } = useUser();
+  const {
+    userID,
+    description,
+    setDescription,
+    companyName,
+    setCompanyName,
+    imgurl,
+    setImageUrl,
+  } = useUser();
 
   //Authentification
   const { isAuthenticated, user } = useAuth0();
-
-  const { EmFormData, setEmFormData, imgurl, setImageUrl } = useEmployer();
 
   const [jobBenefits, setJobBenefits] = useState("");
 
@@ -123,7 +128,7 @@ export default function JobListingCreation() {
     <div className="container">
       <h1>Job Listing Creation</h1>
       <h3 className="box">
-        Job Title@{EmFormData.companyName}
+        Job Title@{companyName}
         <CustomButton onClick={() => handleModalOpen("openJobTitleModal")}>
           <EditIcon />
         </CustomButton>

@@ -4,7 +4,7 @@ import { useUser } from "../Context/UserContext";
 import axios from "axios";
 import { Block } from "../../MUIComponents";
 
-const BACKEND_TALENT_URL = import.meta.env.BACKEND_TALENT_URL;
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 
 export default function TalAppStatus() {
   const { isAuthenticated } = useAuth0();

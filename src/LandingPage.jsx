@@ -14,13 +14,8 @@ const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 const CustomButton = styled(Button)`
   ${buttonStyle}
 `;
-export default function LandingPage() {
-  //authentication from Auth0
-  //is user Auth?
-  //users' access token
-  //user email/profile image
-  //redirect if not log in
 
+export default function LandingPage() {
   const { isAuthenticated, user } = useAuth0();
   const {
     setUserFirstName,
@@ -29,10 +24,13 @@ export default function LandingPage() {
     setUserEmail,
     setUserRole,
     setUserID,
+    setDescription,
+    setCompanyName,
   } = useUser();
+
   const nav = useNavigate();
 
-  // collect info from user, show in console log
+  // Log user info for debugging
   useEffect(() => {
     if (isAuthenticated && user) {
       console.log("email - ", user.email);
@@ -48,11 +46,12 @@ export default function LandingPage() {
     const checkUserStatus = async () => {
       if (isAuthenticated && user) {
         try {
-          // Make a request to check if the user exists in the talent table
+          // Check if user exists in the talent table
+          console.log(BACKEND_TALENT_URL);
           const talentResponse = await axios.get(BACKEND_TALENT_URL);
           const talentData = talentResponse.data;
-          console.log("talentData", talentData);
-          console.log("talent data");
+          console.log("talentData", talentResponse);
+          //why the fuck is talentData coming back as an html file
 
           const talentEmails = talentData.map((talent) => talent.email);
           if (talentEmails.includes(user.email)) {
@@ -70,15 +69,12 @@ export default function LandingPage() {
             return;
           }
 
-          // Make a request to check if the user exists in the employer table
+          // Check if user exists in the employer table
           const employerResponse = await axios.get(BACKEND_EMPLOYER_URL);
           const employerData = employerResponse.data;
           console.log("employer data", employerData);
 
           const employerEmails = employerData.map((employer) => employer.email);
-
-          //when people log in,
-          //the userdata.id will be mapped to the employerdata
           if (employerEmails.includes(user.email)) {
             const userData = employerData.find(
               (employer) => employer.email === user.email
@@ -89,8 +85,12 @@ export default function LandingPage() {
             setUserImage(userData.photo);
             setUserEmail(userData.email);
             setUserID(userData.id);
+
+            setDescription(userData.description);
+            setCompanyName(userData.companyName);
+
             setUserRole("employer");
-            //rn ive set it up so that it ALWAYS goes to the /employer/input-details page, instead of only going there when it's their first time logging in and picking the employer option
+
             if (userData.companyName) {
               nav("/employer");
             } else {
@@ -101,7 +101,6 @@ export default function LandingPage() {
           }
 
           // If user does not exist in either talent or employer table, redirect to user category
-
           nav("/user-category");
         } catch (error) {
           console.error("Error checking user status:", error);
@@ -120,30 +119,27 @@ export default function LandingPage() {
     setUserEmail,
     setUserRole,
     setUserID,
+    setDescription,
+    setCompanyName,
   ]);
 
-  // import login button from Auth0
   const LoginButton = () => {
     const { loginWithRedirect } = useAuth0();
-
     return (
       <CustomButton type="primary" onClick={() => loginWithRedirect()}>
-        {" "}
         Log In or Sign up
       </CustomButton>
     );
   };
 
   return (
-    <>
-      <div className="landing-container">
-        <h1 className="landing-logo">Billboard</h1>
-        <div className="landing-text-container">
-          <h3 className="landing-text">Where Careers and Priorities Align.</h3>
-          <LoginButton />
-        </div>
+    <div className="landing-container">
+      <h1 className="landing-logo">Billboard</h1>
+      <div className="landing-text-container">
+        <h3 className="landing-text">Where Careers and Priorities Align.</h3>
+        <LoginButton />
       </div>
-    </>
+    </div>
   );
 }
 

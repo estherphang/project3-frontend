@@ -16,12 +16,11 @@ import { buttonStyle } from "../../styleComponents";
 import EditIcon from "@mui/icons-material/Edit";
 import BasicModal from "./BasicModal";
 
-import { useEmployer } from "../Context/EmployerContext";
 import { useUser } from "../Context/UserContext";
 
 import axios from "axios";
 
-const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
+const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 const CustomButton = styled(Button)`
   ${buttonStyle}
 `;
@@ -32,8 +31,18 @@ const CustomButton = styled(Button)`
 //photo
 
 export default function EmProfileCreation() {
-  const { EmFormData, setEmFormData, imgurl, setImageUrl } = useEmployer();
-  const { userFirstName, userLastName, userEmail, userID } = useUser();
+  const {
+    userFirstName,
+    userLastName,
+    userEmail,
+    userID,
+    companyName,
+    setCompanyName,
+    description,
+    setDescription,
+    imgurl,
+    setImageUrl,
+  } = useUser();
 
   const [submitted_image, setSubmittedImage] = useState(false);
 
@@ -77,7 +86,8 @@ export default function EmProfileCreation() {
       try {
         //make a http POST request to the backend.
         let response = await axios.post(`${BACKEND_EMPLOYER_URL}`, {
-          ...EmFormData,
+          description: description,
+          companyName: companyName,
           firstName: userFirstName,
           lastName: userLastName,
           email: userEmail,
@@ -133,11 +143,11 @@ export default function EmProfileCreation() {
           setModalState({ ...modalState, opencompanyNameModal: value })
         }
         propertyname="companyName"
-        passedInState={EmFormData}
-        setPassedInState={setEmFormData}
+        passedInState={companyName}
+        setPassedInState={setCompanyName}
         multiline={false}
       ></BasicModal>
-      <h3>{EmFormData.companyName}</h3>
+      <h3>{companyName}</h3>
       {/* Code handling Company Description */}
       <h3 className="box">
         About The Company
@@ -154,13 +164,13 @@ export default function EmProfileCreation() {
           setModalState({ ...modalState, opendescriptionModal: value })
         }
         propertyname="description"
-        passedInState={EmFormData}
-        setPassedInState={setEmFormData}
+        passedInState={description}
+        setPassedInState={setDescription}
         multiline={true}
       ></BasicModal>
 
       <p style={{ wordWrap: "break-word" }} className="contentbox">
-        {EmFormData.description}
+        {description}
       </p>
       <CustomButton className="center" onClick={SubmitToBackend}>
         Submit
