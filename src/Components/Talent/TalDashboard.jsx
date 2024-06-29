@@ -6,7 +6,7 @@ import Fab from "@mui/material/Fab";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
-const BACKEND_TALENT_URL = import.meta.env.BACKEND_TALENT_URL;
+const BACKEND_TALENT_URL = import.meta.env.VITE_SOME_BACKEND_TALENT_URL;
 
 export default function TalDashboard() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();

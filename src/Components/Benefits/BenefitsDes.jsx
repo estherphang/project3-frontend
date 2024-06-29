@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Context/UserContext";
 
-const BACKEND_URL = import.meta.env.BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_SOME_BACKEND_URL;
 
 const CustomButton = styled(Button)`
   ${reversedOutlineButton}

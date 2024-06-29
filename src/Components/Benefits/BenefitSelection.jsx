@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-const BACKEND_URL = import.meta.env.BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_SOME_BACKEND_URL;
 
 export default function BenefitSelection({ labelName, name, onChange, value }) {
   const style = {

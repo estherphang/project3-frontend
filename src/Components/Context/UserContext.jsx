@@ -17,6 +17,18 @@ export const UserProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(
     localStorage.getItem("userRole") || ""
   );
+
+  const [companyName, setCompanyName] = useState(
+    localStorage.getItem("companyName")
+  );
+
+  const [description, setDescription] = useState(
+    localStorage.getItem("description")
+  );
+
+  //fileInputFile is a state containing the employer's profile image
+  const [imgurl, setImageUrl] = useState("");
+
   const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
 
   const handleUserLogout = () => {
@@ -33,6 +45,8 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userRole");
     localStorage.removeItem("userID");
+    localStorage.removeItem("companyName");
+    localStorage.removeItem("description");
   };
 
   useEffect(() => {
@@ -42,7 +56,18 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("userEmail", userEmail);
     localStorage.setItem("userRole", userRole);
     localStorage.setItem("userID", userID);
-  }, [userFirstName, userLastName, userImage, userEmail, userRole, userID]);
+    localStorage.setItem("companyName", companyName);
+    localStorage.setItem("description", description);
+  }, [
+    userFirstName,
+    userLastName,
+    userImage,
+    userEmail,
+    userRole,
+    userID,
+    companyName,
+    description,
+  ]);
 
   return (
     <UserContext.Provider
@@ -59,6 +84,12 @@ export const UserProvider = ({ children }) => {
         setUserRole,
         userID,
         setUserID,
+        companyName,
+        setCompanyName,
+        description,
+        setDescription,
+        imgurl,
+        setImageUrl,
         handleUserLogout,
       }}
     >

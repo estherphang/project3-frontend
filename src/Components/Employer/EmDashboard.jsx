@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "../Context/UserContext";
 import { OutlinedCard } from "../../MUIComponents";
 
-const BACKEND_EMPLOYER_URL = import.meta.env.BACKEND_EMPLOYER_URL;
+const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 
 import axios from "axios";
 //route is /employer
