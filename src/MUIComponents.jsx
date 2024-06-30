@@ -321,9 +321,3 @@ export {
   OutlinedCard,
   OutlinedCard2,
 };
-
-/*
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-*/
