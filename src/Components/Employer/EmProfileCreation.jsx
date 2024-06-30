@@ -12,7 +12,6 @@ import {
 import { Button } from "antd";
 import styled from "styled-components";
 import { buttonStyle } from "../../styleComponents";
-
 import EditIcon from "@mui/icons-material/Edit";
 import BasicModal from "./BasicModal";
 

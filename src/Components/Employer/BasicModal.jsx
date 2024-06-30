@@ -44,10 +44,7 @@ export default function BasicModal({
   };
 
   const handlePassedInState = (e) => {
-    setPassedInState((prevState) => ({
-      ...prevState,
-      [propertyname]: e.target.value,
-    }));
+    setPassedInState(e.target.value);
   };
 
   return (
