@@ -306,38 +306,3 @@ export default function JobListingCreation() {
     </div>
   );
 }
-
-/*
-          setJobListingInfo((prevState) => ({
-            ...prevState,
-            benefit_1: id[0] || "",
-            benefit_2: id[1] || "",
-            benefit_3: id[2] || "",
-          }));
-
-
-  useEffect(() => {
-    //get job listing benefits from the backend.
-    const fetchBenefits = async () => {
-      try {
-        if (isAuthenticated && user) {
-          const benefitResponse = await axios.get(
-            `${BACKEND_BENEFIT_URL}/benefits`
-          );
-
-          const benefitData = benefitResponse.data;
-          console.log("benefit data:", benefitData.benefits);
-
-          //map out the data from benefitData.benefit, put in useState - beneit 1, 2, 3
-
-          const id = benefitData.benefits.map((benefit) => benefit.id);
-
-          setJobBenefits(benefitData.benefits);
-        }
-      } catch (error) {
-        console.error("Error fetching benefits:", error);
-      }
-    };
-    fetchBenefits();
-  }, [isAuthenticated, user, userID]);
-*/

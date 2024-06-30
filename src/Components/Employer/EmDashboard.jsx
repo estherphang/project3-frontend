@@ -2,11 +2,18 @@ import { useState, useEffect } from "react";
 import { useUser } from "../Context/UserContext";
 import { OutlinedCard } from "../../MUIComponents";
 
+import { Fab } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+
+import { useNavigate } from "react-router-dom";
 const BACKEND_EMPLOYER_URL = import.meta.env.VITE_SOME_BACKEND_EMPLOYER_URL;
 
 import axios from "axios";
+
 //route is /employer
 export default function EmDashboard() {
+  const navigate = useNavigate();
   //get data from the employer joblisting backend. use it to populate job listing dashboard
   const { userFirstName, userID } = useUser();
 
@@ -52,7 +59,31 @@ export default function EmDashboard() {
           alljoblistings
         ) : (
           <p>You have no job listings at the moment!</p>
+          /*BUG !! the alljoblistings variable will always exist, so the text after this will never be shown.*/
         )}
+
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={() => navigate(`${userID}/job`)}
+          sx={{
+            position: "fixed",
+            bottom: "80px", // Adjust as needed
+            left: "calc(50%)", // Center horizontally
+            transform: "translateX(-50%) rotate(45deg)", // Center horizontally
+            zIndex: "999", // Ensures it stays on top of other content
+            backgroundColor: "rgba(119, 101, 227,0.8)",
+            color: "white",
+            "&:hover": {
+              bgcolor: "rgb(138, 129, 124)",
+            },
+            "&:hover svg": {
+              color: "black",
+            },
+          }}
+        >
+          <ClearRoundedIcon />
+        </Fab>
       </div>
     </>
   );
