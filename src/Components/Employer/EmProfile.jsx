@@ -9,6 +9,10 @@ const CustomButton = styled(Button)`
   ${buttonStyle}
 `;
 
+import EditIcon from "@mui/icons-material/Edit";
+import { Fab } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 export default function EmProfile() {
   const {
     description,
@@ -18,6 +22,8 @@ export default function EmProfile() {
     companyName,
     setCompanyName,
   } = useUser();
+
+  const navigate = useNavigate();
 
   const LogoutButton = () => {
     const { logout } = useAuth0();
@@ -58,6 +64,29 @@ export default function EmProfile() {
             <CustomButton onClick={handleSubmit}>Save Profile</CustomButton>
             <br />
             <LogoutButton />
+
+            <Fab
+              color="primary"
+              aria-label="add"
+              onClick={() => navigate(`/employer/input-details`)}
+              sx={{
+                position: "fixed",
+                bottom: "80px", // Adjust as needed
+                left: "calc(50%)", // Center horizontally
+                transform: "translateX(-50%)", // Center horizontally
+                zIndex: "999", // Ensures it stays on top of other content
+                backgroundColor: "rgba(119, 101, 227,0.8)",
+                color: "white",
+                "&:hover": {
+                  bgcolor: "rgb(138, 129, 124)",
+                },
+                "&:hover svg": {
+                  color: "black",
+                },
+              }}
+            >
+              <EditIcon />
+            </Fab>
           </div>
         </>
       </div>

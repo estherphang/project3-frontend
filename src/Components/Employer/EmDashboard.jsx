@@ -3,7 +3,6 @@ import { useUser } from "../Context/UserContext";
 import { OutlinedCard } from "../../MUIComponents";
 
 import { Fab } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 import { useNavigate } from "react-router-dom";
